@@ -58,13 +58,14 @@ export function isTimeSkip(gapMs) {
   return gapMs >= 3 * 3600 * 1000;
 }
 
-export const BASE_TYPING_DELAY_MS = 400;
-export const MS_PER_CHAR = 30;
+export const BASE_TYPING_DELAY_MS = 1200;
+export const MS_PER_CHAR = 85;
 
 /**
  * Computes dynamic typing delay based on exact character length:
- * Base delay (400ms) + (Character Count * 30ms).
- * E.g., a short "Hi" (2 chars) takes 460ms (~0.5s), a long paragraph (150 chars) takes 4900ms (~5.0s).
+ * Base delay (1200ms) + (Character Count * 85ms).
+ * Standardized so 1x normal speed reflects relaxed, authentic human typing (matches former -3x pace).
+ * E.g., a short "Hi" (2 chars) takes ~1.37s, a medium message (25 chars) takes ~3.3s.
  *
  * @param {number} charCount
  * @returns {number} Delay in milliseconds

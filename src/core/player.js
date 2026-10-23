@@ -34,14 +34,14 @@ import { isTimeSkip } from './timeline.js';
  * @returns {number}
  */
 export function getSpeedFactor(speedRating) {
-  if (speedRating <= -4) return 0.25;
-  if (speedRating === -3) return 1 / 3;
-  if (speedRating === -2) return 0.5;
-  if (speedRating === -1) return 0.75;
-  if (speedRating === 0 || speedRating === 1) return 1.0;
-  if (speedRating === 2) return 2.0;
-  if (speedRating === 3) return 3.0;
-  return 4.0;
+  // Legacy backward-compatibility: former -3x maps directly to new 1x normal
+  if (speedRating === -3) return 1.0;
+  if (speedRating === -4) return 0.5;
+  if (speedRating === -2) return 1.5;
+  if (speedRating === -1) return 2.0;
+
+  if (speedRating <= 0) return 1.0;
+  return speedRating;
 }
 
 export class ChatPlayer {

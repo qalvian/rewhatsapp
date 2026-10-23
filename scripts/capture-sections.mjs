@@ -40,9 +40,7 @@ async function captureForViewport(browser, width, height, vpName) {
     if (el) {
       const fileName = `section_${s.name}_${vpName}.png`;
       const p1 = path.join(SCREENSHOT_DIR, fileName);
-      const p2 = path.join(ARTIFACT_DIR, fileName);
       await el.screenshot({ path: p1 });
-      fs.copyFileSync(p1, p2);
       console.info(`Captured ${fileName}`);
     } else {
       console.warn(`Element not found for selector: ${s.sel}`);
@@ -52,9 +50,7 @@ async function captureForViewport(browser, width, height, vpName) {
   // Also capture full page screenshot
   const fullPageFile = `fullpage_${vpName}.png`;
   const fp1 = path.join(SCREENSHOT_DIR, fullPageFile);
-  const fp2 = path.join(ARTIFACT_DIR, fullPageFile);
   await page.screenshot({ path: fp1, fullPage: true });
-  fs.copyFileSync(fp1, fp2);
 
   await page.close();
 }

@@ -5,14 +5,13 @@ import { createIcon } from '../icons.js';
 import { getVolume, setVolume } from '../../audio/synth.js';
 
 export const SPEED_RATINGS = [
-  { rating: -4, badge: '-4×', title: '4× Slower', desc: 'Deep reading pace with long pauses', label: '-4× (4x Slower)' },
-  { rating: -3, badge: '-3×', title: '3× Slower', desc: 'Slow, reflective typing cadence', label: '-3× (3x Slower)' },
-  { rating: -2, badge: '-2×', title: '2× Slower', desc: 'Dramatic tension & cinematic pacing', label: '-2× (2x Slower)' },
-  { rating: -1, badge: '-1×', title: '1.33× Slower', desc: 'Gentle, relaxed human speed', label: '-1× (1.33x Slower)' },
-  { rating: 1, badge: '1×', title: 'Normal Speed', desc: 'Realistic natural human typing speed', label: '1× (Normal Speed)' },
-  { rating: 2, badge: '2×', title: '2× Faster', desc: 'Accelerated typing playback', label: '2× (2x Faster)' },
-  { rating: 3, badge: '3×', title: '3× Faster', desc: 'Quick conversation overview', label: '3× (3x Faster)' },
-  { rating: 4, badge: '4×', title: '4× Faster', desc: 'Rapid catch-up skim', label: '4× (4x Faster)' },
+  { rating: 0.5, badge: '0.5×', title: 'Slow Motion', desc: 'Relaxed reading pace with longer pauses', label: '0.5× (Slow)' },
+  { rating: 0.75, badge: '0.75×', title: 'Gentle Pace', desc: 'Slightly slower than normal typing', label: '0.75× (Gentle)' },
+  { rating: 1, badge: '1×', title: 'Normal Speed', desc: 'Realistic natural human typing cadence', label: '1× (Normal Speed)' },
+  { rating: 1.5, badge: '1.5×', title: 'Brisk Pace', desc: 'Smooth, slightly accelerated playback', label: '1.5× (Brisk)' },
+  { rating: 2, badge: '2×', title: '2× Speed', desc: 'Accelerated typing playback', label: '2× (2x Faster)' },
+  { rating: 3, badge: '3×', title: '3× Speed', desc: 'Triple speed for reviewing long conversations', label: '3× (3x Faster)' },
+  { rating: 4, badge: '4×', title: '4× Speed', desc: 'Rapid catch-up skim', label: '4× (4x Faster)' },
 ];
 
 /**
@@ -142,14 +141,14 @@ export function createControlsPill({
     className: 'wa-speed-popover',
     style: 'display: none;',
     role: 'menu',
-    aria: { label: 'Select playback speed (-4x to +4x)' },
+    aria: { label: 'Select playback speed (0.5x to 4x)' },
   });
 
   function renderSpeedOptions() {
     speedPopover.innerHTML = '';
 
     const currentItem =
-      SPEED_RATINGS.find((r) => r.rating === currentSpeedRating) || SPEED_RATINGS[4];
+      SPEED_RATINGS.find((r) => Math.abs(r.rating - currentSpeedRating) < 0.01) || SPEED_RATINGS[2];
 
     // Header with title and active badge
     const header = el(
@@ -157,17 +156,17 @@ export function createControlsPill({
       { className: 'wa-speed-popover-header' },
       el('span', { className: 'wa-speed-popover-title', text: 'Replay Speed' }),
       el('span', {
-        className: `wa-speed-active-badge ${currentSpeedRating < 0 ? 'badge-slow' : currentSpeedRating > 1 ? 'badge-fast' : 'badge-normal'}`,
+        className: `wa-speed-active-badge ${currentSpeedRating < 1 ? 'badge-slow' : currentSpeedRating > 1 ? 'badge-fast' : 'badge-normal'}`,
         text: currentItem ? `${currentItem.badge} · ${currentItem.title}` : '1×',
       }),
     );
 
-    // Section 1: Slower (Negative Multipliers)
+    // Section 1: Slower
     const slowSection = el('div', { className: 'wa-speed-section' });
     const slowLabel = el('div', { className: 'wa-speed-section-label', text: 'Slow Motion' });
     const slowGrid = el('div', { className: 'wa-speed-grid' });
 
-    // Section 2: Faster (Positive Multipliers)
+    // Section 2: Normal & Faster
     const fastSection = el('div', { className: 'wa-speed-section' });
     const fastLabel = el('div', { className: 'wa-speed-section-label', text: 'Normal & Fast' });
     const fastGrid = el('div', { className: 'wa-speed-grid' });
@@ -178,16 +177,16 @@ export function createControlsPill({
       text: currentItem ? currentItem.desc : 'Realistic natural human typing speed',
     });
 
-    const slowerRatings = SPEED_RATINGS.filter((r) => r.rating < 0);
-    const fasterRatings = SPEED_RATINGS.filter((r) => r.rating > 0);
+    const slowerRatings = SPEED_RATINGS.filter((r) => r.rating < 1);
+    const fasterRatings = SPEED_RATINGS.filter((r) => r.rating >= 1);
 
     /** @param {(typeof SPEED_RATINGS)[number]} item */
     const makeChip = (item) => {
-      const isSelected = item.rating === currentSpeedRating;
+      const isSelected = Math.abs(item.rating - currentSpeedRating) < 0.01;
       const chip = el(
         'button',
         {
-          className: `wa-speed-chip ${isSelected ? 'active' : ''} ${item.rating < 0 ? 'opt-slow' : item.rating > 1 ? 'opt-fast' : 'opt-normal'}`,
+          className: `wa-speed-chip ${isSelected ? 'active' : ''} ${item.rating < 1 ? 'opt-slow' : item.rating > 1 ? 'opt-fast' : 'opt-normal'}`,
           type: 'button',
           title: `${item.title}: ${item.desc}`,
           aria: { label: `${item.title} (${item.badge})` },
@@ -203,7 +202,7 @@ export function createControlsPill({
             captionEl.textContent = `${item.badge} ${item.title}: ${item.desc}`;
           },
           onMouseLeave: () => {
-            const active = SPEED_RATINGS.find((r) => r.rating === currentSpeedRating);
+            const active = SPEED_RATINGS.find((r) => Math.abs(r.rating - currentSpeedRating) < 0.01);
             captionEl.textContent = active ? active.desc : '';
           },
         },
@@ -499,7 +498,8 @@ export function createControlsPill({
    * @param {number} rating
    */
   function updateSpeedUI(rating) {
-    const text = rating > 0 ? `${rating}×` : `${rating}×`;
+    const item = SPEED_RATINGS.find((r) => Math.abs(r.rating - rating) < 0.01);
+    const text = item ? item.badge : `${rating}×`;
     speedBtn.textContent = text;
     fabSpeedBadge.textContent = text;
   }
@@ -511,11 +511,10 @@ export function createControlsPill({
       playPauseBtn.replaceChildren(playing ? pauseIcon : playIcon);
       resetAutoHide();
     },
-    setSpeed: (_speed, rating) => {
-      if (typeof rating === 'number') {
-        currentSpeedRating = rating;
-      }
-      updateSpeedUI(currentSpeedRating);
+    setSpeed: (speed, rating) => {
+      const activeRating = typeof rating === 'number' ? rating : speed;
+      currentSpeedRating = activeRating;
+      updateSpeedUI(activeRating);
       resetAutoHide();
     },
     setMuted: (muted) => {

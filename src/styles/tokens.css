@@ -143,9 +143,9 @@
   --wa-tick-grey: #8696a0;
   --wa-tick-blue: #53bdeb;
 
-  --wa-date-chip-bg: rgba(255, 255, 255, 0.94);
+  --wa-date-chip-bg: #ffffff;
   --wa-date-chip-text: #54656f;
-  --wa-date-chip-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.12);
+  --wa-date-chip-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13);
 
   --wa-system-pill-bg: #ffeecd;
   --wa-system-pill-text: #54656f;

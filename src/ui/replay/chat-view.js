@@ -180,8 +180,10 @@ export function createChatView({ timeline, userPersonaRaw, isGroupChat = false }
     const isFirstInList = messageList.children.length === 0;
     if (isFirstInChat || isFirstInList) {
       fragment.appendChild(createDateChipElement(message.timestamp));
+      lastSenderRaw = '';
     } else if (lastTimestamp > 0 && isDifferentDay(lastTimestamp, message.timestamp)) {
       fragment.appendChild(createDateChipElement(message.timestamp));
+      lastSenderRaw = '';
     }
 
     // 2. System messages vs standard bubbles
@@ -278,6 +280,7 @@ export function createChatView({ timeline, userPersonaRaw, isGroupChat = false }
       const prevMsg = i > 0 ? timeline.messages[i - 1] : null;
       if (i === 0 || (prevMsg && isDifferentDay(prevMsg.timestamp, msg.timestamp))) {
         messageList.appendChild(createDateChipElement(msg.timestamp));
+        lastSenderRaw = '';
       }
 
       if (msg.type === 'system') {
