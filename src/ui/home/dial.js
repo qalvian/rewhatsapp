@@ -102,7 +102,20 @@ export function createTimeDial() {
   rotatingGroup.appendChild(ticksGroup);
 
   // Inner Astrolabe Ring with 12 Month glyphs/initials
-  const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+  const months = [
+    'JAN',
+    'FEB',
+    'MAR',
+    'APR',
+    'MAY',
+    'JUN',
+    'JUL',
+    'AUG',
+    'SEP',
+    'OCT',
+    'NOV',
+    'DEC',
+  ];
   const monthsGroup = document.createElementNS(SVG_NS, 'g');
   for (let i = 0; i < 12; i++) {
     const angle = (i * 360) / 12 - 90;

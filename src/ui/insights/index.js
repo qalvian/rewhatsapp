@@ -100,7 +100,11 @@ export function createInsightsDashboard({ stats, onClose }) {
       'div',
       { className: 'wa-response-row' },
       el('span', { className: 'wa-response-name', text: p.displayName }),
-      el('div', { className: 'wa-response-bar-track' }, el('div', { className: 'wa-response-bar' })),
+      el(
+        'div',
+        { className: 'wa-response-bar-track' },
+        el('div', { className: 'wa-response-bar' }),
+      ),
       el('span', {
         className: 'wa-response-time',
         text: timeFormatted,
@@ -164,9 +168,7 @@ export function createInsightsDashboard({ stats, onClose }) {
   // 4. Emoji Leaderboard
   if (stats.overallTopEmojis && stats.overallTopEmojis.length > 0) {
     const emojiSection = el('div', { className: 'wa-insights-section' });
-    emojiSection.appendChild(
-      el('h3', { className: 'wa-section-title', text: 'Top Emojis' }),
-    );
+    emojiSection.appendChild(el('h3', { className: 'wa-section-title', text: 'Top Emojis' }));
 
     const emojiGrid = el('div', { className: 'wa-emoji-leaderboard-grid' });
     stats.overallTopEmojis.slice(0, 8).forEach((item, index) => {

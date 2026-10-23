@@ -209,16 +209,13 @@ export function createSetupDialog({ chat, onStartReplay, onCancel }) {
   ];
 
   modes.forEach((m) => {
-    const chip = el(
-      'button',
-      {
-        className: `wa-setup-mode-chip ${m.default ? 'selected' : ''}`,
-        type: 'button',
-        role: 'radio',
-        aria: { checked: String(!!m.default) },
-        text: m.label,
-      },
-    );
+    const chip = el('button', {
+      className: `wa-setup-mode-chip ${m.default ? 'selected' : ''}`,
+      type: 'button',
+      role: 'radio',
+      aria: { checked: String(!!m.default) },
+      text: m.label,
+    });
 
     chip.addEventListener('click', () => {
       modeGrid.querySelectorAll('.wa-setup-mode-chip').forEach((c) => {
@@ -242,16 +239,13 @@ export function createSetupDialog({ chat, onStartReplay, onCancel }) {
   const speeds = [1, 2, 5, 10];
 
   speeds.forEach((s) => {
-    const chip = el(
-      'button',
-      {
-        className: `wa-setup-speed-chip ${s === 2 ? 'selected' : ''}`,
-        type: 'button',
-        role: 'radio',
-        aria: { checked: String(s === 2) },
-        text: `${s}×`,
-      },
-    );
+    const chip = el('button', {
+      className: `wa-setup-speed-chip ${s === 2 ? 'selected' : ''}`,
+      type: 'button',
+      role: 'radio',
+      aria: { checked: String(s === 2) },
+      text: `${s}×`,
+    });
 
     chip.addEventListener('click', () => {
       speedGrid.querySelectorAll('.wa-setup-speed-chip').forEach((c) => {
@@ -344,24 +338,18 @@ export function createSetupDialog({ chat, onStartReplay, onCancel }) {
   // Dialog Footer Navigation (Back, Next / Travel Back)
   const footer = el('div', { className: 'wa-setup-footer' });
 
-  const backBtn = el(
-    'button',
-    {
-      className: 'wa-setup-nav-btn wa-btn-back',
-      type: 'button',
-      style: 'visibility: hidden;',
-      text: 'Back',
-    },
-  );
+  const backBtn = el('button', {
+    className: 'wa-setup-nav-btn wa-btn-back',
+    type: 'button',
+    style: 'visibility: hidden;',
+    text: 'Back',
+  });
 
-  const nextBtn = el(
-    'button',
-    {
-      className: 'wa-setup-nav-btn wa-btn-next',
-      type: 'button',
-      text: 'Next →',
-    },
-  );
+  const nextBtn = el('button', {
+    className: 'wa-setup-nav-btn wa-btn-next',
+    type: 'button',
+    text: 'Next →',
+  });
 
   function updateStepView() {
     [dot1, dot2, dot3].forEach((d, i) => d.classList.toggle('active', i === currentStep - 1));

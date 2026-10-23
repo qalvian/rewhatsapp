@@ -201,27 +201,39 @@ export function createReplayView({
       },
     ),
 
-    player.on('timeskip', /** @param {{ gapMs: number }} payload */ ({ gapMs }) => {
-      chatView.appendTimeSkip(gapMs);
-      playTickSound();
-    }),
+    player.on(
+      'timeskip',
+      /** @param {{ gapMs: number }} payload */ ({ gapMs }) => {
+        chatView.appendTimeSkip(gapMs);
+        playTickSound();
+      },
+    ),
 
-    player.on('timeupdate', /** @param {{ progress: number }} payload */ ({ progress }) => {
-      scrubber.setProgress(progress);
-    }),
+    player.on(
+      'timeupdate',
+      /** @param {{ progress: number }} payload */ ({ progress }) => {
+        scrubber.setProgress(progress);
+      },
+    ),
 
-    player.on('statechange', /** @param {{ state: string }} payload */ ({ state }) => {
-      controls.setPlaying(state === 'PLAYING');
-      if (state === 'PLAYING') {
-        requestWakeLock();
-      } else {
-        releaseWakeLock();
-      }
-    }),
+    player.on(
+      'statechange',
+      /** @param {{ state: string }} payload */ ({ state }) => {
+        controls.setPlaying(state === 'PLAYING');
+        if (state === 'PLAYING') {
+          requestWakeLock();
+        } else {
+          releaseWakeLock();
+        }
+      },
+    ),
 
-    player.on('speedchange', /** @param {{ speed: number }} payload */ ({ speed }) => {
-      controls.setSpeed(speed);
-    }),
+    player.on(
+      'speedchange',
+      /** @param {{ speed: number }} payload */ ({ speed }) => {
+        controls.setSpeed(speed);
+      },
+    ),
 
     player.on('end', () => {
       releaseWakeLock();

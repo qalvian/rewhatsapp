@@ -64,7 +64,9 @@ export function createEpilogueCard({ stats, onReplay, onViewInsights, onExit }) 
       'div',
       { className: 'wa-epilogue-highlight-item' },
       el('span', { className: 'wa-highlight-emoji', text: '⚡' }),
-      el('span', { text: `Your longest daily talking streak was ${stats.longestStreakDays} days.` }),
+      el('span', {
+        text: `Your longest daily talking streak was ${stats.longestStreakDays} days.`,
+      }),
     ),
   );
 
@@ -91,34 +93,25 @@ export function createEpilogueCard({ stats, onReplay, onViewInsights, onExit }) 
   // Action Buttons
   const actions = el('div', { className: 'wa-epilogue-actions' });
 
-  const replayBtn = el(
-    'button',
-    {
-      className: 'wa-epilogue-btn wa-epilogue-replay-btn',
-      type: 'button',
-      text: 'Replay from start ↺',
-    },
-  );
+  const replayBtn = el('button', {
+    className: 'wa-epilogue-btn wa-epilogue-replay-btn',
+    type: 'button',
+    text: 'Replay from start ↺',
+  });
   replayBtn.addEventListener('click', onReplay);
 
-  const insightsBtn = el(
-    'button',
-    {
-      className: 'wa-epilogue-btn wa-epilogue-insights-btn',
-      type: 'button',
-      text: 'View all insights 📊',
-    },
-  );
+  const insightsBtn = el('button', {
+    className: 'wa-epilogue-btn wa-epilogue-insights-btn',
+    type: 'button',
+    text: 'View all insights 📊',
+  });
   insightsBtn.addEventListener('click', onViewInsights);
 
-  const exitBtn = el(
-    'button',
-    {
-      className: 'wa-epilogue-btn wa-epilogue-exit-btn',
-      type: 'button',
-      text: 'Back to time machine 🌙',
-    },
-  );
+  const exitBtn = el('button', {
+    className: 'wa-epilogue-btn wa-epilogue-exit-btn',
+    type: 'button',
+    text: 'Back to time machine 🌙',
+  });
   exitBtn.addEventListener('click', onExit);
 
   actions.append(replayBtn, insightsBtn, exitBtn);

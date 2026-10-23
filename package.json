@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{js,json,css,html,md}\"",
-    "format:check": "prettier --check \"**/*.{js,json,css,html,md}\""
+    "format:check": "prettier --check \"**/*.{js,json,css,html,md}\"",
+    "serve": "node server.js"
   },
   "keywords": [
     "whatsapp",

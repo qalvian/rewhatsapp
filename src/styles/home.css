@@ -12,7 +12,8 @@
   align-items: center;
   justify-content: center;
   overflow-x: hidden;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       ellipse 80% 60% at 50% 20%,
       rgba(130, 45, 95, 0.28) 0%,
       rgba(40, 15, 60, 0.45) 50%,

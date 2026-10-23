@@ -103,15 +103,12 @@ export function createPrivacyModal({ onClose }) {
     ),
   );
 
-  const doneBtn = el(
-    'button',
-    {
-      className: 'wa-demo-btn',
-      style: 'align-self: flex-end; padding: 8px 18px;',
-      type: 'button',
-      text: 'Got it',
-    },
-  );
+  const doneBtn = el('button', {
+    className: 'wa-demo-btn',
+    style: 'align-self: flex-end; padding: 8px 18px;',
+    type: 'button',
+    text: 'Got it',
+  });
   doneBtn.addEventListener('click', onClose);
 
   dialog.append(header, intro, guarantees, doneBtn);

@@ -100,7 +100,9 @@ export function createCommandPalette({ actions, onClose }) {
           tabindex: '-1',
         },
         el('span', { className: 'wa-palette-item-title', text: action.title }),
-        action.shortcut ? el('kbd', { className: 'wa-palette-item-shortcut', text: action.shortcut }) : null,
+        action.shortcut
+          ? el('kbd', { className: 'wa-palette-item-shortcut', text: action.shortcut })
+          : null,
       );
 
       item.addEventListener('click', () => {
