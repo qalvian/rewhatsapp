@@ -774,31 +774,52 @@
 /* Floating Jump to Now Button */
 .wa-jump-btn {
   position: absolute;
-  bottom: 16px;
-  right: 20px;
+  bottom: 84px; /* Elevated cleanly above the floating playback controls pill */
+  right: 18px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 8px 14px;
   border-radius: var(--radius-full);
-  background-color: #ffffff;
-  background-color: var(--wa-controls-bg, rgba(255, 255, 255, 0.94));
+  background-color: var(--wa-controls-bg, #ffffff);
   color: var(--wa-controls-text, #111b21);
-  box-shadow: var(--shadow-md);
-  border: 1px solid var(--wa-controls-border, rgba(0, 0, 0, 0.08));
+  box-shadow: 0 4px 14px rgba(11, 20, 26, 0.16), 0 1px 3px rgba(11, 20, 26, 0.1);
+  border: 1px solid var(--wa-controls-border, rgba(11, 20, 26, 0.08));
   font-size: 12.5px;
-  font-weight: 500;
-  z-index: var(--z-controls);
+  font-weight: 600;
+  z-index: 25; /* Always above playback pill and chat bubbles */
   cursor: pointer;
   transition:
     opacity 180ms ease,
-    transform 180ms ease;
+    transform 180ms ease,
+    background-color 150ms ease;
+  user-select: none;
+}
+
+[data-theme='dark'] .wa-jump-btn {
+  background-color: #202c33;
+  color: #e9edef;
+  border-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+.wa-jump-btn:hover {
+  transform: translateY(-2px);
+  background-color: #f7f8fa;
+}
+
+[data-theme='dark'] .wa-jump-btn:hover {
+  background-color: #2a3942;
+}
+
+.wa-jump-btn:active {
+  transform: scale(0.96);
 }
 
 .wa-jump-hidden {
   opacity: 0;
   pointer-events: none;
-  transform: translateY(10px);
+  transform: translateY(12px);
 }
 
 /* =====================================================================
