@@ -1,0 +1,166 @@
+:root {
+  /* =====================================================================
+     TIME MACHINE WORLD (Hero / Setup / Insights / Epilogue)
+     ===================================================================== */
+  --tm-bg-space: #070a11;
+  --tm-bg-deep: #0b101d;
+  --tm-bg-elevated: #131b2e;
+  --tm-bg-surface: rgba(19, 27, 46, 0.75);
+  --tm-bg-glass: rgba(19, 27, 46, 0.65);
+  --tm-border-glass: rgba(255, 255, 255, 0.12);
+  --tm-border-subtle: rgba(255, 255, 255, 0.08);
+
+  --tm-accent-amber: #f59e0b;
+  --tm-accent-amber-glow: rgba(245, 158, 11, 0.35);
+  --tm-accent-rose: #f43f5e;
+  --tm-accent-rose-glow: rgba(244, 63, 94, 0.35);
+  --tm-accent-emerald: #10b981;
+  --tm-accent-violet: #8b5cf6;
+  --tm-accent-cyan: #06b6d4;
+
+  --tm-text-primary: #f8fafc;
+  --tm-text-secondary: #94a3b8;
+  --tm-text-muted: #64748b;
+
+  --font-display:
+    ui-serif, 'Iowan Old Style', 'Palatino Linotype', Georgia, 'Times New Roman', serif;
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji';
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+
+  /* =====================================================================
+     WHATSAPP REPLAY TOKENS: LIGHT THEME (Default)
+     ===================================================================== */
+  --wa-app-bg: #efeae2;
+  --wa-wallpaper-tint: rgba(0, 0, 0, 0.04);
+  --wa-header-bg: #008069;
+  --wa-header-text: #ffffff;
+  --wa-header-subtext: rgba(255, 255, 255, 0.85);
+  --wa-header-icon: #ffffff;
+
+  --wa-bubble-in: #ffffff;
+  --wa-bubble-in-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13);
+  --wa-bubble-out: #d9fdd3;
+  --wa-bubble-out-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13);
+
+  --wa-text-primary: #111b21;
+  --wa-text-secondary: #667781;
+  --wa-text-time: #667781;
+  --wa-text-link: #027eb5;
+
+  --wa-tick-grey: #8696a0;
+  --wa-tick-blue: #53bdeb;
+
+  --wa-date-chip-bg: rgba(255, 255, 255, 0.94);
+  --wa-date-chip-text: #54656f;
+  --wa-date-chip-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.12);
+
+  --wa-system-pill-bg: #ffeecd;
+  --wa-system-pill-text: #54656f;
+
+  --wa-skip-chip-bg: rgba(24, 34, 41, 0.88);
+  --wa-skip-chip-text: #f0f2f5;
+
+  --wa-composer-bg: #f0f2f5;
+  --wa-composer-input-bg: #ffffff;
+  --wa-composer-input-border: #e9edef;
+  --wa-composer-text: #111b21;
+  --wa-composer-icon: #54656f;
+  --wa-composer-send-bg: #00a884;
+  --wa-composer-send-icon: #ffffff;
+
+  /* Controls pill */
+  --wa-controls-bg: rgba(255, 255, 255, 0.86);
+  --wa-controls-border: rgba(0, 0, 0, 0.08);
+  --wa-controls-text: #111b21;
+  --wa-controls-hover: rgba(0, 0, 0, 0.06);
+
+  /* =====================================================================
+     COMMON SPACING, TIMINGS, AND RADII
+     ===================================================================== */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.25);
+  --shadow-portal: 0 0 60px rgba(245, 158, 11, 0.25), 0 0 120px rgba(244, 63, 94, 0.15);
+
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+  --z-base: 1;
+  --z-header: 10;
+  --z-controls: 20;
+  --z-overlay: 30;
+  --z-modal: 40;
+  --z-toast: 50;
+  --z-palette: 60;
+}
+
+/* =====================================================================
+   WHATSAPP REPLAY TOKENS: DARK THEME OVERRIDES
+   ===================================================================== */
+[data-theme='dark'],
+.theme-dark {
+  --wa-app-bg: #0b141a;
+  --wa-wallpaper-tint: rgba(255, 255, 255, 0.03);
+  --wa-header-bg: #202c33;
+  --wa-header-text: #e9edef;
+  --wa-header-subtext: #8696a0;
+  --wa-header-icon: #aebac1;
+
+  --wa-bubble-in: #202c33;
+  --wa-bubble-in-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.28);
+  --wa-bubble-out: #005c4b;
+  --wa-bubble-out-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.28);
+
+  --wa-text-primary: #e9edef;
+  --wa-text-secondary: #8696a0;
+  --wa-text-time: #8696a0;
+  --wa-text-link: #53bdeb;
+
+  --wa-tick-grey: #8696a0;
+  --wa-tick-blue: #53bdeb;
+
+  --wa-date-chip-bg: #182229;
+  --wa-date-chip-text: #8696a0;
+  --wa-date-chip-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.35);
+
+  --wa-system-pill-bg: #182229;
+  --wa-system-pill-text: #ffd279;
+
+  --wa-skip-chip-bg: #1f2c34;
+  --wa-skip-chip-text: #e9edef;
+
+  --wa-composer-bg: #202c33;
+  --wa-composer-input-bg: #2a3942;
+  --wa-composer-input-border: #2a3942;
+  --wa-composer-text: #d1d7db;
+  --wa-composer-icon: #8696a0;
+  --wa-composer-send-bg: #00a884;
+  --wa-composer-send-icon: #ffffff;
+
+  --wa-controls-bg: rgba(32, 44, 51, 0.88);
+  --wa-controls-border: rgba(255, 255, 255, 0.08);
+  --wa-controls-text: #e9edef;
+  --wa-controls-hover: rgba(255, 255, 255, 0.08);
+}

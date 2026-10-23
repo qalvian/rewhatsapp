@@ -1,0 +1,10 @@
+/* Replay Screen Styles - Placeholder for Phase 1 */
+.view-replay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--wa-app-bg);
+  color: var(--wa-text-primary);
+  overflow: hidden;
+}

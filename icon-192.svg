@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <defs>
+    <linearGradient id="bgGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#022c22" />
+    </linearGradient>
+    <linearGradient id="bubbleGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="50%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="timeGrad192" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#f43f5e" />
+    </linearGradient>
+    <filter id="shadow192" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <rect width="192" height="192" rx="40" fill="url(#bgGrad192)" />
+
+  <g transform="translate(16, 16)">
+    <!-- Speech bubble -->
+    <path d="M 80 16 C 44 16 16 43 16 76 C 16 90.5 21.8 103.8 31.5 114.3 L 24 142 C 23.3 144.7 25.8 147 28.3 146.2 L 57 135.2 C 64.5 138 72.5 139.5 81 139.5 C 117 139.5 146 112.5 146 79.5 C 146 44.5 117 16 80 16 Z"
+          fill="url(#bubbleGrad192)" filter="url(#shadow192)" />
+
+    <!-- Clock / Rewind Hourglass inner motif -->
+    <circle cx="80" cy="78" r="42" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3" stroke-dasharray="4 6" />
+    <path d="M 58 52 L 102 52 L 86 78 L 102 104 L 58 104 L 74 78 Z" fill="none" stroke="url(#timeGrad192)" stroke-width="5" stroke-linejoin="round" />
+    <circle cx="80" cy="78" r="6" fill="#fef3c7" />
+
+    <!-- Rewind arrow curve -->
+    <path d="M 64 68 A 20 20 0 1 1 62 90" fill="none" stroke="#ffffff" stroke-width="4.5" stroke-linecap="round" />
+    <polygon points="58,62 70,66 64,74" fill="#ffffff" />
+  </g>
+</svg>

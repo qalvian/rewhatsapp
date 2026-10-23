@@ -1,0 +1,144 @@
+/* =====================================================================
+   MOTION & ANIMATION SYSTEM
+   ===================================================================== */
+
+@keyframes spinCounterClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes spinClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes portalBreathe {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow:
+      0 0 35px var(--tm-accent-amber-glow),
+      0 0 70px var(--tm-accent-rose-glow);
+  }
+  50% {
+    transform: scale(1.025);
+    box-shadow:
+      0 0 55px var(--tm-accent-amber-glow),
+      0 0 110px var(--tm-accent-rose-glow);
+  }
+}
+
+@keyframes portalRipple {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+
+@keyframes ghostFloat {
+  0% {
+    transform: translateY(60px) translateX(0) scale(0.9);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.28;
+  }
+  85% {
+    opacity: 0.28;
+  }
+  100% {
+    transform: translateY(-80px) translateX(20px) scale(1.05);
+    opacity: 0;
+  }
+}
+
+@keyframes clockSweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes messagePopIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes timeSkipEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes travelBloom {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+    filter: blur(10px);
+  }
+  50% {
+    opacity: 1;
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* =====================================================================
+   REDUCED MOTION OVERRIDES (Strict a11y compliance)
+   ===================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .time-dial-svg,
+  .portal-ring,
+  .ghost-bubble,
+  .clock-hand {
+    animation: none !important;
+    transform: none !important;
+  }
+}

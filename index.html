@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'none'; worker-src 'self'; base-uri 'none'; form-action 'none'"
+    />
+    <meta
+      name="description"
+      content="Relive your WhatsApp memories live in a privacy-first, client-side replayer."
+    />
+    <meta name="theme-color" content="#090d16" id="meta-theme-color" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="rewhatsapp" />
+
+    <title>rewhatsapp - Private WhatsApp Chat Replayer</title>
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="apple-touch-icon" href="icon-192.svg" />
+    <link rel="manifest" href="manifest.webmanifest" />
+
+    <link rel="stylesheet" href="src/styles/tokens.css" />
+    <link rel="stylesheet" href="src/styles/base.css" />
+    <link rel="stylesheet" href="src/styles/motion.css" />
+    <link rel="stylesheet" href="src/styles/home.css" />
+    <link rel="stylesheet" href="src/styles/setup.css" />
+    <link rel="stylesheet" href="src/styles/replay.css" />
+  </head>
+  <body>
+    <!-- Live region for polite screen-reader announcements -->
+    <div id="a11y-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- Main Application Shell -->
+    <main id="app" role="main"></main>
+
+    <!-- Entrypoint (Pure ES Module, No inline scripts) -->
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

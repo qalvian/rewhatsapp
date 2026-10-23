@@ -1,0 +1,11 @@
+/* Setup Dialog Styles - Placeholder for Phase 1 */
+.view-setup {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  background-color: rgba(9, 13, 22, 0.75);
+  backdrop-filter: blur(12px);
+}

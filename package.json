@@ -1,0 +1,30 @@
+{
+  "name": "rewhatsapp",
+  "version": "1.0.0",
+  "description": "Production-grade, zero-runtime-dependency, privacy-first WhatsApp chat replayer",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{js,json,css,html,md}\"",
+    "format:check": "prettier --check \"**/*.{js,json,css,html,md}\""
+  },
+  "keywords": [
+    "whatsapp",
+    "chat",
+    "replayer",
+    "privacy-first",
+    "vanilla-js",
+    "pwa"
+  ],
+  "author": "rewhatsapp contributors",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^9.20.0",
+    "prettier": "^3.5.0",
+    "typescript": "^5.7.3"
+  }
+}
