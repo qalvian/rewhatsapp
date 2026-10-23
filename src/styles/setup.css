@@ -1,11 +1,424 @@
-/* Setup Dialog Styles - Placeholder for Phase 1 */
-.view-setup {
+/**
+ * rewhatsapp - Setup Dialog Styles
+ * Aesthetic: Frosted glass sheet, gradient persona chips, live theme cards.
+ */
+
+.wa-setup-overlay {
   position: fixed;
   inset: 0;
+  z-index: 100;
+  background: rgba(4, 5, 12, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: var(--z-modal);
-  background-color: rgba(9, 13, 22, 0.75);
-  backdrop-filter: blur(12px);
+  padding: 16px;
+  animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.wa-setup-card {
+  width: 100%;
+  max-width: 520px;
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(30, 20, 42, 0.95) 0%, rgba(18, 12, 26, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    0 0 40px rgba(160, 80, 180, 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: scaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleUp {
+  from {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Header */
+.wa-setup-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.wa-setup-title {
+  font-family: ui-serif, Georgia, serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #fff4ff;
+  margin: 0;
+}
+
+.wa-setup-step-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.wa-step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.25s ease;
+}
+
+.wa-step-dot.active {
+  background: #25d366;
+  width: 20px;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(37, 211, 102, 0.6);
+}
+
+.wa-setup-close-btn {
+  background: transparent;
+  border: none;
+  color: #9d8aa8;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.wa-setup-close-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Step Container */
+.wa-setup-step {
+  padding: 20px 24px;
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.wa-setup-instruction {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #c9b7d8;
+  margin: 0 0 16px 0;
+}
+
+.wa-setup-section-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 600;
+  color: #a491b6;
+  margin: 16px 0 8px 0;
+}
+
+/* Step 1: Persona Grid */
+.wa-persona-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.wa-persona-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.wa-persona-chip:hover {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.wa-persona-chip.selected {
+  background: rgba(37, 211, 102, 0.12);
+  border-color: #25d366;
+  box-shadow: 0 0 12px rgba(37, 211, 102, 0.3);
+}
+
+.wa-persona-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.wa-persona-name {
+  font-size: 14px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Step 2: Theme Cards */
+.wa-theme-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.wa-theme-card {
+  padding: 12px;
+  border-radius: 14px;
+  border: 1.5px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.wa-theme-card-light {
+  background: #efeae2;
+  color: #111b21;
+}
+
+.wa-theme-card-dark {
+  background: #0b141a;
+  color: #e9edef;
+}
+
+.wa-theme-card.selected {
+  border-color: #25d366;
+  box-shadow: 0 0 12px rgba(37, 211, 102, 0.4);
+}
+
+.wa-theme-preview-bubble {
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  max-width: 80%;
+}
+
+.wa-theme-card-light .wa-preview-incoming {
+  background: #ffffff;
+  color: #111b21;
+  align-self: flex-start;
+}
+
+.wa-theme-card-light .wa-preview-outgoing {
+  background: #d9fdd3;
+  color: #111b21;
+  align-self: flex-end;
+}
+
+.wa-theme-card-dark .wa-preview-incoming {
+  background: #202c33;
+  color: #e9edef;
+  align-self: flex-start;
+}
+
+.wa-theme-card-dark .wa-preview-outgoing {
+  background: #005c4b;
+  color: #e9edef;
+  align-self: flex-end;
+}
+
+.wa-theme-label {
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 4px;
+  text-align: center;
+}
+
+/* Chips Rows (Speed & Mode) */
+.wa-setup-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.wa-setup-mode-chip,
+.wa-setup-speed-chip {
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ddcceb;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wa-setup-mode-chip:hover,
+.wa-setup-speed-chip:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.wa-setup-mode-chip.selected,
+.wa-setup-speed-chip.selected {
+  background: rgba(37, 211, 102, 0.15);
+  border-color: #25d366;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* Date Format Toggle */
+.wa-date-toggle-box {
+  margin-top: 12px;
+}
+
+.wa-date-toggle-btn {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wa-date-toggle-btn.active {
+  background: rgba(255, 180, 50, 0.12);
+  border-color: #f59e0b;
+}
+
+.wa-date-toggle-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #fce7f3;
+}
+
+.wa-date-preview-text {
+  font-size: 11px;
+  color: #9d8aa8;
+  margin-top: 4px;
+}
+
+/* Step 3: Summary */
+.wa-summary-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  margin-bottom: 24px;
+  font-size: 15px;
+  color: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.wa-summary-count {
+  font-weight: 700;
+  color: #25d366;
+  margin: 0 4px;
+}
+
+.wa-summary-quote {
+  font-family: ui-serif, Georgia, serif;
+  font-size: 16px;
+  font-style: italic;
+  color: #dfceec;
+  line-height: 1.6;
+  margin: 0;
+  text-align: center;
+}
+
+/* Footer Navigation */
+.wa-setup-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px 20px 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.wa-setup-nav-btn {
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wa-btn-back {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ddcceb;
+}
+
+.wa-btn-back:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+}
+
+.wa-btn-next {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+.wa-btn-next:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.wa-btn-travel {
+  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%) !important;
+  border: none !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+  transform: scale(1.02);
+}
+
+.wa-btn-travel:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+}
+
+/* Mobile responsive bottom sheet adjustments */
+@media (max-width: 480px) {
+  .wa-setup-overlay {
+    align-items: flex-end;
+    padding: 0;
+  }
+  .wa-setup-card {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    max-height: 85vh;
+  }
 }

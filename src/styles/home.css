@@ -1,14 +1,532 @@
-/* Home Screen Styles - Placeholder for Phase 1 */
-.view-home {
-  position: absolute;
-  inset: 0;
+/**
+ * rewhatsapp - Home / Time Machine Styles
+ * Aesthetic: Warm twilight atmosphere, brass-and-glass time dial, glowing portal.
+ */
+
+.wa-home-container {
+  position: relative;
+  min-height: 100dvh;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow-y: auto;
   overflow-x: hidden;
-  background: radial-gradient(circle at 50% 20%, #1e1b4b 0%, #090d16 70%, #030712 100%);
-  padding: env(safe-area-inset-top, 16px) env(safe-area-inset-right, 16px)
-    env(safe-area-inset-bottom, 16px) env(safe-area-inset-left, 16px);
+  background: radial-gradient(
+      ellipse 80% 60% at 50% 20%,
+      rgba(130, 45, 95, 0.28) 0%,
+      rgba(40, 15, 60, 0.45) 50%,
+      rgba(8, 9, 24, 0.95) 100%
+    ),
+    linear-gradient(180deg, #090a1a 0%, #170d24 50%, #060712 100%);
+  color: #f3e8f8;
+  padding: clamp(24px, 4vw, 48px) 16px;
+  box-sizing: border-box;
+}
+
+/* Subtle Film Grain & Vignette Overlay */
+.wa-home-container::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at center, transparent 40%, rgba(3, 4, 10, 0.6) 100%);
+  z-index: 1;
+}
+
+/* Background Layer (Bokeh & Celestial Dial) */
+.wa-home-bg-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* Ghost Memories Floating in Background */
+.wa-ghost-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.wa-ghost-bubble {
+  position: absolute;
+  padding: 8px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  color: rgba(245, 230, 255, 0.35);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  white-space: nowrap;
+  animation: floatUp 22s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  opacity: 0;
+}
+
+.wa-ghost-0 {
+  top: 15%;
+  left: 8%;
+  animation-delay: 0s;
+}
+.wa-ghost-1 {
+  top: 25%;
+  right: 10%;
+  animation-delay: 5s;
+}
+.wa-ghost-2 {
+  top: 60%;
+  left: 12%;
+  animation-delay: 11s;
+}
+.wa-ghost-3 {
+  top: 70%;
+  right: 8%;
+  animation-delay: 16s;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(20px) scale(0.95);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.45;
+  }
+  80% {
+    opacity: 0.35;
+  }
+  100% {
+    transform: translateY(-50px) scale(1.02);
+    opacity: 0;
+  }
+}
+
+/* Celestial Time Dial */
+.wa-time-dial-container {
+  position: absolute;
+  width: min(85vw, 680px);
+  height: min(85vw, 680px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0.1, 1);
+  will-change: transform;
+  opacity: 0.75;
+}
+
+.wa-time-dial-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.wa-dial-rotating-group {
+  animation: spinCounterClockwise 90s linear infinite;
+  transform-origin: 250px 250px;
+}
+
+.wa-dial-whirling {
+  animation: spinWhirlBackward 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite !important;
+}
+
+@keyframes spinCounterClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes spinWhirlBackward {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-1440deg);
+  }
+}
+
+/* Foreground Content */
+.wa-home-content {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Brand Badge */
+.wa-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: #dfceec;
+  margin-bottom: 24px;
+  backdrop-filter: blur(8px);
+}
+
+.wa-brand-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #25d366; /* Vibrant emerald accent */
+  box-shadow: 0 0 8px rgba(37, 211, 102, 0.8);
+}
+
+/* Emotional Rotating Headline */
+.wa-home-headline {
+  font-family: ui-serif, 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+  font-size: clamp(28px, 5vw, 46px);
+  font-weight: 500;
+  line-height: 1.15;
+  color: #fff9ff;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.02em;
+  min-height: 2.4em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+  text-shadow: 0 2px 20px rgba(180, 100, 190, 0.25);
+}
+
+.wa-headline-fade-out {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.wa-home-subcopy {
+  font-size: clamp(14px, 2.4vw, 17px);
+  line-height: 1.55;
+  color: #c9b7d8;
+  max-width: 480px;
+  margin: 0 auto 36px auto;
+}
+
+/* The Portal Dropzone */
+.wa-portal-dropzone {
+  position: relative;
+  width: min(240px, 60vw);
+  height: min(240px, 60vw);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  margin: 0 auto 28px auto;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.wa-portal-dropzone:focus-visible {
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.4),
+    0 0 40px rgba(220, 140, 240, 0.5);
+}
+
+.wa-portal-dropzone:hover {
+  transform: scale(1.04);
+}
+
+.wa-portal-dropzone:active {
+  transform: scale(0.97);
+}
+
+.wa-portal-glow {
+  position: absolute;
+  inset: -15px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(225, 140, 180, 0.35) 0%,
+    rgba(140, 80, 200, 0.15) 50%,
+    transparent 70%
+  );
+  animation: portalPulse 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes portalPulse {
+  0%,
+  100% {
+    transform: scale(0.95);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.95;
+  }
+}
+
+.wa-portal-ring-outer {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1.5px dashed rgba(240, 190, 130, 0.45);
+  animation: spinCounterClockwise 50s linear infinite;
+}
+
+.wa-portal-ring-inner {
+  position: absolute;
+  inset: 12px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(45, 18, 55, 0.75) 0%, rgba(20, 12, 35, 0.85) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 0 0 30px rgba(180, 90, 190, 0.3),
+    0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+.wa-portal-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+}
+
+.wa-portal-icon {
+  color: #eed6ff;
+  filter: drop-shadow(0 2px 8px rgba(190, 110, 220, 0.5));
+  transition: transform 0.3s ease;
+}
+
+.wa-portal-dropzone:hover .wa-portal-icon {
+  transform: translateY(-3px);
+}
+
+.wa-portal-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.2px;
+}
+
+.wa-portal-subtitle {
+  font-size: 12px;
+  color: #baa8cc;
+}
+
+/* Dragover Active State */
+.wa-portal-dragover {
+  transform: scale(1.08);
+}
+.wa-portal-dragover .wa-portal-glow {
+  background: radial-gradient(circle, rgba(255, 180, 120, 0.6) 0%, rgba(200, 100, 220, 0.4) 60%);
+  animation-duration: 1.5s;
+}
+
+/* Secondary CTA: Demo Button */
+.wa-home-cta-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.wa-demo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #f7edff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+  backdrop-filter: blur(8px);
+}
+
+.wa-demo-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateY(-1px);
+}
+
+.wa-demo-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+}
+
+/* Privacy Section */
+.wa-home-privacy-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.wa-privacy-text {
+  font-size: 13px;
+  color: #a491b6;
+  margin: 0;
+}
+
+.wa-privacy-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: #7ee787;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: opacity 0.2s ease;
+}
+
+.wa-privacy-badge:hover {
+  opacity: 0.85;
+  text-decoration: underline;
+}
+
+/* Export Guide Accordion */
+.wa-export-guide {
+  width: 100%;
+  max-width: 520px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+  margin-bottom: 36px;
+  text-align: left;
+}
+
+.wa-export-toggle-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: transparent;
+  border: none;
+  color: #ddcceb;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.wa-export-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.wa-export-toggle-icon {
+  transition: transform 0.25s ease;
+}
+
+.wa-export-toggle-btn[aria-expanded='true'] .wa-export-toggle-icon {
+  transform: rotate(180deg);
+}
+
+.wa-export-panel {
+  padding: 0 18px 18px 18px;
+}
+
+.wa-export-hidden {
+  display: none;
+}
+
+.wa-export-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.wa-export-tab-btn {
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  color: #9d8aa8;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wa-export-tab-btn.active {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.wa-steps-list {
+  padding-left: 20px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #c0b0cf;
+}
+
+.wa-steps-list li {
+  margin-bottom: 8px;
+}
+
+.wa-steps-list code {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 12px;
+  color: #fce7f3;
+}
+
+/* Footer Disclaimer */
+.wa-home-footer {
+  font-size: 11px;
+  line-height: 1.5;
+  color: #79688a;
+  max-width: 480px;
+}
+
+.wa-home-footer p {
+  margin: 0;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .wa-dial-rotating-group,
+  .wa-portal-ring-outer,
+  .wa-portal-glow,
+  .wa-ghost-bubble {
+    animation: none !important;
+  }
 }
