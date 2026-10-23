@@ -52,20 +52,15 @@
 /* Container */
 .wa-legal-container {
   width: 100%;
-  max-width: 1100px;
+  max-width: 820px;
   margin: 0 auto;
   padding: var(--space-8) var(--space-6) var(--space-16) var(--space-6);
-  display: grid;
-  grid-template-columns: 240px minmax(0, 1fr);
-  gap: var(--space-10);
-  align-items: start;
+  display: block;
   box-sizing: border-box;
 }
 
 @media (max-width: 860px) {
   .wa-legal-container {
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
     padding: var(--space-6) var(--space-4) var(--space-12) var(--space-4);
   }
 }
@@ -123,8 +118,10 @@
 
 /* Article Body */
 .wa-legal-article {
-  max-width: 65ch;
-  line-height: 1.65;
+  width: 100%;
+  max-width: 72ch;
+  margin: 0 auto;
+  line-height: 1.7;
   color: var(--color-text);
 }
 

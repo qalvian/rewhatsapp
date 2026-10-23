@@ -183,7 +183,7 @@ export function createHomeView({ onDemoSelected, onFileSelected, onOpenPrivacy }
   const fileInput = /** @type {HTMLInputElement} */ (
     el('input', {
       type: 'file',
-      accept: '.txt,.zip,text/plain,application/zip',
+      accept: '.txt,text/plain',
       className: 'visually-hidden',
       tabindex: '-1',
       aria: { label: 'Upload WhatsApp export file' },
@@ -707,8 +707,8 @@ export function createHomeView({ onDemoSelected, onFileSelected, onOpenPrivacy }
       a: 'Yes. rewhatsapp is an installable PWA. Scripts and stylesheets are cached locally. You can turn on Airplane mode or disconnect your internet completely, and replay functions 100% offline.',
     },
     {
-      q: 'Does it support group chats and media?',
-      a: 'Yes. For group chats, rewhatsapp generates distinct harmonic color-coded avatars and sender tags. If you export with media as a .zip, rewhatsapp unpacks and displays images and audio locally in browser memory.',
+      q: 'Does it support group chats and media files?',
+      a: 'Yes for group chats: rewhatsapp automatically assigns distinct harmonic color-coded avatars and sender tags. However, media attachments (photos, voice notes, videos) and .zip archives are not currently supported; export your chats as plain text (.txt) choosing "Without Media".',
     },
     {
       q: 'How do I export my chat from WhatsApp?',

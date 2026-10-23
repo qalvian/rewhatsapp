@@ -9,79 +9,79 @@
 ---
 
 ## 1. Summary & Scope
-This Privacy Policy outlines the technical architecture, data handling, and legal standards governing **rewhatsapp**, an independent personal memory viewer.
+This Privacy Policy outlines the technical architecture, data handling practices, and legal framework governing **rewhatsapp**, an independent, client-side personal memory replayer maintained by **qalvian**.
 
-rewhatsapp is engineered from the ground up to ensure that **no conversation data, message texts, or media files ever leave your device**. All processing is executed locally in your browser memory.
+rewhatsapp is engineered from the ground up to guarantee that **no conversation data, message texts, timestamps, or contact identifiers ever leave your device**. All processing is executed strictly within the volatile memory (RAM) of the user's web browser environment. Once the web application is loaded, network access can be terminated (or Airplane Mode enabled) without impacting functionality.
 
 ---
 
 ## 2. Legal Position: Zero-Server Processing and Data Fiduciary Status
-We do not collect, store, transmit, inspect, or retain your chat exports, message texts, or personal communications.
+We do not collect, transmit, inspect, store, or retain user communications, exported conversation archives, or contact identifiers.
 
-In plain legal terms under Indian law: because we do not determine the purpose or means of processing personal data on our servers, and the user processes their own chat export on their own device for purely personal use, it is our understanding that we do not act as a "Data Fiduciary" or "Data Processor" under the *Digital Personal Data Protection Act, 2023 (DPDPA 2023)* with respect to conversation contents. This represents our architectural and legal understanding of client-side computing and is provided for transparency, not as a contractual warranty or legal guarantee.
+Under the *Digital Personal Data Protection Act, 2023 (DPDPA 2023)* and related Indian data protection frameworks: because we do not determine the purpose or means of processing personal data on remote servers, and because users process their own exported conversations on their physical hardware for purely personal and non-commercial viewing, the Maintainer does not act as a "Data Fiduciary" or "Data Processor" with respect to conversation contents. This represents our architectural design and legal understanding of local client-side computing.
 
 ---
 
-## 3. Data We Do Not Collect
-- **Chats & Messages:** Zero server uploads, parsing is entirely in local RAM.
-- **Contacts & Identifiers:** Phone numbers, names, and avatars stay on device.
-- **Media Attachments:** Handled via local Blob URLs; never uploaded.
-- **IP Logs & Telemetry:** No connection logging by the client application.
-- **Cookies & Trackers:** No advertising tags, tracking pixels, or third-party cookies.
+## 3. Data Not Collected
+To provide complete transparency, rewhatsapp does not collect, record, log, or transmit:
+- **Conversation Text & Timestamps:** Parsing occurs entirely in volatile browser memory.
+- **Participant Identifiers:** Phone numbers, names, and avatars remain strictly local to the active tab.
+- **Export Format Scope:** The Application currently supports text-based exports (`.txt` created via "Without Media"). Compressed archives (`.zip`) and attached media files (photos, videos, voice recordings) are not supported.
+- **Connection Telemetry & IP Logs:** The client application generates zero network access logs.
+- **Cookies & Third-Party Trackers:** Zero advertising scripts, tracking beacons, or tracking cookies are utilized.
 
 ---
 
 ## 4. Local Storage Disclosure
-rewhatsapp uses browser `localStorage` solely for optional interface preferences:
-- `rewhatsapp_speed`: Saved playback speed multiplier (e.g. 2×, 5×).
-- `rewhatsapp_muted`: Saved audio mute state (true / false).
-- `rewhatsapp_volume`: Saved audio gain level (0.0 to 1.0).
-- `rewhatsapp_legal_consent_v1`: Saved legal terms acknowledgement (true).
+rewhatsapp uses browser `localStorage` solely to persist non-sensitive user interface preferences across sessions:
+- `rewhatsapp_speed`: Saved playback speed multiplier (e.g., 1×, 2×, 4×).
+- `rewhatsapp_muted`: Binary audio mute preference (true / false).
+- `rewhatsapp_volume`: Web Audio output gain level (0.0 to 1.0).
+- `rewhatsapp_legal_consent_v1`: Binary record of user acknowledgement of legal terms (true).
 
-No chat data is ever written to disk or database. To clear preferences, click "Clear stored preferences" on the home page or clear site data in your browser.
-
----
-
-## 5. Hosting Disclosure
-The static HTML, CSS, and JavaScript files are hosted on **GitHub Pages**. The underlying hosting infrastructure may record standard web server transmission logs (IP address, user agent, request timestamp) as part of ordinary web serving. This occurs outside our direct control under the hosting provider's policies.
+No conversation contents are ever written to persistent browser storage or disk. Users can clear stored preferences at any time via the "Clear stored preferences" control on the homepage or through browser settings.
 
 ---
 
-## 6. Third-Party Data in Chats & User Responsibility
-WhatsApp chats contain third-party communications. Users are solely responsible for ensuring lawful use and are strongly encouraged to obtain consent from other participants for anything beyond private personal viewing.
+## 5. Static Hosting Disclosure
+The static HTML, CSS, and JavaScript assets comprising the Application are hosted on **GitHub Pages** (GitHub, Inc.). When a browser fetches these static files, the hosting network may automatically log standard HTTP request metadata (such as IP address, HTTP referer, request timestamp, and user-agent string). This transmission logging is governed entirely by GitHub's enterprise privacy policy and is outside the Maintainer's direct operational control.
 
 ---
 
-## 7. Children & Eligibility
-Intended for individuals aged 18 years or older. Minors may use only under parental or legal guardian supervision.
+## 6. Third-Party Information in Conversation Exports
+Exported WhatsApp conversations contain personal communications and identifying data of third parties. The user bears sole legal responsibility for ensuring lawful authorization to process exported conversations. Users must restrict usage to lawful, personal, and private viewing.
+
+---
+
+## 7. Age & Eligibility
+The Application is designed for individuals aged 18 years or older. Minors may use the Application only under the direct supervision of a parent or lawful guardian. The Application does not knowingly solicit or store information from minors.
 
 ---
 
 ## 8. Technical Security Safeguards
-- **Strict Content Security Policy (CSP):** `default-src 'none'; script-src 'self'; connect-src 'self';`. The browser engine outright blocks any external network request.
-- **Sandboxed Web Workers:** Local parsing runs in isolated background workers without network access.
-- **Open Source:** Full source code is public for independent verification.
+- **Strict Content Security Policy (CSP):** Declares `default-src 'none'; script-src 'self'; connect-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self';`, blocking unauthorized external outbound network requests.
+- **Client-Side Parsing:** Local parsing runs in origin-restricted browser contexts without networking capabilities.
+- **Public Open-Source Verification:** The complete source repository is publicly auditable on GitHub.
 
 ---
 
-## 9. Rights Under DPDPA 2023
-Because rewhatsapp maintains no database, stores zero personal communications, and has no user accounts, access, correction, or erasure requests have no data to act on. Closing the browser tab purges all chat data immediately.
+## 9. Rights Under the DPDPA 2023
+Because rewhatsapp maintains no centralized databases, retains zero communication logs, and operates no user account infrastructure, the Maintainer possesses no records against which access, rectification, or erasure requests can be executed. Closing the browser tab immediately and irreversibly purges all conversation data from memory.
 
 ---
 
-## 10. Grievance Officer
-In compliance with the *Information Technology Act, 2000* and applicable rules:
-- **Grievance Officer:** qalvian
+## 10. Grievance Officer & Redressal
+In compliance with the *Information Technology Act, 2000* and applicable statutory rules:
+- **Designated Grievance Officer:** qalvian
 - **Email:** qalvian@atomicmail.io
-- **Address:** India
-- **Timelines:** Acknowledged within 24–72 hours; resolved or formally addressed within 15–30 days.
+- **Jurisdiction:** India
+- **Response Timelines:** Written communications will be acknowledged within 48 hours and substantively addressed within thirty (30) days.
 
 ---
 
 ## 11. Applicable Law
-Formulated having regard to:
+Formulated in accordance with the laws of the Republic of India:
 - *Information Technology Act, 2000*
 - *Digital Personal Data Protection Act, 2023 (DPDPA 2023)*
 - *Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021*
 - *Consumer Protection Act, 2019 / E-Commerce Rules, 2020*
-*(Note: Legal references are current as of 23 October 2026; statutory provisions may change).*

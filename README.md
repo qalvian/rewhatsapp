@@ -20,7 +20,7 @@
 
 ## What is rewhatsapp?
 
-WhatsApp export files (`.txt` or `.zip`) are cold, lifeless walls of text. They flatten months or years of conversations into static lines, erasing the emotional cadence of the moment: the 45-minute pause before an honest answer, the suspense of watching someone type, or the flurry of three quick messages in five seconds.
+WhatsApp export files (`.txt`) are cold, lifeless walls of text. They flatten months or years of conversations into static lines, erasing the emotional cadence of the moment: the 45-minute pause before an honest answer, the suspense of watching someone type, or the flurry of three quick messages in five seconds.
 
 **rewhatsapp** brings those memories back to life. It reconstructs your chat into an authentic, theatrical playback engine directly inside your browser. You can watch conversations unfold at their original tempo or at customized speeds (-4× to +4×), explore activity heatmaps, and generate vintage keepsake cards.
 
@@ -30,7 +30,7 @@ WhatsApp export files (`.txt` or `.zip`) are cold, lifeless walls of text. They 
 
 - **Authentic Living Playback**: Messages type themselves out letter-by-letter in the composer bar before sending, matching real-world typing speeds (`Base delay + 30ms/char`).
 - **Pixel-Perfect Replay Theater**: Faithful recreation of WhatsApp Web with directional chat bubble tails, system chips, double ticks, and procedural wallpaper.
-- **Universal Export Ingestion**: Seamlessly reads `.txt` and `.zip` exports from iOS and Android across 10+ languages, automatically solving ambiguous date formats (`DD/MM` vs `MM/DD`).
+- **Universal Export Ingestion**: Seamlessly reads `.txt` exports from iOS and Android across 10+ languages, automatically solving ambiguous date formats (`DD/MM` vs `MM/DD`).
 - **Zero-Asset Procedural Audio**: Generates realistic bubble pops, incoming chimes, and seeded voice note waveforms in real-time via the Web Audio API without downloading audio files.
 - **Memory Insights & Epilogue**: Generates a 7×24 activity heatmap, response latency percentiles, sentiment sparklines, and a shareable vintage epilogue keepsake card.
 - **Interactive Scrubber & Command Palette**: Seek through hundreds of thousands of messages instantaneously ($O(\log N)$ binary search) or navigate via Spotlight-style shortcuts (`Ctrl+K` / `Cmd+K`).
@@ -77,13 +77,13 @@ npm test
    - Open the conversation in WhatsApp.
    - Tap the contact or group name at the top.
    - Scroll to the bottom and tap **Export Chat**.
-   - Select **Without Media** (for lightweight `.txt`) or **Attach Media** (for a `.zip` containing photos, voice notes, and videos).
+   - Select **Without Media** to generate a lightweight `.txt` export file.
 2. **On Android**:
    - Open the conversation in WhatsApp.
    - Tap the three dots menu (`⋮`) in the top-right corner → **More** → **Export chat**.
-   - Select **Without media** or **Include media**.
+   - Select **Without media** to generate a `.txt` file.
 3. **Drop into rewhatsapp**:
-   - Drag and drop your `.txt` or `.zip` file directly into the portal.
+   - Drag and drop your `.txt` file directly into the portal.
    - Choose who you were in the chat (so your messages appear on the right).
    - Press **Travel Back** and watch your conversation replay.
 

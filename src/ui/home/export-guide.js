@@ -85,7 +85,7 @@ export function createExportGuide() {
         'li',
         {},
         el('strong', { text: 'Without Media: ' }),
-        el('span', { text: 'Choose "Without Media" for an instant .txt file (or "Attach Media" for .zip).' }),
+        el('span', { text: 'Choose "Without Media" to create a lightweight .txt file.' }),
       ),
       el(
         'li',

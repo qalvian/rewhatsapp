@@ -26,25 +26,6 @@
     </header>
 
     <div class="wa-legal-container">
-      <!-- Desktop Sticky Table of Contents -->
-      <nav class="wa-legal-toc-sidebar" aria-label="Table of contents">
-        <h3 class="wa-toc-title">Contents</h3>
-        <ul class="wa-toc-list">
-          <li><a href="#summary" class="wa-toc-link">1. Summary & Scope</a></li>
-          <li><a href="#position" class="wa-toc-link">2. Our Legal Position</a></li>
-          <li><a href="#data-not-collected" class="wa-toc-link">3. Data We Do Not Collect</a></li>
-          <li><a href="#local-storage" class="wa-toc-link">4. Local Storage Disclosure</a></li>
-          <li><a href="#hosting" class="wa-toc-link">5. Hosting & Server Logs</a></li>
-          <li><a href="#third-party-data" class="wa-toc-link">6. Third-Party Chat Data</a></li>
-          <li><a href="#children" class="wa-toc-link">7. Age & Eligibility</a></li>
-          <li><a href="#security" class="wa-toc-link">8. Security Architecture</a></li>
-          <li><a href="#user-rights" class="wa-toc-link">9. Rights under DPDPA 2023</a></li>
-          <li><a href="#grievance" class="wa-toc-link">10. Grievance Officer</a></li>
-          <li><a href="#references" class="wa-toc-link">11. Applicable Law</a></li>
-          <li><a href="#changelog" class="wa-toc-link">12. Policy Changelog</a></li>
-        </ul>
-      </nav>
-
       <!-- Main Article -->
       <article class="wa-legal-article">
         <div class="wa-legal-meta-bar">
@@ -57,198 +38,201 @@
           Privacy Policy
         </h1>
 
-        <!-- Plain-English Summary Box -->
+        <!-- Executive Summary Box -->
         <div class="wa-legal-summary-box">
-          <h2 class="wa-summary-box-heading">Plain-English Summary</h2>
+          <h2 class="wa-summary-box-heading">Executive Summary</h2>
           <p class="wa-summary-box-text">
-            rewhatsapp was engineered from line one with an absolute principle:
-            <strong>your chats never leave your browser</strong>. We do not operate a backend
-            database, server-side parser, telemetry script, analytics cookie, or cloud processing
-            pipeline. All parsing, timeline synthesis, and audio generation run locally on your
-            hardware using native browser APIs.
+            rewhatsapp is architected as an exclusively client-side software application. The service
+            does not operate remote database systems, server-side processing pipelines, network
+            telemetry, analytics trackers, or persistent cloud infrastructure. All data parsing,
+            chronological sequencing, and local audio synthesis execute strictly within the volatile
+            memory (RAM) of the user's web browser environment. Once the web application is loaded,
+            the user may disconnect network connectivity or engage Airplane Mode; all operations
+            remain fully functional offline.
           </p>
         </div>
 
         <section id="summary" class="wa-legal-section">
-          <h2>1. Summary & Scope</h2>
+          <h2>1. Summary &amp; Scope</h2>
           <p>
-            This Privacy Policy describes the technical design, data practices, and legal framework
-            governing the web application known as <strong>rewhatsapp</strong> ("we", "us", "the
-            service"), accessible via this web portal and operated by <strong>qalvian</strong>.
+            This Privacy Policy governs the use of the web application known as <strong>rewhatsapp</strong>
+            (&ldquo;the Application&rdquo;, &ldquo;the Service&rdquo;, &ldquo;we&rdquo;, &ldquo;us&rdquo;),
+            published and maintained by <strong>qalvian</strong> (&ldquo;the Maintainer&rdquo;). This Policy
+            outlines the technical architecture, data handling practices, and legal framework applicable to
+            user interactions with the Application.
           </p>
           <p>
-            This policy applies exclusively to your interactions with the rewhatsapp website.
-            rewhatsapp is an independent, open-source personal memory replayer and is neither
-            affiliated with, sponsored by, nor operated by WhatsApp LLC or Meta Platforms, Inc.
+            This Policy applies exclusively to interactions with the rewhatsapp website. rewhatsapp is an
+            independent, non-commercial open-source software project. The Application is neither affiliated
+            with, sponsored by, endorsed by, nor operated by WhatsApp LLC, Meta Platforms, Inc., or any of
+            their corporate affiliates.
           </p>
         </section>
 
         <section id="position" class="wa-legal-section">
-          <h2>2. Our Legal Position: Zero-Server Processing and Data Fiduciary Status</h2>
+          <h2>2. Zero-Server Processing and Data Fiduciary Status</h2>
           <p>
-            <strong>We do not collect, store, transmit, inspect, or retain your chat exports, message texts, or personal communications.</strong>
+            <strong>The Application does not collect, transmit, store, inspect, or retain user communications, exported conversation archives, or contact identifiers.</strong>
           </p>
           <p>
-            In plain legal terms: because we do not determine the purpose or means of processing
-            personal data on our servers, and the user processes their own chat export on their own
-            device for purely personal viewing, it is our understanding that we do not act as a
-            "Data Fiduciary" or "Data Processor" under the <em>Digital Personal Data Protection Act, 2023 (DPDPA 2023)</em>
+            All parsing of exported WhatsApp conversations occurs entirely on the user's physical device
+            for personal and non-commercial viewing. Because the Maintainer does not determine the purpose
+            or means of processing personal data on remote servers, and exercises neither control nor access
+            over conversation content, the Maintainer does not act as a &ldquo;Data Fiduciary&rdquo; or
+            &ldquo;Data Processor&rdquo; within the meaning of the <em>Digital Personal Data Protection Act, 2023 (DPDPA 2023)</em>
             with respect to conversation contents.
           </p>
           <div class="wa-legal-callout">
-            <strong>Important Legal Note:</strong> This statement represents our architectural and legal
-            understanding of client-side computing and is provided for transparency, not as a contractual warranty
-            or legal guarantee.
+            <strong>Technical Note:</strong> This statement reflects the technical architecture of
+            client-side computing and is provided for operational transparency, rather than as a contractual
+            warranty.
           </div>
         </section>
 
         <section id="data-not-collected" class="wa-legal-section">
-          <h2>3. Data We Do Not Collect</h2>
-          <p>To eliminate any ambiguity, rewhatsapp does not collect, log, or transmit:</p>
+          <h2>3. Data Not Collected</h2>
+          <p>To eliminate any ambiguity, rewhatsapp does not collect, record, log, or transmit any of the following categories of data:</p>
           <ul>
-            <li><strong>Chat Messages & Content:</strong> No text, voice transcripts, emoji reactions, or timestamps are ever uploaded.</li>
-            <li><strong>Participant Contacts:</strong> Phone numbers, contact names, and profile avatars are parsed strictly in local RAM.</li>
-            <li><strong>Media Attachments:</strong> Images, audio files, and video clips extracted from ZIP exports remain in local object URLs.</li>
-            <li><strong>Identifiers & Telemetry:</strong> No device fingerprints, browser fingerprints, advertising IDs, or tracking beacons.</li>
-            <li><strong>Application-Level IP Logs:</strong> The client application creates zero connection logs.</li>
-            <li><strong>Cookies & Trackers:</strong> Zero third-party trackers, zero advertising scripts, and zero third-party cookie tags.</li>
+            <li><strong>Conversation Messages &amp; Content:</strong> Text strings, message timestamps, emoji reactions, and continuity segments remain confined exclusively to local volatile memory.</li>
+            <li><strong>Participant Information:</strong> Telephone numbers, contact names, and profile monograms extracted from export files exist solely in runtime memory during an active session.</li>
+            <li><strong>Export Format Scope:</strong> The Application currently processes plain-text export files (<code>.txt</code> created via WhatsApp's &ldquo;Without Media&rdquo; option). Compressed archives (<code>.zip</code>) and multimedia assets (photographs, voice notes, video clips, and document attachments) are not supported.</li>
+            <li><strong>Device &amp; Telemetry Identifiers:</strong> No device fingerprints, browser canvas fingerprints, advertising identifiers, or analytical beacons are generated or monitored.</li>
+            <li><strong>Application-Level Connection Logs:</strong> The client application does not generate or retain network access logs.</li>
+            <li><strong>Third-Party Cookies &amp; Trackers:</strong> Zero advertising tags, third-party trackers, or marketing cookies are loaded.</li>
           </ul>
         </section>
 
         <section id="local-storage" class="wa-legal-section">
-          <h2>4. Local Storage Disclosure</h2>
+          <h2>4. Local Browser Storage Disclosure</h2>
           <p>
-            rewhatsapp uses your browser's native <code>localStorage</code> API solely to store optional,
-            non-sensitive user interface preferences across sessions. We do not use HTTP cookies.
+            The Application utilizes the browser's standard <code>localStorage</code> API solely to persist
+            optional interface preferences across browser sessions. The Application does not deploy HTTP cookies.
           </p>
           <ul>
-            <li><code>rewhatsapp_speed</code>: Stores your chosen replay multiplier (e.g., 2×, 5×).</li>
-            <li><code>rewhatsapp_muted</code>: Stores your sound preference (true / false).</li>
-            <li><code>rewhatsapp_volume</code>: Stores your preferred Web Audio volume level (0.0 to 1.0).</li>
-            <li><code>rewhatsapp_legal_consent_v1</code>: Stores your acknowledgement of this policy and terms (true).</li>
+            <li><code>rewhatsapp_speed</code>: Stores the selected playback multiplier (e.g., 1&times;, 2&times;, 4&times;).</li>
+            <li><code>rewhatsapp_muted</code>: Stores the binary sound preference (true / false).</li>
+            <li><code>rewhatsapp_volume</code>: Stores the Web Audio output gain level (0.0 to 1.0).</li>
+            <li><code>rewhatsapp_legal_consent_v1</code>: Records user acknowledgement of these Terms and Privacy Policy (true).</li>
           </ul>
           <p>
-            <strong>How to clear preferences:</strong> You can click the "Clear stored preferences" button
-            in the Safe, Private & Offline section on the homepage, or manually clear your browser's
-            site data in browser settings (Settings → Privacy & Security → Clear Browsing Data → Cookies and Site Data).
+            <strong>Clearing Local Preferences:</strong> Users may purge stored preference keys at any time
+            by using the &ldquo;Clear stored preferences&rdquo; control on the homepage or through browser
+            configuration settings (Settings &rarr; Privacy &amp; Security &rarr; Clear Browsing Data &rarr; Cookies and Site Data).
           </p>
         </section>
 
         <section id="hosting" class="wa-legal-section">
-          <h2>5. Hosting & Server Logs</h2>
+          <h2>5. Static Hosting Infrastructure</h2>
           <p>
-            The static HTML, JavaScript, and CSS files comprising rewhatsapp are hosted on
-            <strong>GitHub Pages</strong>.
+            The static application assets (HTML, CSS, and client-side JavaScript) are distributed via
+            <strong>GitHub Pages</strong> (operated by GitHub, Inc.).
           </p>
           <p>
-            When your browser requests our static assets, the underlying hosting provider's web servers
-            may automatically record standard HTTP transmission metadata (including your IP address,
-            request timestamp, HTTP referer, and browser user-agent) as an unavoidable technical part
-            of serving web files over the Internet. This metadata is collected and processed directly by
-            the hosting infrastructure provider under their own privacy practices and is outside our
-            direct control.
+            When a web browser requests static assets from the hosting delivery network, the underlying web
+            servers may automatically log standard transmission metadata (such as public IP address, HTTP referer,
+            request timestamp, and browser user-agent header). Such server logs are captured directly by the
+            infrastructure hosting provider under its respective privacy practices and fall outside our operational
+            control.
           </p>
         </section>
 
         <section id="third-party-data" class="wa-legal-section">
-          <h2>6. Third-Party Personal Data Inside Chats</h2>
+          <h2>6. Third-Party Information in Conversation Exports</h2>
           <p>
-            WhatsApp exports typically contain messages and identifiers belonging to third parties
-            (such as friends, partners, family members, or group participants).
+            WhatsApp conversation exports inherently contain communications and personal identifiers belonging
+            to third parties (including friends, family members, colleagues, or group chat participants).
           </p>
           <p>
-            <strong>You are solely responsible for ensuring your use of exported chats complies with applicable law.</strong>
-            We strongly encourage you to obtain the informed consent of other participants before replaying
-            conversations, and to limit your use strictly to private, personal, non-commercial reminiscence.
+            <strong>The user bears sole legal responsibility for ensuring lawful authorization to process exported conversations.</strong>
+            Users must refrain from processing conversation exports without lawful entitlement or appropriate
+            consent from participating parties, and must restrict usage to lawful, personal, and private reminiscence.
           </p>
         </section>
 
         <section id="children" class="wa-legal-section">
-          <h2>7. Age & Eligibility</h2>
+          <h2>7. Age Eligibility</h2>
           <p>
-            rewhatsapp is designed and intended for individuals aged 18 years or older. Minors may use
-            the application only with the knowledge and supervision of a parent or lawful guardian.
-            Because rewhatsapp does not collect personal data from anyone, we do not knowingly solicit
-            or store information from children.
+            The Application is intended for individuals aged 18 years or older. Individuals under the age of
+            18 may access the Application solely under the supervision of a parent or lawful legal guardian.
+            Because the Application operates strictly client-side without remote data retention, no personal
+            information from minors is knowingly solicited, collected, or stored.
           </p>
         </section>
 
         <section id="security" class="wa-legal-section">
-          <h2>8. Security Architecture</h2>
-          <p>We enforce privacy through hard technical safeguards enforced by your browser engine:</p>
+          <h2>8. Technical Security Architecture</h2>
+          <p>Privacy protection is enforced directly through technological architectural controls:</p>
           <ul>
             <li>
-              <strong>Content Security Policy (CSP):</strong> Our HTTP CSP header declares
-              <code>default-src 'none'; script-src 'self'; connect-src 'self';</code>. The browser engine
-              will forcibly abort any external outbound network transmission.
+              <strong>Content Security Policy (CSP):</strong> The HTTP CSP specification declares
+              <code>default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self';</code>,
+              ensuring that the browser engine forcibly disallows outbound data transmissions to external hosts.
             </li>
             <li>
-              <strong>Sandboxed Web Workers:</strong> File parsing occurs inside isolated, origin-bound
-              Worker threads that have no network capabilities.
+              <strong>Sandboxed Execution Contexts:</strong> Parsing routines execute within origin-restricted
+              threads without access to external networking APIs.
             </li>
             <li>
-              <strong>Open Source Verification:</strong> The entire codebase is public on GitHub, allowing
-              independent security researchers and users to audit and verify every line of code.
+              <strong>Open-Source Auditing:</strong> The complete source code is publicly accessible on GitHub,
+              permitting independent inspection and verification by security practitioners and users.
             </li>
           </ul>
         </section>
 
         <section id="user-rights" class="wa-legal-section">
-          <h2>9. Rights under the Digital Personal Data Protection Act, 2023</h2>
+          <h2>9. Statutory Rights under the Digital Personal Data Protection Act, 2023</h2>
           <p>
-            The <em>Digital Personal Data Protection Act, 2023 (DPDPA 2023)</em> affords Indian citizens
-            certain rights regarding their personal data, including the right to access summary of data,
-            the right to correction and erasure, and the right of grievance redressal.
+            The <em>Digital Personal Data Protection Act, 2023 (DPDPA 2023)</em> guarantees data principals
+            specific rights concerning personal data held by data fiduciaries, including rights of access,
+            correction, erasure, and grievance redressal.
           </p>
           <p>
-            Because rewhatsapp holds no database, stores zero personal communications, and maintains no
-            user accounts, we do not possess any data to access, correct, or erase. Once you close your
-            browser tab, your chat content ceases to exist anywhere in the application.
+            Because rewhatsapp maintains no centralized databases, retains zero communication logs, and
+            operates no user account management, the Maintainer possesses no records against which access,
+            rectification, or erasure requests can be executed. Terminating the browser session immediately
+            and irreversibly purges all conversation data from physical device memory.
           </p>
         </section>
 
         <section id="grievance" class="wa-legal-section">
-          <h2>10. Grievance Officer & Contact Details</h2>
+          <h2>10. Grievance Redressal and Contact Details</h2>
           <p>
-            In compliance with the <em>Information Technology Act, 2000</em> and the Rules framed
-            thereunder, the contact details of our Grievance Officer are set forth below:
+            Pursuant to the provisions of the <em>Information Technology Act, 2000</em> and applicable rules
+            promulgated thereunder, contact details for grievance redressal are set forth below:
           </p>
           <div class="wa-legal-callout">
-            <p><strong>Grievance Officer:</strong> qalvian</p>
-            <p><strong>Email:</strong> qalvian@atomicmail.io</p>
-            <p><strong>Physical Address:</strong> India</p>
-            <p><strong>Timelines:</strong> We will acknowledge receipt of any written grievance within 24 to 72 hours, and resolve or provide a formal response within 15 to 30 days in accordance with applicable Indian law.</p>
+            <p><strong>Designated Officer:</strong> qalvian</p>
+            <p><strong>Contact Email:</strong> qalvian@atomicmail.io</p>
+            <p><strong>Jurisdiction:</strong> India</p>
+            <p><strong>Response Timelines:</strong> Written inquiries will be acknowledged within 48 hours and substantively addressed within thirty (30) days in accordance with statutory guidelines.</p>
           </div>
         </section>
 
         <section id="references" class="wa-legal-section">
-          <h2>11. Applicable Law & Regulatory Framework</h2>
+          <h2>11. Applicable Law and Regulatory Standards</h2>
           <p>
-            This Privacy Policy has been drafted with regard to the following statutes of the Republic of India:
+            This Privacy Policy has been formulated having regard to the legal standards of the Republic of India:
           </p>
           <ul>
-            <li>The <strong>Information Technology Act, 2000</strong> (and subsequent amendments).</li>
-            <li>The <strong>Digital Personal Data Protection Act, 2023 (DPDPA 2023)</strong> and applicable rules.</li>
-            <li>The <strong>Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021</strong> to the extent applicable.</li>
-            <li>The <strong>Consumer Protection Act, 2019</strong> and Consumer Protection (E-Commerce) Rules, 2020 to the extent applicable.</li>
+            <li>The <strong>Information Technology Act, 2000</strong> (and applicable amendments).</li>
+            <li>The <strong>Digital Personal Data Protection Act, 2023 (DPDPA 2023)</strong>.</li>
+            <li>The <strong>Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021</strong>.</li>
+            <li>The <strong>Consumer Protection Act, 2019</strong> and Consumer Protection (E-Commerce) Rules, 2020.</li>
           </ul>
-          <p class="wa-legal-callout">
-            <em>Note: Legal references are current as of 23 October 2026; statutory provisions and rules may evolve.</em>
-          </p>
         </section>
 
         <section id="changelog" class="wa-legal-changelog">
-          <h3 class="wa-changelog-title">Policy Changelog</h3>
+          <h3 class="wa-changelog-title">Version Changelog</h3>
           <div class="wa-changelog-item">
-            <span class="wa-changelog-date">2026-10-22</span>
-            <span>Version 1.0 published under Brief v4 compliance. Client-side privacy architecture, DPDPA 2023 rights, and Indian Grievance mechanism formalized.</span>
+            <span class="wa-changelog-date">2026-10-23</span>
+            <span>Version 1.0: Client-side privacy architecture, plain-text export specification, DPDPA 2023 framework, and statutory grievance mechanism formalized.</span>
           </div>
         </section>
       </article>
     </div>
 
     <footer class="wa-legal-footer">
-      <p>rewhatsapp · Built by qalvian · PolyForm Noncommercial 1.0.0 · Independent Open-Source Project</p>
+      <p>rewhatsapp &middot; Built by qalvian &middot; PolyForm Noncommercial 1.0.0 &middot; Independent Open-Source Project</p>
     </footer>
 
     <script type="module">

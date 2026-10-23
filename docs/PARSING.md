@@ -5,7 +5,7 @@ Parsing raw WhatsApp text exports is notoriously deceptive: there is no formal s
 `rewhatsapp` replaces brittle single "mega-regex" approaches with a **strict candidate grammar scoring pipeline**:
 
 ```
-Raw Input (Text / ArrayBuffer / ZIP)
+Raw Input (Plain Text / ArrayBuffer)
   │
   ├─ 1. Sniff BOM & Decode (UTF-8, UTF-16LE, UTF-16BE)
   ├─ 2. Normalize Unicode (Bidi controls, Narrow NBSP, Arabic/Devanagari digits)
@@ -106,9 +106,9 @@ JavaScript `.length` fails on multi-codepoint emojis (e.g. 👨‍👩‍👧‍
 - Contacts starting with `~` have the tilde stripped for display only.
 - Participants named `__proto__` are safely stored using native ES `Map` objects rather than plain JavaScript objects.
 
-## 13. iOS ZIP Archives (`src/core/zip.js`)
+## 13. Future Media & Archive Roadmap
 
-When an iOS `.zip` export is dropped, our zero-dependency ZIP reader locates `_chat.txt` by signature `0x04034b50` and decompresses it using the browser's native `DecompressionStream('deflate-raw')`.
+Currently, `rewhatsapp` focuses strictly on plain-text (`.txt`) exports. Internal low-level ZIP utilities (`src/core/zip.js`) exist in the codebase for potential future archive extraction, but user-facing features currently require lightweight `.txt` exports created via "Without Media".
 
 ## 14. Inherent Format Limitations: Spoofed Headers
 
