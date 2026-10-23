@@ -1,6 +1,7 @@
 // @ts-check
 
-import { el, svgEl } from '../../util/dom.js';
+import { el } from '../../util/dom.js';
+import { createIcon } from '../icons.js';
 
 /**
  * Creates the Privacy Verification Modal explaining the strict client-side architecture.
@@ -11,7 +12,7 @@ import { el, svgEl } from '../../util/dom.js';
  */
 export function createPrivacyModal({ onClose }) {
   const overlay = el('div', {
-    className: 'wa-palette-overlay',
+    className: 'wa-setup-overlay',
     role: 'dialog',
     aria: {
       modal: 'true',
@@ -20,98 +21,113 @@ export function createPrivacyModal({ onClose }) {
   });
 
   const dialog = el('div', {
-    className: 'wa-palette-dialog',
-    style: 'max-width: 580px; padding: 24px;',
+    className: 'wa-setup-card',
+    style: 'max-width: 540px;',
   });
 
   const header = el(
     'div',
-    {
-      style:
-        'display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;',
-    },
-    el('h2', {
-      id: 'privacy-modal-title',
-      style: 'font-family: ui-serif, Georgia, serif; font-size: 22px; margin: 0; color: #ffffff;',
-      text: 'Verified Client-Side Privacy',
-    }),
+    { className: 'wa-setup-header' },
     el(
-      'button',
-      {
-        className: 'wa-setup-close-btn',
-        type: 'button',
-        aria: { label: 'Close privacy dialog' },
-      },
-      svgEl(
-        'svg',
+      'div',
+      { className: 'wa-setup-title-row' },
+      el('h2', {
+        id: 'privacy-modal-title',
+        className: 'wa-setup-title',
+        text: 'Verified Client-Side Privacy',
+      }),
+      el(
+        'button',
         {
-          viewBox: '0 0 24 24',
-          width: '20',
-          height: '20',
-          fill: 'none',
-          stroke: 'currentColor',
-          'stroke-width': '2',
+          className: 'wa-setup-close-btn',
+          type: 'button',
+          aria: { label: 'Close privacy dialog' },
         },
-        svgEl('line', { x1: '18', y1: '6', x2: '6', y2: '18' }),
-        svgEl('line', { x1: '6', y1: '6', x2: '18', y2: '18' }),
+        createIcon('close', { width: 20, height: 20 }),
       ),
     ),
   );
 
   header.querySelector('.wa-setup-close-btn')?.addEventListener('click', onClose);
 
+  const body = el('div', { className: 'wa-setup-body' });
+
   const intro = el('p', {
-    style: 'font-size: 14px; line-height: 1.6; color: #c9b7d8; margin: 0 0 16px 0;',
-    text: 'rewhatsapp is engineered so that your chat exports never touch a server, an API, or any third party. Your files remain exclusively in your browser memory.',
+    className: 'wa-setup-desc',
+    text: 'rewhatsapp is engineered so that your chat exports never touch a server, an API, or any third party. Your files remain exclusively in your local browser memory.',
   });
 
   const guarantees = el(
     'div',
-    { style: 'display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px;' },
+    { className: 'wa-setup-summary-list' },
     el(
       'div',
-      {
-        style:
-          'padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); font-size: 13px; color: #f3e8f8;',
-      },
-      el('strong', { style: 'color: #7ee787;', text: '1. Strict Content-Security-Policy (CSP): ' }),
-      el('span', {
-        text: "The page serves default-src 'none' and connect-src 'none'. The browser will block any outgoing fetch, XHR, or beacon attempt.",
-      }),
+      { className: 'wa-summary-item' },
+      el('div', { className: 'wa-summary-icon' }, createIcon('shield', { width: 20, height: 20 })),
+      el(
+        'div',
+        { className: 'wa-summary-text' },
+        el('strong', {
+          className: 'wa-summary-primary',
+          text: '1. Strict Content Security Policy',
+        }),
+        el('span', {
+          className: 'wa-summary-secondary',
+          text: "default-src 'none'; connect-src 'none'. Outgoing network requests are blocked by the browser.",
+        }),
+      ),
     ),
     el(
       'div',
-      {
-        style:
-          'padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); font-size: 13px; color: #f3e8f8;',
-      },
-      el('strong', { style: 'color: #7ee787;', text: '2. Zero Runtime Dependencies: ' }),
-      el('span', {
-        text: 'No CDNs, no tracking scripts, no external fonts. Built with 100% vanilla Web Standards.',
-      }),
+      { className: 'wa-summary-item' },
+      el('div', { className: 'wa-summary-icon' }, createIcon('zap', { width: 20, height: 20 })),
+      el(
+        'div',
+        { className: 'wa-summary-text' },
+        el('strong', { className: 'wa-summary-primary', text: '2. Zero Runtime Dependencies' }),
+        el('span', {
+          className: 'wa-summary-secondary',
+          text: 'No CDNs, analytics, tracking, or remote fonts. 100% standard ES modules.',
+        }),
+      ),
     ),
     el(
       'div',
-      {
-        style:
-          'padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); font-size: 13px; color: #f3e8f8;',
-      },
-      el('strong', { style: 'color: #7ee787;', text: '3. Verify in DevTools: ' }),
-      el('span', {
-        text: 'Press F12, open the Network tab, drag in your chat, and watch: zero network requests are made.',
-      }),
+      { className: 'wa-summary-item' },
+      el('div', { className: 'wa-summary-icon' }, createIcon('check', { width: 20, height: 20 })),
+      el(
+        'div',
+        { className: 'wa-summary-text' },
+        el('strong', { className: 'wa-summary-primary', text: '3. Verifiable in DevTools' }),
+        el('span', {
+          className: 'wa-summary-secondary',
+          text: 'Open DevTools Network tab, drop in your chat, and verify zero HTTP requests.',
+        }),
+      ),
     ),
   );
 
-  const doneBtn = el('button', {
-    className: 'wa-demo-btn',
-    style: 'align-self: flex-end; padding: 8px 18px;',
-    type: 'button',
-    text: 'Got it',
-  });
-  doneBtn.addEventListener('click', onClose);
+  body.append(intro, guarantees);
 
-  dialog.append(header, intro, guarantees, doneBtn);
+  const footer = el(
+    'div',
+    { className: 'wa-setup-footer', style: 'justify-content: space-between;' },
+    el('a', {
+      href: 'privacy.html',
+      target: '_blank',
+      rel: 'noopener noreferrer',
+      className: 'wa-legal-link',
+      text: 'Read full Legal Privacy Policy →',
+    }),
+    el('button', {
+      className: 'wa-nav-btn wa-nav-next',
+      type: 'button',
+      text: 'Got it',
+      onClick: onClose,
+    }),
+  );
+
+  dialog.append(header, body, footer);
   overlay.appendChild(dialog);
 
   overlay.addEventListener('click', (e) => {

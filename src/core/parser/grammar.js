@@ -121,6 +121,26 @@ export const CANDIDATE_GRAMMARS = [
     is12Hour: true,
     dateSeparator: '.',
   },
+  // 11. Universal Lenient Bracketed: "[date, time] "
+  {
+    id: 'universal-bracketed',
+    family: 'ios',
+    regex:
+      /^\[(\d{1,4}[/.-]\d{1,2}[/.-]\d{2,4}),?\s+(\d{1,2}:\d{2}(?::\d{2})?(?:\s*(?:[ap]\.?\s*m\.?|[AP]\.?\s*M\.?))?)\]\s+(.*)$/i,
+    hasSeconds: false,
+    is12Hour: false,
+    dateSeparator: '/',
+  },
+  // 12. Universal Lenient Delimited: "date, time - " or "date time - "
+  {
+    id: 'universal-dash',
+    family: 'android',
+    regex:
+      /^(\d{1,4}[/.-]\d{1,2}[/.-]\d{2,4}),?\s+(\d{1,2}:\d{2}(?::\d{2})?(?:\s*(?:[ap]\.?\s*m\.?|[AP]\.?\s*M\.?))?)\s*[-–—:]\s+(.*)$/i,
+    hasSeconds: false,
+    is12Hour: false,
+    dateSeparator: '/',
+  },
 ];
 
 /**

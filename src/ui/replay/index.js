@@ -14,6 +14,7 @@ import {
   playTickSound,
   getIsMuted,
   toggleMuted,
+  setAudioPlaybackSpeed,
 } from '../../audio/synth.js';
 import { announce } from '../../util/a11y.js';
 
@@ -86,7 +87,7 @@ export function createReplayView({
   });
   container.appendChild(chatView.element);
 
-  // 5. Composer bar with typing simulation
+  // 5. Composer bar with dynamic typing simulation
   const composer = createComposer({
     onSend: () => {
       // Decorative send
@@ -94,13 +95,17 @@ export function createReplayView({
   });
   container.appendChild(composer.element);
 
-  // 6. Floating Controls Pill
+  // 6. Floating Controls Pill with Collapsible FAB & -4x to +4x speed
   const controls = createControlsPill({
     onPlayPause: () => player.togglePlay(),
     onPrev: () => player.prevMessage(),
     onNext: () => player.nextMessage(),
-    onSpeedChange: (speed) => player.setSpeed(speed),
-    onGapModeChange: (mode) => player.setGapMode(mode),
+    onSpeedChange: (rating) => player.setSpeed(rating),
+    onLeave: () => {
+      player.pause();
+      releaseWakeLock();
+      onBack();
+    },
     onInsightsClick: onOpenInsights,
     onToggleFullscreen: () => toggleFullscreen(),
     onToggleMute: () => {
@@ -141,18 +146,15 @@ export function createReplayView({
       document.exitFullscreen().catch(() => {});
     } else if (container.requestFullscreen) {
       container.requestFullscreen().catch(() => {
-        // Fallback to immersive CSS mode
         container.classList.toggle('wa-immersive-mode');
       });
     } else {
-      // iPhone Safari lacks element fullscreen API
       container.classList.toggle('wa-immersive-mode');
     }
   }
 
   // Toggle controls on tapping empty chat area
   chatView.element.addEventListener('click', (e) => {
-    // Only toggle if not clicking interactive message links
     if (e.target instanceof HTMLElement && e.target.closest('a, button')) return;
     controls.toggleVisibility();
   });
@@ -162,38 +164,71 @@ export function createReplayView({
     controls.resetAutoHide();
   });
 
-  // Wire Player Events
+  // 7. Dynamic Typing & Message Dispatch Logic
+  // Synchronized directly with player virtual time
   const unsubs = [
+    player.on(
+      'timeupdate',
+      /** @param {{ virtualTime: number, progress: number, currentIndex: number }} payload */
+      ({ virtualTime, progress, currentIndex }) => {
+        scrubber.setProgress(progress);
+
+        // Simulate typing for next message in flight
+        const nextIdx = currentIndex + 1;
+        const nextMsg = timeline.messages[nextIdx];
+
+        if (nextMsg && player.state === 'PLAYING') {
+          const tPrev = currentIndex >= 0 ? (timeline.cumulativeDuration[currentIndex] ?? 0) : 0;
+          const tNext = timeline.cumulativeDuration[nextIdx] ?? 0;
+          const span = tNext - tPrev;
+
+          if (span > 0) {
+            const frac = Math.max(0, Math.min(1, (virtualTime - tPrev) / span));
+            const isOutgoing = nextMsg.senderRaw === userPersonaRaw;
+
+            if (isOutgoing) {
+              const charLen = (nextMsg.text || '').length;
+              const charsToShow = Math.floor(frac * charLen);
+              composer.setText(nextMsg.text.slice(0, charsToShow));
+              header.setStatus('online');
+              chatView.hideTypingIndicator();
+            } else {
+              composer.setText('');
+              header.setStatus('typing…');
+              chatView.showTypingIndicator();
+            }
+          }
+        } else if (player.state !== 'PLAYING') {
+          chatView.hideTypingIndicator();
+          if (currentIndex >= timeline.messages.length - 1) {
+            composer.setText('');
+            header.setStatus('online');
+          }
+        }
+      },
+    ),
+
     player.on(
       'message',
       /** @param {{ message: import('../../core/parser/index.js').ChatMessage, isSeek: boolean }} payload */
-      async ({ message, isSeek }) => {
+      ({ message, isSeek }) => {
+        chatView.hideTypingIndicator();
         if (isSeek) {
-          chatView.renderWindowAroundIndex(message.id);
+          composer.clear();
+          header.setStatus('online');
+          chatView.renderWindowAroundIndex(message.id, false);
           return;
         }
 
         const isOutgoing = message.senderRaw === userPersonaRaw;
 
         if (isOutgoing) {
-          // Outgoing: simulate typing in composer if speed < 10
-          if (player.speed < 10 && message.text) {
-            const typeDuration =
-              Math.min(600, Math.max(120, message.text.length * 15)) / player.speed;
-            await composer.simulateTyping(message.text, typeDuration);
-          }
+          composer.clear();
           playSendSound();
           chatView.appendMessage(message, message.id);
           announce(`You: ${message.text}`);
         } else {
-          // Incoming message
-          if (player.speed < 10) {
-            header.setStatus('typing…');
-            const delay = Math.min(500, Math.max(100, message.text.length * 10)) / player.speed;
-            setTimeout(() => {
-              header.setStatus('online');
-            }, delay);
-          }
+          header.setStatus('online');
           playReceiveSound();
           chatView.appendMessage(message, message.id);
           announce(`${message.senderDisplayName}: ${message.text}`);
@@ -206,13 +241,6 @@ export function createReplayView({
       /** @param {{ gapMs: number }} payload */ ({ gapMs }) => {
         chatView.appendTimeSkip(gapMs);
         playTickSound();
-      },
-    ),
-
-    player.on(
-      'timeupdate',
-      /** @param {{ progress: number }} payload */ ({ progress }) => {
-        scrubber.setProgress(progress);
       },
     ),
 
@@ -230,19 +258,37 @@ export function createReplayView({
 
     player.on(
       'speedchange',
-      /** @param {{ speed: number }} payload */ ({ speed }) => {
-        controls.setSpeed(speed);
+      /** @param {{ speed: number, rating: number }} payload */ ({ speed, rating }) => {
+        controls.setSpeed(speed, rating);
+        setAudioPlaybackSpeed(speed);
       },
     ),
 
     player.on('end', () => {
       releaseWakeLock();
-      if (onChatEnd) onChatEnd();
+      composer.clear();
+      header.setStatus('online');
+      chatView.hideTypingIndicator();
+      announce('Replay finished. Viewing analytics dashboard.');
+      if (onChatEnd) {
+        onChatEnd();
+      } else {
+        onOpenInsights();
+      }
     }),
   ];
 
-  // Initial render: show first few messages
-  chatView.renderWindowAroundIndex(0);
+  setAudioPlaybackSpeed(player.speed);
+
+  // 8. Pre-Flight 3-2-1 Countdown Overlay with "Start Replay" button
+  const preflightOverlay = createPreflightOverlay({
+    chatTitle,
+    onStart: () => {
+      preflightOverlay.remove();
+      player.play();
+    },
+  });
+  container.appendChild(preflightOverlay);
 
   return {
     element: container,
@@ -253,4 +299,80 @@ export function createReplayView({
     },
     toggleFullscreen,
   };
+}
+
+/**
+ * Creates the 3-2-1 Pre-Flight Countdown Overlay.
+ *
+ * @param {Object} params
+ * @param {string} params.chatTitle
+ * @param {() => void} params.onStart
+ * @returns {HTMLElement}
+ */
+function createPreflightOverlay({ chatTitle, onStart }) {
+  let count = 3;
+  let timerId = /** @type {any} */ (null);
+  let hasStarted = false;
+
+  const countDisplay = el('div', {
+    className: 'wa-preflight-number',
+    text: '3',
+  });
+
+  function startPlayback() {
+    if (hasStarted) return;
+    hasStarted = true;
+    if (timerId) clearInterval(timerId);
+    playTickSound();
+    onStart();
+  }
+
+  const startBtn = el(
+    'button',
+    {
+      className: 'btn btn-primary wa-preflight-start-btn',
+      type: 'button',
+      onClick: () => {
+        startPlayback();
+      },
+    },
+    el('span', { text: 'Start Replay Now' }),
+  );
+
+  const card = el(
+    'div',
+    { className: 'wa-preflight-card' },
+    el('span', { className: 'wa-preflight-badge', text: 'Replay Ready' }),
+    el('h3', { className: 'wa-preflight-title', text: chatTitle }),
+    el('p', { className: 'wa-preflight-sub', text: 'Reliving conversation in' }),
+    countDisplay,
+    startBtn,
+  );
+
+  const overlay = el(
+    'div',
+    {
+      className: 'wa-preflight-overlay',
+      role: 'dialog',
+      aria: { modal: 'true', label: 'Starting replay' },
+    },
+    card,
+  );
+
+  timerId = setInterval(() => {
+    count--;
+    if (count > 0) {
+      countDisplay.textContent = String(count);
+      countDisplay.classList.remove('pulse');
+      // Trigger reflow to restart css animation
+      void countDisplay.offsetWidth;
+      countDisplay.classList.add('pulse');
+      playTickSound();
+    } else {
+      clearInterval(timerId);
+      startPlayback();
+    }
+  }, 900);
+
+  return overlay;
 }

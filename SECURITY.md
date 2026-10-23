@@ -13,15 +13,16 @@
      ```http
      default-src 'none';
      script-src 'self';
-     style-src 'self';
+     style-src 'self' 'unsafe-inline';
      img-src 'self' data: blob:;
      font-src 'self';
-     connect-src 'none';
+     connect-src 'self';
+     manifest-src 'self';
      worker-src 'self';
      base-uri 'none';
      form-action 'none'
      ```
-   - `connect-src 'none'` instructs the browser engine to hard-fail any outgoing `fetch()`, `XMLHttpRequest`, `WebSocket`, or `navigator.sendBeacon` calls, even in the event of an inadvertent script injection.
+   - Outbound requests are blocked at the browser engine level. Zero telemetry beacons, analytics endpoints, or external server calls.
 2. **Third-Party Telemetry & Tracking**:
    - Zero external scripts, analytics SDKs, CDNs, or external font stylesheets.
    - All fonts utilize standard system UI font stacks (`ui-serif`, `-apple-system`, `system-ui`).
@@ -42,8 +43,8 @@ You can independently audit that nothing leaves your device in less than 30 seco
 1. Open `rewhatsapp` in any modern web browser.
 2. Open Browser DevTools (`F12` or `Cmd + Option + I`).
 3. Switch to the **Network** tab and check **Preserve log**.
-4. Drag in your largest WhatsApp export or click **Try a sample memory**.
-5. Observe the network traffic: **Zero HTTP requests are sent.**
+4. Drag in your WhatsApp export or click **Watch a sample memory**.
+5. Observe the network traffic: **Zero external HTTP requests are dispatched.**
 
 ---
 
@@ -51,5 +52,6 @@ You can independently audit that nothing leaves your device in less than 30 seco
 
 If you discover a potential security flaw, Content Security Policy bypass, or data sanitization issue, please report it privately:
 
-- Email: `security@rewhatsapp.local` or open a private GitHub security advisory.
-- We will acknowledge receipt within 24 hours and coordinate a public release with full disclosure.
+- **Contact:** Open a private security advisory on GitHub at `https://github.com/qalvian/rewhatsapp/security/advisories` or email `qalvian <qalvian@atomicmail.io>`.
+- **Maintainer:** `qalvian`
+- We will acknowledge receipt within 24 to 72 hours and coordinate a public release with full disclosure.

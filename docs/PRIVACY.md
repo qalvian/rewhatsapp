@@ -1,69 +1,87 @@
-# Privacy Architecture & Verification Guide
+# Privacy Policy & Architecture (India)
 
-Your WhatsApp conversations contain your most intimate, vulnerable, and cherished moments. When you drag an export into **rewhatsapp**, **none of it ever leaves your browser**.
-
-This document explains our security architecture and how you can independently verify it in your own browser's developer tools.
-
----
-
-## 1. Core Privacy Guarantees
-
-1. **100% Client-Side Processing**:
-   - Files are parsed directly in your browser memory or inside a dedicated local Web Worker.
-   - Text is never uploaded, transferred, or stored on any server.
-2. **Zero Third-Party Assets & CDNs**:
-   - No external fonts (Google Fonts, Adobe Fonts, etc.). Standard system UI fonts are used.
-   - No analytics trackers (Google Analytics, Mixpanel, Sentry, etc.).
-   - No external CDNs (Cloudflare, cdnjs, unpkg, etc.).
-3. **Procedural Web Audio**:
-   - Audio effects (send pops, receive chimes, ticks) are generated dynamically using the Web Audio API oscillator nodes. Zero audio files are downloaded.
-4. **Minimal Local Persistence**:
-   - Only user preferences (`theme`, `playback_speed`, `audio_muted`) are stored in browser `localStorage`.
-   - Your chat messages and participant details are never persisted to disk or indexedDB. Closing or refreshing the tab clears all conversation data from memory immediately.
+**Version:** 1.0  
+**Effective Date:** 23 October 2026  
+**Last Updated:** 23 October 2026  
+**Service Operator:** qalvian  
+**Contact:** qalvian@atomicmail.io  
 
 ---
 
-## 2. Content Security Policy (CSP)
+## 1. Summary & Scope
+This Privacy Policy outlines the technical architecture, data handling, and legal standards governing **rewhatsapp**, an independent personal memory viewer.
 
-`rewhatsapp` serves an uncompromising Content Security Policy via `<meta http-equiv="Content-Security-Policy">`:
-
-```html
-<meta
-  http-equiv="Content-Security-Policy"
-  content="default-src 'none';
-           script-src 'self';
-           style-src 'self';
-           img-src 'self' data: blob:;
-           font-src 'self';
-           connect-src 'none';
-           worker-src 'self';
-           base-uri 'none';
-           form-action 'none'"
-/>
-```
-
-### What this means:
-
-- `connect-src 'none'`: The browser will outright reject any attempt to make network calls via `fetch()`, `XMLHttpRequest`, `WebSocket`, `EventSource`, or `navigator.sendBeacon`.
-- `default-src 'none'`: Blocks all other resource types unless explicitly permitted.
-- `script-src 'self'`: Disallows inline scripts (`<script>...</script>`) and external script URLs.
+rewhatsapp is engineered from the ground up to ensure that **no conversation data, message texts, or media files ever leave your device**. All processing is executed locally in your browser memory.
 
 ---
 
-## 3. How to Verify in DevTools (30-Second Audit)
+## 2. Legal Position: Zero-Server Processing and Data Fiduciary Status
+We do not collect, store, transmit, inspect, or retain your chat exports, message texts, or personal communications.
 
-You do not have to take our word for it. You can verify it yourself in any browser:
+In plain legal terms under Indian law: because we do not determine the purpose or means of processing personal data on our servers, and the user processes their own chat export on their own device for purely personal use, it is our understanding that we do not act as a "Data Fiduciary" or "Data Processor" under the *Digital Personal Data Protection Act, 2023 (DPDPA 2023)* with respect to conversation contents. This represents our architectural and legal understanding of client-side computing and is provided for transparency, not as a contractual warranty or legal guarantee.
 
-1. Open `rewhatsapp` in Chrome, Safari, Firefox, Edge, or Brave.
-2. Open **Developer Tools**:
-   - **Windows/Linux**: Press `F12` or `Ctrl + Shift + I`
-   - **macOS**: Press `Cmd + Option + I`
-3. Click on the **Network** tab.
-4. Ensure the **All** filter is selected and check **Preserve log**.
-5. Drag and drop your WhatsApp export `.txt` or `.zip` file into the portal (or click **Try a sample memory**).
-6. Configure the replay and click **Travel back ✨**.
-7. Watch the conversation replay in real-time.
-8. Look at the Network tab:
-   - Notice that **no network requests are dispatched**.
-   - No background pings, no analytics beacons, no telemetry.
-   - You can even disconnect your Wi-Fi / Ethernet completely after loading the page, and the entire app will function without interruption.
+---
+
+## 3. Data We Do Not Collect
+- **Chats & Messages:** Zero server uploads, parsing is entirely in local RAM.
+- **Contacts & Identifiers:** Phone numbers, names, and avatars stay on device.
+- **Media Attachments:** Handled via local Blob URLs; never uploaded.
+- **IP Logs & Telemetry:** No connection logging by the client application.
+- **Cookies & Trackers:** No advertising tags, tracking pixels, or third-party cookies.
+
+---
+
+## 4. Local Storage Disclosure
+rewhatsapp uses browser `localStorage` solely for optional interface preferences:
+- `rewhatsapp_speed`: Saved playback speed multiplier (e.g. 2×, 5×).
+- `rewhatsapp_muted`: Saved audio mute state (true / false).
+- `rewhatsapp_volume`: Saved audio gain level (0.0 to 1.0).
+- `rewhatsapp_legal_consent_v1`: Saved legal terms acknowledgement (true).
+
+No chat data is ever written to disk or database. To clear preferences, click "Clear stored preferences" on the home page or clear site data in your browser.
+
+---
+
+## 5. Hosting Disclosure
+The static HTML, CSS, and JavaScript files are hosted on **GitHub Pages**. The underlying hosting infrastructure may record standard web server transmission logs (IP address, user agent, request timestamp) as part of ordinary web serving. This occurs outside our direct control under the hosting provider's policies.
+
+---
+
+## 6. Third-Party Data in Chats & User Responsibility
+WhatsApp chats contain third-party communications. Users are solely responsible for ensuring lawful use and are strongly encouraged to obtain consent from other participants for anything beyond private personal viewing.
+
+---
+
+## 7. Children & Eligibility
+Intended for individuals aged 18 years or older. Minors may use only under parental or legal guardian supervision.
+
+---
+
+## 8. Technical Security Safeguards
+- **Strict Content Security Policy (CSP):** `default-src 'none'; script-src 'self'; connect-src 'self';`. The browser engine outright blocks any external network request.
+- **Sandboxed Web Workers:** Local parsing runs in isolated background workers without network access.
+- **Open Source:** Full source code is public for independent verification.
+
+---
+
+## 9. Rights Under DPDPA 2023
+Because rewhatsapp maintains no database, stores zero personal communications, and has no user accounts, access, correction, or erasure requests have no data to act on. Closing the browser tab purges all chat data immediately.
+
+---
+
+## 10. Grievance Officer
+In compliance with the *Information Technology Act, 2000* and applicable rules:
+- **Grievance Officer:** qalvian
+- **Email:** qalvian@atomicmail.io
+- **Address:** India
+- **Timelines:** Acknowledged within 24–72 hours; resolved or formally addressed within 15–30 days.
+
+---
+
+## 11. Applicable Law
+Formulated having regard to:
+- *Information Technology Act, 2000*
+- *Digital Personal Data Protection Act, 2023 (DPDPA 2023)*
+- *Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021*
+- *Consumer Protection Act, 2019 / E-Commerce Rules, 2020*
+*(Note: Legal references are current as of 23 October 2026; statutory provisions may change).*

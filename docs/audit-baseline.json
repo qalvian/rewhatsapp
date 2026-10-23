@@ -1,0 +1,1418 @@
+[
+  {
+    "viewport": {
+      "name": "360x740",
+      "width": 360,
+      "height": 740
+    },
+    "totalHeight": 8096,
+    "ratio": "10.94",
+    "horizontalOverflow": false,
+    "scrollWidth": 360,
+    "sections": [
+      {
+        "name": "Header",
+        "height": 64,
+        "top": 0,
+        "found": true
+      },
+      {
+        "name": "Hero",
+        "height": 1289,
+        "top": 64,
+        "found": true
+      },
+      {
+        "name": "Why",
+        "height": 610,
+        "top": 1365,
+        "found": true
+      },
+      {
+        "name": "How It Works",
+        "height": 940,
+        "top": 1974,
+        "found": true
+      },
+      {
+        "name": "How To Use",
+        "height": 1370,
+        "top": 2914,
+        "found": true
+      },
+      {
+        "name": "Features",
+        "height": 1326,
+        "top": 4284,
+        "found": true
+      },
+      {
+        "name": "Privacy",
+        "height": 1121,
+        "top": 5611,
+        "found": true
+      },
+      {
+        "name": "FAQ",
+        "height": 774,
+        "top": 6732,
+        "found": true
+      },
+      {
+        "name": "CTA Band",
+        "height": 0,
+        "found": false
+      },
+      {
+        "name": "Footer",
+        "height": 279,
+        "top": 7817,
+        "found": true
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Watch a sample memory",
+        "height": 52,
+        "width": 254,
+        "tag": "button",
+        "className": "wa-btn-primary wa-hero-cta-primary wa-sample-memory-btn"
+      },
+      {
+        "text": "iPhone (iOS)",
+        "height": 21,
+        "width": 87,
+        "tag": "button",
+        "className": "wa-export-tab-btn active"
+      },
+      {
+        "text": "Android",
+        "height": 21,
+        "width": 57,
+        "tag": "button",
+        "className": "wa-export-tab-btn"
+      },
+      {
+        "text": "Play chime & pop",
+        "height": 38,
+        "width": 141,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-sound-demo-btn"
+      },
+      {
+        "text": "Clear stored preferences",
+        "height": 21,
+        "width": 172,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-clear-prefs-btn"
+      },
+      {
+        "text": "Privacy in one minute",
+        "height": 21,
+        "width": 152,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-open-privacy-dialog-btn"
+      },
+      {
+        "text": "Watch a sample memory",
+        "height": 21,
+        "width": 191,
+        "tag": "button",
+        "className": "wa-btn-primary"
+      },
+      {
+        "text": "Drop your chat",
+        "height": 21,
+        "width": 122,
+        "tag": "button",
+        "className": "wa-btn-secondary"
+      },
+      {
+        "text": "Watch sample",
+        "height": 44,
+        "width": 158,
+        "tag": "button",
+        "className": "wa-btn-primary wa-mobile-btn"
+      },
+      {
+        "text": "Drop chat",
+        "height": 44,
+        "width": 158,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-mobile-btn"
+      }
+    ],
+    "cards": [
+      {
+        "className": "wa-upload-card",
+        "height": 52,
+        "width": 170,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card",
+        "height": 243,
+        "width": 328,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-step-card-title",
+        "height": 24,
+        "width": 278,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card-desc",
+        "height": 67,
+        "width": 278,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card",
+        "height": 243,
+        "width": 328,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-step-card-title",
+        "height": 24,
+        "width": 278,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card-desc",
+        "height": 67,
+        "width": 278,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card",
+        "height": 243,
+        "width": 328,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-step-card-title",
+        "height": 24,
+        "width": 278,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card-desc",
+        "height": 67,
+        "width": 278,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card",
+        "height": 430,
+        "width": 328,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-guide-card-header",
+        "height": 76,
+        "width": 278,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card",
+        "height": 419,
+        "width": 328,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-guide-card-header",
+        "height": 44,
+        "width": 278,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card",
+        "height": 252,
+        "width": 328,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-guide-card-header",
+        "height": 42,
+        "width": 278,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 278,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 254,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 278,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 278,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-trust-cards-grid",
+        "height": 866,
+        "width": 328,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-card",
+        "height": 393,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card",
+        "height": 450,
+        "width": 328,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-card-heading",
+        "height": 24,
+        "width": 278,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card-desc",
+        "height": 112,
+        "width": 278,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 82,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 82,
+        "width": 328,
+        "hasNestedCard": false
+      }
+    ],
+    "nestedCardsCount": 13,
+    "stickyBarInfo": {
+      "found": true,
+      "height": 69,
+      "visible": true
+    },
+    "minFontSize": 8,
+    "minFontEl": "<span class=\"wa-status-signal\">: \"••••\"",
+    "heroOverlaps": [],
+    "firstScreenCheck": false
+  },
+  {
+    "viewport": {
+      "name": "390x844",
+      "width": 390,
+      "height": 844
+    },
+    "totalHeight": 7747,
+    "ratio": "9.18",
+    "horizontalOverflow": false,
+    "scrollWidth": 390,
+    "sections": [
+      {
+        "name": "Header",
+        "height": 64,
+        "top": 0,
+        "found": true
+      },
+      {
+        "name": "Hero",
+        "height": 1238,
+        "top": 64,
+        "found": true
+      },
+      {
+        "name": "Why",
+        "height": 550,
+        "top": 1314,
+        "found": true
+      },
+      {
+        "name": "How It Works",
+        "height": 940,
+        "top": 1864,
+        "found": true
+      },
+      {
+        "name": "How To Use",
+        "height": 1306,
+        "top": 2803,
+        "found": true
+      },
+      {
+        "name": "Features",
+        "height": 1254,
+        "top": 4109,
+        "found": true
+      },
+      {
+        "name": "Privacy",
+        "height": 1073,
+        "top": 5363,
+        "found": true
+      },
+      {
+        "name": "FAQ",
+        "height": 774,
+        "top": 6437,
+        "found": true
+      },
+      {
+        "name": "CTA Band",
+        "height": 0,
+        "found": false
+      },
+      {
+        "name": "Footer",
+        "height": 262,
+        "top": 7485,
+        "found": true
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Watch a sample memory",
+        "height": 52,
+        "width": 254,
+        "tag": "button",
+        "className": "wa-btn-primary wa-hero-cta-primary wa-sample-memory-btn"
+      },
+      {
+        "text": "iPhone (iOS)",
+        "height": 21,
+        "width": 87,
+        "tag": "button",
+        "className": "wa-export-tab-btn active"
+      },
+      {
+        "text": "Android",
+        "height": 21,
+        "width": 57,
+        "tag": "button",
+        "className": "wa-export-tab-btn"
+      },
+      {
+        "text": "Play chime & pop",
+        "height": 38,
+        "width": 141,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-sound-demo-btn"
+      },
+      {
+        "text": "Clear stored preferences",
+        "height": 21,
+        "width": 172,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-clear-prefs-btn"
+      },
+      {
+        "text": "Privacy in one minute",
+        "height": 21,
+        "width": 152,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-open-privacy-dialog-btn"
+      },
+      {
+        "text": "Watch a sample memory",
+        "height": 21,
+        "width": 191,
+        "tag": "button",
+        "className": "wa-btn-primary"
+      },
+      {
+        "text": "Drop your chat",
+        "height": 21,
+        "width": 122,
+        "tag": "button",
+        "className": "wa-btn-secondary"
+      },
+      {
+        "text": "Watch sample",
+        "height": 44,
+        "width": 173,
+        "tag": "button",
+        "className": "wa-btn-primary wa-mobile-btn"
+      },
+      {
+        "text": "Drop chat",
+        "height": 44,
+        "width": 173,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-mobile-btn"
+      }
+    ],
+    "cards": [
+      {
+        "className": "wa-upload-card",
+        "height": 52,
+        "width": 170,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card",
+        "height": 243,
+        "width": 358,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-step-card-title",
+        "height": 24,
+        "width": 308,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card-desc",
+        "height": 67,
+        "width": 308,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card",
+        "height": 243,
+        "width": 358,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-step-card-title",
+        "height": 24,
+        "width": 308,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card-desc",
+        "height": 67,
+        "width": 308,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card",
+        "height": 243,
+        "width": 358,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-step-card-title",
+        "height": 24,
+        "width": 308,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card-desc",
+        "height": 67,
+        "width": 308,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card",
+        "height": 382,
+        "width": 358,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-guide-card-header",
+        "height": 76,
+        "width": 308,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card",
+        "height": 419,
+        "width": 358,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-guide-card-header",
+        "height": 44,
+        "width": 308,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card",
+        "height": 236,
+        "width": 358,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-guide-card-header",
+        "height": 42,
+        "width": 308,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 254,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 254,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 254,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 254,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-trust-cards-grid",
+        "height": 818,
+        "width": 358,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-card",
+        "height": 369,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card",
+        "height": 426,
+        "width": 358,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-card-heading",
+        "height": 24,
+        "width": 308,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card-desc",
+        "height": 112,
+        "width": 308,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 82,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 82,
+        "width": 358,
+        "hasNestedCard": false
+      }
+    ],
+    "nestedCardsCount": 13,
+    "stickyBarInfo": {
+      "found": true,
+      "height": 69,
+      "visible": true
+    },
+    "minFontSize": 8,
+    "minFontEl": "<span class=\"wa-status-signal\">: \"••••\"",
+    "heroOverlaps": [],
+    "firstScreenCheck": false
+  },
+  {
+    "viewport": {
+      "name": "768x1024",
+      "width": 768,
+      "height": 1024
+    },
+    "totalHeight": 6002,
+    "ratio": "5.86",
+    "horizontalOverflow": false,
+    "scrollWidth": 768,
+    "sections": [
+      {
+        "name": "Header",
+        "height": 64,
+        "top": 0,
+        "found": true
+      },
+      {
+        "name": "Hero",
+        "height": 1166,
+        "top": 64,
+        "found": true
+      },
+      {
+        "name": "Why",
+        "height": 441,
+        "top": 1242,
+        "found": true
+      },
+      {
+        "name": "How It Works",
+        "height": 498,
+        "top": 1683,
+        "found": true
+      },
+      {
+        "name": "How To Use",
+        "height": 1011,
+        "top": 2181,
+        "found": true
+      },
+      {
+        "name": "Features",
+        "height": 738,
+        "top": 3192,
+        "found": true
+      },
+      {
+        "name": "Privacy",
+        "height": 884,
+        "top": 3930,
+        "found": true
+      },
+      {
+        "name": "FAQ",
+        "height": 758,
+        "top": 4813,
+        "found": true
+      },
+      {
+        "name": "CTA Band",
+        "height": 0,
+        "found": false
+      },
+      {
+        "name": "Footer",
+        "height": 182,
+        "top": 5820,
+        "found": true
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Watch sample",
+        "height": 38,
+        "width": 156,
+        "tag": "button",
+        "className": "wa-btn-primary wa-header-sample-btn"
+      },
+      {
+        "text": "Watch a sample memory",
+        "height": 52,
+        "width": 254,
+        "tag": "button",
+        "className": "wa-btn-primary wa-hero-cta-primary wa-sample-memory-btn"
+      },
+      {
+        "text": "iPhone (iOS)",
+        "height": 21,
+        "width": 87,
+        "tag": "button",
+        "className": "wa-export-tab-btn active"
+      },
+      {
+        "text": "Android",
+        "height": 21,
+        "width": 57,
+        "tag": "button",
+        "className": "wa-export-tab-btn"
+      },
+      {
+        "text": "Play chime & pop",
+        "height": 38,
+        "width": 141,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-sound-demo-btn"
+      },
+      {
+        "text": "Clear stored preferences",
+        "height": 21,
+        "width": 172,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-clear-prefs-btn"
+      },
+      {
+        "text": "Privacy in one minute",
+        "height": 21,
+        "width": 152,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-open-privacy-dialog-btn"
+      },
+      {
+        "text": "Watch a sample memory",
+        "height": 21,
+        "width": 191,
+        "tag": "button",
+        "className": "wa-btn-primary"
+      },
+      {
+        "text": "Drop your chat",
+        "height": 21,
+        "width": 122,
+        "tag": "button",
+        "className": "wa-btn-secondary"
+      },
+      {
+        "text": "Watch sample",
+        "height": 44,
+        "width": 362,
+        "tag": "button",
+        "className": "wa-btn-primary wa-mobile-btn"
+      },
+      {
+        "text": "Drop chat",
+        "height": 44,
+        "width": 362,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-mobile-btn"
+      }
+    ],
+    "cards": [
+      {
+        "className": "wa-upload-card",
+        "height": 52,
+        "width": 170,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card",
+        "height": 288,
+        "width": 224,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-step-card-title",
+        "height": 24,
+        "width": 174,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card-desc",
+        "height": 112,
+        "width": 174,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card",
+        "height": 288,
+        "width": 224,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-step-card-title",
+        "height": 24,
+        "width": 174,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card-desc",
+        "height": 112,
+        "width": 174,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card",
+        "height": 288,
+        "width": 224,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-step-card-title",
+        "height": 24,
+        "width": 174,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card-desc",
+        "height": 112,
+        "width": 174,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card",
+        "height": 238,
+        "width": 720,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-guide-card-header",
+        "height": 52,
+        "width": 670,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card",
+        "height": 275,
+        "width": 720,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-guide-card-header",
+        "height": 44,
+        "width": 670,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card",
+        "height": 222,
+        "width": 720,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-guide-card-header",
+        "height": 42,
+        "width": 670,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 254,
+        "width": 350,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 254,
+        "width": 350,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 254,
+        "width": 350,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 254,
+        "width": 350,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-trust-cards-grid",
+        "height": 622,
+        "width": 720,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-card",
+        "height": 345,
+        "width": 720,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card",
+        "height": 254,
+        "width": 720,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-card-heading",
+        "height": 24,
+        "width": 670,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card-desc",
+        "height": 45,
+        "width": 670,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 720,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 720,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 720,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 720,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 720,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 720,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 720,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 720,
+        "hasNestedCard": false
+      }
+    ],
+    "nestedCardsCount": 13,
+    "stickyBarInfo": {
+      "found": true,
+      "height": 69,
+      "visible": true
+    },
+    "minFontSize": 8,
+    "minFontEl": "<span class=\"wa-status-signal\">: \"••••\"",
+    "heroOverlaps": [],
+    "firstScreenCheck": false
+  },
+  {
+    "viewport": {
+      "name": "1440x900",
+      "width": 1440,
+      "height": 900
+    },
+    "totalHeight": 5572,
+    "ratio": "6.19",
+    "horizontalOverflow": false,
+    "scrollWidth": 1440,
+    "sections": [
+      {
+        "name": "Header",
+        "height": 64,
+        "top": 0,
+        "found": true
+      },
+      {
+        "name": "Hero",
+        "height": 770,
+        "top": 64,
+        "found": true
+      },
+      {
+        "name": "Why",
+        "height": 598,
+        "top": 846,
+        "found": true
+      },
+      {
+        "name": "How It Works",
+        "height": 549,
+        "top": 1444,
+        "found": true
+      },
+      {
+        "name": "How To Use",
+        "height": 921,
+        "top": 1993,
+        "found": true
+      },
+      {
+        "name": "Features",
+        "height": 584,
+        "top": 2914,
+        "found": true
+      },
+      {
+        "name": "Privacy",
+        "height": 702,
+        "top": 3498,
+        "found": true
+      },
+      {
+        "name": "FAQ",
+        "height": 854,
+        "top": 4199,
+        "found": true
+      },
+      {
+        "name": "CTA Band",
+        "height": 0,
+        "found": false
+      },
+      {
+        "name": "Footer",
+        "height": 182,
+        "top": 5390,
+        "found": true
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Watch sample",
+        "height": 38,
+        "width": 156,
+        "tag": "button",
+        "className": "wa-btn-primary wa-header-sample-btn"
+      },
+      {
+        "text": "Watch a sample memory",
+        "height": 52,
+        "width": 254,
+        "tag": "button",
+        "className": "wa-btn-primary wa-hero-cta-primary wa-sample-memory-btn"
+      },
+      {
+        "text": "iPhone (iOS)",
+        "height": 21,
+        "width": 87,
+        "tag": "button",
+        "className": "wa-export-tab-btn active"
+      },
+      {
+        "text": "Android",
+        "height": 21,
+        "width": 57,
+        "tag": "button",
+        "className": "wa-export-tab-btn"
+      },
+      {
+        "text": "Play chime & pop",
+        "height": 38,
+        "width": 141,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-sound-demo-btn"
+      },
+      {
+        "text": "Clear stored preferences",
+        "height": 21,
+        "width": 172,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-clear-prefs-btn"
+      },
+      {
+        "text": "Privacy in one minute",
+        "height": 21,
+        "width": 152,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-open-privacy-dialog-btn"
+      },
+      {
+        "text": "Watch a sample memory",
+        "height": 21,
+        "width": 191,
+        "tag": "button",
+        "className": "wa-btn-primary"
+      },
+      {
+        "text": "Drop your chat",
+        "height": 21,
+        "width": 122,
+        "tag": "button",
+        "className": "wa-btn-secondary"
+      }
+    ],
+    "cards": [
+      {
+        "className": "wa-upload-card",
+        "height": 52,
+        "width": 170,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card",
+        "height": 243,
+        "width": 368,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-step-card-title",
+        "height": 24,
+        "width": 318,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card-desc",
+        "height": 67,
+        "width": 318,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card",
+        "height": 243,
+        "width": 368,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-step-card-title",
+        "height": 24,
+        "width": 318,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card-desc",
+        "height": 67,
+        "width": 318,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card",
+        "height": 243,
+        "width": 368,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-step-card-title",
+        "height": 24,
+        "width": 318,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-step-card-desc",
+        "height": 67,
+        "width": 318,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card",
+        "height": 262,
+        "width": 649,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-guide-card-header",
+        "height": 52,
+        "width": 599,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card",
+        "height": 347,
+        "width": 479,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-guide-card-header",
+        "height": 44,
+        "width": 429,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card",
+        "height": 222,
+        "width": 479,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-guide-card-header",
+        "height": 42,
+        "width": 429,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 278,
+        "width": 273,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 278,
+        "width": 273,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 278,
+        "width": 273,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 278,
+        "width": 273,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-trust-cards-grid",
+        "height": 345,
+        "width": 1152,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-card",
+        "height": 345,
+        "width": 564,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card",
+        "height": 345,
+        "width": 564,
+        "hasNestedCard": true
+      },
+      {
+        "className": "wa-card-heading",
+        "height": 24,
+        "width": 514,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-card-desc",
+        "height": 67,
+        "width": 514,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 760,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 760,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 760,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 760,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 760,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 760,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 760,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 58,
+        "width": 760,
+        "hasNestedCard": false
+      }
+    ],
+    "nestedCardsCount": 13,
+    "stickyBarInfo": {
+      "found": true,
+      "height": 0,
+      "visible": false
+    },
+    "minFontSize": 8,
+    "minFontEl": "<span class=\"wa-status-signal\">: \"••••\"",
+    "heroOverlaps": [],
+    "firstScreenCheck": false
+  }
+]

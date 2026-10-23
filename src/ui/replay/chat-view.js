@@ -7,6 +7,7 @@ import {
   createDateChipElement,
   createTimeSkipElement,
   createSystemMessageElement,
+  createBubbleTail,
 } from './bubble.js';
 
 const WINDOW_SIZE = 80;
@@ -22,9 +23,11 @@ const WINDOW_SIZE = 80;
  *   element: HTMLElement;
  *   appendMessage: (message: import('../../core/parser/index.js').ChatMessage, index: number) => void;
  *   appendTimeSkip: (gapMs: number) => void;
- *   renderWindowAroundIndex: (targetIndex: number) => void;
+ *   renderWindowAroundIndex: (targetIndex: number, includeFuture?: boolean) => void;
  *   markOutgoingAsRead: () => void;
  *   scrollToBottom: (smooth?: boolean) => void;
+ *   showTypingIndicator: () => void;
+ *   hideTypingIndicator: () => void;
  *   getRenderedRange: () => { start: number; end: number };
  * }}
  */
@@ -64,7 +67,12 @@ export function createChatView({ timeline, userPersonaRaw, isGroupChat = false }
     el('span', { text: 'Jump to now' }),
   );
 
-  const wrapper = el('div', { className: 'wa-chat-view-wrapper' }, scrollContainer, jumpBtn);
+  const wrapper = el(
+    'div',
+    { className: 'wa-chat-view wa-chat-view-wrapper' },
+    scrollContainer,
+    jumpBtn,
+  );
 
   let isAutoScrollPinned = true;
   let lastSenderRaw = '';
@@ -114,50 +122,108 @@ export function createChatView({ timeline, userPersonaRaw, isGroupChat = false }
     }
   }
 
+  /** @type {HTMLElement | null} */
+  let typingRow = null;
+
   /**
-   * Appends a newly arrived message to the message list.
+   * Shows an animated 3-dot pulsating bubble at the bottom of the chat view
+   * when recipient is typing.
+   */
+  function showTypingIndicator() {
+    if (!typingRow) {
+      typingRow = el(
+        'div',
+        { className: 'wa-message-row wa-row-in wa-typing-row' },
+        el(
+          'div',
+          { className: 'wa-bubble wa-bubble-in wa-typing-bubble' },
+          createBubbleTail(false),
+          el('span', { className: 'wa-typing-dot' }),
+          el('span', { className: 'wa-typing-dot' }),
+          el('span', { className: 'wa-typing-dot' }),
+        ),
+      );
+    }
+    if (typingRow.parentNode !== messageList) {
+      messageList.appendChild(typingRow);
+      if (isAutoScrollPinned) {
+        scrollToBottom(false);
+      }
+    }
+  }
+
+  /**
+   * Hides the in-chat typing indicator.
+   */
+  function hideTypingIndicator() {
+    if (typingRow && typingRow.parentNode === messageList) {
+      messageList.removeChild(typingRow);
+    }
+  }
+
+  /**
+   * Appends a newly arrived message to the message list in strict timeline order.
    * @param {import('../../core/parser/index.js').ChatMessage} message
    * @param {number} index
    */
   function appendMessage(message, index) {
-    // 1. Date chip if day changed
-    if (lastTimestamp > 0 && isDifferentDay(lastTimestamp, message.timestamp)) {
-      messageList.appendChild(createDateChipElement(message.timestamp));
-    } else if (lastTimestamp === 0 && index === 0) {
-      messageList.appendChild(createDateChipElement(message.timestamp));
-    }
-
-    // 2. System messages
-    if (message.type === 'system') {
-      messageList.appendChild(createSystemMessageElement(message.text));
-      lastSenderRaw = '';
-      lastTimestamp = message.timestamp;
-      renderedEndIndex = index;
-      if (isAutoScrollPinned) scrollToBottom(false);
+    hideTypingIndicator();
+    // Avoid duplicate insertions
+    if (messageList.querySelector(`[data-id="${message.id}"]`)) {
       return;
     }
 
-    const isOutgoing = message.senderRaw === userPersonaRaw;
-    const showTail = message.senderRaw !== lastSenderRaw;
+    const fragment = document.createDocumentFragment();
 
-    if (!isOutgoing) {
-      // Recipient replied: outgoing messages are now read
-      markOutgoingAsRead();
+    // 1. Date chip if day changed or first message
+    const isFirstInChat = index === 0;
+    const isFirstInList = messageList.children.length === 0;
+    if (isFirstInChat || isFirstInList) {
+      fragment.appendChild(createDateChipElement(message.timestamp));
+    } else if (lastTimestamp > 0 && isDifferentDay(lastTimestamp, message.timestamp)) {
+      fragment.appendChild(createDateChipElement(message.timestamp));
     }
 
-    const bubbleNode = createMessageBubble({
-      message,
-      isOutgoing,
-      showTail,
-      isGroupChat,
-      isRead: false,
+    // 2. System messages vs standard bubbles
+    if (message.type === 'system') {
+      fragment.appendChild(createSystemMessageElement(message.text));
+      lastSenderRaw = '';
+      lastTimestamp = message.timestamp;
+      renderedEndIndex = Math.max(renderedEndIndex, index);
+    } else {
+      const isOutgoing = message.senderRaw === userPersonaRaw;
+      const showTail = message.senderRaw !== lastSenderRaw;
+
+      if (!isOutgoing) {
+        // Recipient replied: outgoing messages are now read
+        markOutgoingAsRead();
+      }
+
+      const bubbleNode = createMessageBubble({
+        message,
+        isOutgoing,
+        showTail,
+        isGroupChat,
+        isRead: false,
+      });
+
+      fragment.appendChild(bubbleNode);
+      lastSenderRaw = message.senderRaw;
+      lastTimestamp = message.timestamp;
+      renderedEndIndex = Math.max(renderedEndIndex, index);
+    }
+
+    // Monotonic insertion check: ensure DOM order always equals timeline order
+    const nextElem = Array.from(messageList.children).find((child) => {
+      const childId = child instanceof HTMLElement ? child.dataset.id : null;
+      return childId !== null && childId !== undefined && Number(childId) > index;
     });
 
-    messageList.appendChild(bubbleNode);
-
-    lastSenderRaw = message.senderRaw;
-    lastTimestamp = message.timestamp;
-    renderedEndIndex = index;
+    if (nextElem) {
+      messageList.insertBefore(fragment, nextElem);
+    } else {
+      messageList.appendChild(fragment);
+    }
 
     // Prune top elements if DOM exceeds node cap for 60fps performance
     if (messageList.children.length > WINDOW_SIZE * 2) {
@@ -185,16 +251,19 @@ export function createChatView({ timeline, userPersonaRaw, isGroupChat = false }
   }
 
   /**
-   * Renders a window of ~60 messages around a seek target index.
+   * Renders a window of messages around or up to a seek target index.
    * @param {number} targetIndex
+   * @param {boolean} [includeFuture=true]
    */
-  function renderWindowAroundIndex(targetIndex) {
+  function renderWindowAroundIndex(targetIndex, includeFuture = true) {
+    hideTypingIndicator();
+    messageList.classList.add('wa-instant');
     messageList.textContent = '';
     const total = timeline.messages.length;
     if (total === 0) return;
 
-    const start = Math.max(0, targetIndex - 30);
-    const end = Math.min(total - 1, targetIndex + 30);
+    const start = Math.max(0, targetIndex - (includeFuture ? 30 : 60));
+    const end = includeFuture ? Math.min(total - 1, targetIndex + 30) : targetIndex;
 
     renderedStartIndex = start;
     renderedEndIndex = end;
@@ -205,9 +274,9 @@ export function createChatView({ timeline, userPersonaRaw, isGroupChat = false }
       const msg = timeline.messages[i];
       if (!msg) continue;
 
-      if (lastTimestamp > 0 && isDifferentDay(lastTimestamp, msg.timestamp)) {
-        messageList.appendChild(createDateChipElement(msg.timestamp));
-      } else if (i === start) {
+      // Derive date chip strictly from adjacent messages in timeline order
+      const prevMsg = i > 0 ? timeline.messages[i - 1] : null;
+      if (i === 0 || (prevMsg && isDifferentDay(prevMsg.timestamp, msg.timestamp))) {
         messageList.appendChild(createDateChipElement(msg.timestamp));
       }
 
@@ -237,6 +306,12 @@ export function createChatView({ timeline, userPersonaRaw, isGroupChat = false }
     scrollToBottom(false);
     isAutoScrollPinned = true;
     jumpBtn.classList.add('wa-jump-hidden');
+
+    if (typeof window !== 'undefined') {
+      window.requestAnimationFrame(() => {
+        messageList.classList.remove('wa-instant');
+      });
+    }
   }
 
   return {
@@ -246,6 +321,8 @@ export function createChatView({ timeline, userPersonaRaw, isGroupChat = false }
     renderWindowAroundIndex,
     markOutgoingAsRead,
     scrollToBottom,
+    showTypingIndicator,
+    hideTypingIndicator,
     getRenderedRange: () => ({ start: renderedStartIndex, end: renderedEndIndex }),
   };
 }

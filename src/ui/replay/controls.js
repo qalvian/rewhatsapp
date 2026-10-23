@@ -1,18 +1,42 @@
 // @ts-check
 
-import { el, svgEl } from '../../util/dom.js';
+import { el } from '../../util/dom.js';
+import { createIcon } from '../icons.js';
+import { getVolume, setVolume } from '../../audio/synth.js';
 
-const SPEEDS = [0.5, 1, 2, 5, 10, 20];
+export const SPEED_RATINGS = [
+  { rating: -4, badge: '-4×', title: '4× Slower', desc: 'Deep reading pace with long pauses', label: '-4× (4x Slower)' },
+  { rating: -3, badge: '-3×', title: '3× Slower', desc: 'Slow, reflective typing cadence', label: '-3× (3x Slower)' },
+  { rating: -2, badge: '-2×', title: '2× Slower', desc: 'Dramatic tension & cinematic pacing', label: '-2× (2x Slower)' },
+  { rating: -1, badge: '-1×', title: '1.33× Slower', desc: 'Gentle, relaxed human speed', label: '-1× (1.33x Slower)' },
+  { rating: 1, badge: '1×', title: 'Normal Speed', desc: 'Realistic natural human typing speed', label: '1× (Normal Speed)' },
+  { rating: 2, badge: '2×', title: '2× Faster', desc: 'Accelerated typing playback', label: '2× (2x Faster)' },
+  { rating: 3, badge: '3×', title: '3× Faster', desc: 'Quick conversation overview', label: '3× (3x Faster)' },
+  { rating: 4, badge: '4×', title: '4× Faster', desc: 'Rapid catch-up skim', label: '4× (4x Faster)' },
+];
 
 /**
- * Creates the floating frosted-glass playback control pill.
+ * Trigger subtle haptic feedback on supported mobile devices.
+ */
+function haptic() {
+  if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+    try {
+      navigator.vibrate(8);
+    } catch {
+      // Ignore
+    }
+  }
+}
+
+/**
+ * Creates the floating playback control pill and its collapsible FAB state.
  *
  * @param {Object} params
  * @param {() => void} params.onPlayPause
  * @param {() => void} params.onPrev
  * @param {() => void} params.onNext
- * @param {(speed: number) => void} params.onSpeedChange
- * @param {(mode: import('../../core/timeline.js').GapMode) => void} params.onGapModeChange
+ * @param {(speedRating: number) => void} params.onSpeedChange
+ * @param {() => void} [params.onLeave]
  * @param {() => void} params.onInsightsClick
  * @param {() => void} params.onToggleFullscreen
  * @param {() => void} params.onToggleMute
@@ -20,11 +44,13 @@ const SPEEDS = [0.5, 1, 2, 5, 10, 20];
  * @returns {{
  *   element: HTMLElement;
  *   setPlaying: (isPlaying: boolean) => void;
- *   setSpeed: (speed: number) => void;
- *   setGapMode: (mode: import('../../core/timeline.js').GapMode) => void;
+ *   setSpeed: (speed: number, rating?: number) => void;
  *   setMuted: (isMuted: boolean) => void;
  *   resetAutoHide: () => void;
  *   toggleVisibility: () => void;
+ *   collapse: () => void;
+ *   expand: () => void;
+ *   toggleCollapse: () => void;
  * }}
  */
 export function createControlsPill({
@@ -32,190 +58,405 @@ export function createControlsPill({
   onPrev,
   onNext,
   onSpeedChange,
-  onGapModeChange,
+  onLeave,
   onInsightsClick,
   onToggleFullscreen,
   onToggleMute,
   initialMuted = false,
 }) {
   let isPlaying = false;
-  let currentSpeed = 1.0;
-  /** @type {import('../../core/timeline.js').GapMode} */
-  let currentGapMode = 'smart';
+  let currentSpeedRating = 1;
   let isMuted = initialMuted;
+  let isCollapsed = false;
   /** @type {any} */
   let hideTimeout = null;
 
-  // 1. Play / Pause SVGs
-  const playSvg = svgEl(
-    'svg',
-    { viewBox: '0 0 24 24', width: '22', height: '22' },
-    svgEl('polygon', { points: '6,4 20,12 6,20', fill: 'currentColor' }),
+  // 1. Leave Replay button
+  const leaveBtn = el(
+    'button',
+    {
+      className: 'wa-ctrl-btn wa-ctrl-leave',
+      aria: { label: 'Leave replay and return home' },
+      title: 'Leave replay',
+      onClick: () => {
+        haptic();
+        if (onLeave) onLeave();
+      },
+    },
+    createIcon('log-out', { width: 16, height: 16 }),
   );
 
-  const pauseSvg = svgEl(
-    'svg',
-    { viewBox: '0 0 24 24', width: '22', height: '22' },
-    svgEl('rect', { x: '5', y: '4', width: '4', height: '16', rx: '1', fill: 'currentColor' }),
-    svgEl('rect', { x: '15', y: '4', width: '4', height: '16', rx: '1', fill: 'currentColor' }),
-  );
+  // 2. Play / Pause button
+  const playIcon = createIcon('play', { width: 18, height: 18 });
+  const pauseIcon = createIcon('pause', { width: 18, height: 18 });
 
   const playPauseBtn = el(
     'button',
     {
       className: 'wa-ctrl-btn wa-ctrl-playpause',
       aria: { label: 'Play or pause replay (Space)' },
-      onClick: () => onPlayPause(),
+      onClick: () => {
+        haptic();
+        onPlayPause();
+      },
     },
-    playSvg,
+    playIcon,
   );
 
-  // 2. Prev / Next buttons
+  // 3. Prev / Next buttons
   const prevBtn = el(
     'button',
     {
-      className: 'wa-ctrl-btn',
+      className: 'wa-ctrl-btn wa-ctrl-prev',
       aria: { label: 'Previous message (Left arrow)' },
-      onClick: () => onPrev(),
+      onClick: () => {
+        haptic();
+        onPrev();
+      },
     },
-    svgEl(
-      'svg',
-      { viewBox: '0 0 24 24', width: '18', height: '18' },
-      svgEl('polygon', { points: '18,5 8,12 18,19', fill: 'currentColor' }),
-      svgEl('line', {
-        x1: '6',
-        y1: '5',
-        x2: '6',
-        y2: '19',
-        stroke: 'currentColor',
-        'stroke-width': '2.5',
-        'stroke-linecap': 'round',
-      }),
-    ),
+    createIcon('arrow-left', { width: 16, height: 16 }),
   );
 
   const nextBtn = el(
     'button',
     {
-      className: 'wa-ctrl-btn',
+      className: 'wa-ctrl-btn wa-ctrl-next',
       aria: { label: 'Next message (Right arrow)' },
-      onClick: () => onNext(),
+      onClick: () => {
+        haptic();
+        onNext();
+      },
     },
-    svgEl(
-      'svg',
-      { viewBox: '0 0 24 24', width: '18', height: '18' },
-      svgEl('polygon', { points: '6,5 16,12 6,19', fill: 'currentColor' }),
-      svgEl('line', {
-        x1: '18',
-        y1: '5',
-        x2: '18',
-        y2: '19',
-        stroke: 'currentColor',
-        'stroke-width': '2.5',
-        'stroke-linecap': 'round',
-      }),
-    ),
+    createIcon('arrow-right', { width: 16, height: 16 }),
   );
 
-  // 3. Speed Chip (cycles through 0.5x, 1x, 2x, 5x, 10x, 20x)
+  // 4. Speed Multiplier Control (-4x to +4x)
+  const speedWrapper = el('div', { className: 'wa-ctrl-speed-wrapper' });
   const speedBtn = el('button', {
     className: 'wa-ctrl-btn wa-ctrl-speed',
-    aria: { label: 'Cycle playback speed ([ and ])' },
+    aria: { label: 'Playback speed (-4x to +4x)' },
     text: '1×',
-    onClick: () => {
-      const curIndex = SPEEDS.indexOf(currentSpeed);
-      const nextIndex = (curIndex + 1) % SPEEDS.length;
-      const newSpeed = SPEEDS[nextIndex] ?? 1.0;
-      onSpeedChange(newSpeed);
-    },
   });
 
-  // 4. Smart Time mode toggle button
-  const gapModeBtn = el('button', {
-    className: 'wa-ctrl-btn wa-ctrl-gapmode',
-    aria: { label: 'Toggle Smart Time compression mode' },
-    text: '⚡ Smart',
-    onClick: () => {
-      const nextMode =
-        currentGapMode === 'smart' ? 'realtime' : currentGapMode === 'realtime' ? 'fixed' : 'smart';
-      onGapModeChange(nextMode);
-    },
+  const speedPopover = el('div', {
+    className: 'wa-speed-popover',
+    style: 'display: none;',
+    role: 'menu',
+    aria: { label: 'Select playback speed (-4x to +4x)' },
   });
 
-  // 5. Insights Dashboard button
-  const insightsBtn = el(
-    'button',
-    {
-      className: 'wa-ctrl-btn',
-      aria: { label: 'Open Insights Dashboard (I)' },
-      onClick: () => onInsightsClick(),
-    },
-    svgEl(
-      'svg',
-      { viewBox: '0 0 24 24', width: '18', height: '18' },
-      svgEl('path', {
-        d: 'M 4 20 L 20 20',
-        stroke: 'currentColor',
-        'stroke-width': '2',
-        'stroke-linecap': 'round',
+  function renderSpeedOptions() {
+    speedPopover.innerHTML = '';
+
+    const currentItem =
+      SPEED_RATINGS.find((r) => r.rating === currentSpeedRating) || SPEED_RATINGS[4];
+
+    // Header with title and active badge
+    const header = el(
+      'div',
+      { className: 'wa-speed-popover-header' },
+      el('span', { className: 'wa-speed-popover-title', text: 'Replay Speed' }),
+      el('span', {
+        className: `wa-speed-active-badge ${currentSpeedRating < 0 ? 'badge-slow' : currentSpeedRating > 1 ? 'badge-fast' : 'badge-normal'}`,
+        text: currentItem ? `${currentItem.badge} · ${currentItem.title}` : '1×',
       }),
-      svgEl('rect', { x: '6', y: '12', width: '3', height: '6', rx: '1', fill: 'currentColor' }),
-      svgEl('rect', { x: '11', y: '8', width: '3', height: '10', rx: '1', fill: 'currentColor' }),
-      svgEl('rect', { x: '16', y: '4', width: '3', height: '14', rx: '1', fill: 'currentColor' }),
-    ),
-  );
+    );
 
-  // 6. Mute toggle button
+    // Section 1: Slower (Negative Multipliers)
+    const slowSection = el('div', { className: 'wa-speed-section' });
+    const slowLabel = el('div', { className: 'wa-speed-section-label', text: 'Slow Motion' });
+    const slowGrid = el('div', { className: 'wa-speed-grid' });
+
+    // Section 2: Faster (Positive Multipliers)
+    const fastSection = el('div', { className: 'wa-speed-section' });
+    const fastLabel = el('div', { className: 'wa-speed-section-label', text: 'Normal & Fast' });
+    const fastGrid = el('div', { className: 'wa-speed-grid' });
+
+    // Live Caption Footer
+    const captionEl = el('div', {
+      className: 'wa-speed-caption',
+      text: currentItem ? currentItem.desc : 'Realistic natural human typing speed',
+    });
+
+    const slowerRatings = SPEED_RATINGS.filter((r) => r.rating < 0);
+    const fasterRatings = SPEED_RATINGS.filter((r) => r.rating > 0);
+
+    /** @param {(typeof SPEED_RATINGS)[number]} item */
+    const makeChip = (item) => {
+      const isSelected = item.rating === currentSpeedRating;
+      const chip = el(
+        'button',
+        {
+          className: `wa-speed-chip ${isSelected ? 'active' : ''} ${item.rating < 0 ? 'opt-slow' : item.rating > 1 ? 'opt-fast' : 'opt-normal'}`,
+          type: 'button',
+          title: `${item.title}: ${item.desc}`,
+          aria: { label: `${item.title} (${item.badge})` },
+          onClick: (/** @type {MouseEvent} */ e) => {
+            e.stopPropagation();
+            haptic();
+            currentSpeedRating = item.rating;
+            onSpeedChange(item.rating);
+            updateSpeedUI(item.rating);
+            speedPopover.style.display = 'none';
+          },
+          onMouseEnter: () => {
+            captionEl.textContent = `${item.badge} ${item.title}: ${item.desc}`;
+          },
+          onMouseLeave: () => {
+            const active = SPEED_RATINGS.find((r) => r.rating === currentSpeedRating);
+            captionEl.textContent = active ? active.desc : '';
+          },
+        },
+        el('span', { className: 'wa-speed-chip-badge', text: item.badge }),
+      );
+      return chip;
+    };
+
+    slowerRatings.forEach((item) => slowGrid.appendChild(makeChip(item)));
+    fasterRatings.forEach((item) => fastGrid.appendChild(makeChip(item)));
+
+    slowSection.append(slowLabel, slowGrid);
+    fastSection.append(fastLabel, fastGrid);
+
+    speedPopover.append(header, slowSection, fastSection, captionEl);
+  }
+
+  speedBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    haptic();
+    const isShowing = speedPopover.style.display === 'flex';
+    if (!isShowing) {
+      renderSpeedOptions();
+      speedPopover.style.display = 'flex';
+    } else {
+      speedPopover.style.display = 'none';
+    }
+  });
+
+  speedWrapper.append(speedBtn, speedPopover);
+
+  // 5. Audio controls: Mute toggle + Volume Slider
+  const audioGroup = el('div', { className: 'wa-ctrl-audio-group' });
   const muteBtn = el('button', {
     className: 'wa-ctrl-btn wa-ctrl-mute',
     aria: { label: 'Toggle audio sound (M)' },
-    onClick: () => onToggleMute(),
+    onClick: () => {
+      haptic();
+      onToggleMute();
+    },
   });
   updateMuteButton(muteBtn, isMuted);
+
+  const volSlider = /** @type {HTMLInputElement} */ (
+    el('input', {
+      type: 'range',
+      min: '0',
+      max: '1',
+      step: '0.05',
+      value: String(getVolume()),
+      className: 'wa-ctrl-vol-slider',
+      aria: { label: 'Audio volume' },
+    })
+  );
+
+  volSlider.addEventListener('input', () => {
+    const val = parseFloat(volSlider.value);
+    setVolume(val);
+    if (val > 0 && isMuted) {
+      onToggleMute();
+    }
+  });
+
+  audioGroup.append(muteBtn, volSlider);
+
+  // 6. Insights Dashboard button
+  const insightsBtn = el(
+    'button',
+    {
+      className: 'wa-ctrl-btn wa-ctrl-insights',
+      aria: { label: 'Open Analytics & Insights Dashboard (I)' },
+      title: 'Analytics Dashboard',
+      onClick: () => {
+        haptic();
+        onInsightsClick();
+      },
+    },
+    createIcon('insights', { width: 16, height: 16 }),
+  );
 
   // 7. Fullscreen button
   const fsBtn = el(
     'button',
     {
-      className: 'wa-ctrl-btn',
+      className: 'wa-ctrl-btn wa-ctrl-fs',
       aria: { label: 'Toggle fullscreen (F)' },
-      onClick: () => onToggleFullscreen(),
+      onClick: () => {
+        haptic();
+        onToggleFullscreen();
+      },
     },
-    svgEl(
-      'svg',
-      { viewBox: '0 0 24 24', width: '18', height: '18' },
-      svgEl('path', {
-        d: 'M 4 9 L 4 4 L 9 4 M 15 4 L 20 4 L 20 9 M 20 15 L 20 20 L 15 20 M 9 20 L 4 20 L 4 15',
-        fill: 'none',
-        stroke: 'currentColor',
-        'stroke-width': '2.2',
-        'stroke-linecap': 'round',
-        'stroke-linejoin': 'round',
-      }),
-    ),
+    createIcon('fullscreen', { width: 16, height: 16 }),
   );
 
-  const container = el(
+  // 8. Compress to Floating Action Button (FAB)
+  const collapseBtn = el(
+    'button',
+    {
+      className: 'wa-ctrl-btn wa-ctrl-collapse',
+      aria: { label: 'Compress controls into draggable floating button' },
+      title: 'Compress controls',
+      onClick: () => {
+        haptic();
+        collapse();
+      },
+    },
+    createIcon('chevron-down', { width: 17, height: 17 }),
+  );
+
+  // Full Expanded Pill Toolbar
+  const pill = el(
     'div',
     {
       className: 'wa-controls-pill',
       role: 'toolbar',
       aria: { label: 'Replay controls' },
     },
+    leaveBtn,
+    el('div', { className: 'wa-ctrl-divider' }),
     prevBtn,
     playPauseBtn,
     nextBtn,
     el('div', { className: 'wa-ctrl-divider' }),
-    speedBtn,
-    gapModeBtn,
+    speedWrapper,
     el('div', { className: 'wa-ctrl-divider' }),
-    muteBtn,
+    audioGroup,
     insightsBtn,
     fsBtn,
+    collapseBtn,
   );
 
+  // Small Floating Action Button (FAB) when compressed (Draggable anywhere on the screen)
+  const fabSpeedBadge = el('span', { className: 'wa-ctrl-fab-speed', text: '1×' });
+  const fab = el(
+    'button',
+    {
+      className: 'wa-ctrl-fab',
+      type: 'button',
+      style: 'display: none;',
+      aria: { label: 'Expand playback controls (drag to reposition)' },
+      title: 'Expand controls (drag to move)',
+    },
+    createIcon('sliders', { width: 18, height: 18 }),
+    fabSpeedBadge,
+  );
+
+  // Smooth dragging support for the FAB
+  let isDraggingFab = false;
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let fabInitialLeft = 0;
+  let fabInitialTop = 0;
+  let hasMovedFab = false;
+
+  fab.addEventListener('pointerdown', (e) => {
+    isDraggingFab = true;
+    hasMovedFab = false;
+    dragStartX = e.clientX;
+    dragStartY = e.clientY;
+    const r = fab.getBoundingClientRect();
+    fabInitialLeft = r.left;
+    fabInitialTop = r.top;
+    fab.setPointerCapture?.(e.pointerId);
+  });
+
+  fab.addEventListener('pointermove', (e) => {
+    if (!isDraggingFab) return;
+    const dx = e.clientX - dragStartX;
+    const dy = e.clientY - dragStartY;
+    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+      hasMovedFab = true;
+    }
+    if (hasMovedFab) {
+      const w = fab.offsetWidth || 60;
+      const h = fab.offsetHeight || 44;
+      const margin = 12;
+
+      let newLeft = fabInitialLeft + dx;
+      let newTop = fabInitialTop + dy;
+
+      newLeft = Math.max(margin, Math.min(newLeft, window.innerWidth - w - margin));
+      newTop = Math.max(margin, Math.min(newTop, window.innerHeight - h - margin));
+
+      fab.style.position = 'fixed';
+      fab.style.left = `${newLeft}px`;
+      fab.style.top = `${newTop}px`;
+      fab.style.right = 'auto';
+      fab.style.bottom = 'auto';
+    }
+  });
+
+  /** @param {PointerEvent} e */
+  const handleFabPointerUp = (e) => {
+    if (!isDraggingFab) return;
+    isDraggingFab = false;
+    try {
+      fab.releasePointerCapture?.(e.pointerId);
+    } catch {
+      // Ignore
+    }
+    if (!hasMovedFab) {
+      haptic();
+      expand();
+    } else {
+      setTimeout(() => {
+        hasMovedFab = false;
+      }, 50);
+    }
+  };
+
+  fab.addEventListener('pointerup', handleFabPointerUp);
+  fab.addEventListener('pointercancel', handleFabPointerUp);
+  fab.addEventListener('click', () => {
+    if (!hasMovedFab) {
+      haptic();
+      expand();
+    }
+  });
+
+  // Outer wrapper container
+  const container = el(
+    'div',
+    { className: 'wa-controls-wrapper' },
+    pill,
+    fab,
+  );
+
+  // Close speed popover when clicking anywhere outside
+  if (typeof document !== 'undefined') {
+    document.addEventListener('click', (e) => {
+      if (!speedWrapper.contains(/** @type {Node} */ (e.target))) {
+        speedPopover.style.display = 'none';
+      }
+    });
+  }
+
+  // Desktop Magnetic Hover on Pill
+  pill.addEventListener('mousemove', (e) => {
+    if (window.innerWidth < 1024) return;
+    const rect = pill.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const dx = Math.max(-10, Math.min(10, (e.clientX - centerX) * 0.12));
+    const dy = Math.max(-6, Math.min(6, (e.clientY - centerY) * 0.12));
+    pill.style.transform = `translateX(calc(-50% + ${dx.toFixed(1)}px)) translateY(${dy.toFixed(1)}px)`;
+  });
+
+  pill.addEventListener('mouseleave', () => {
+    pill.style.transform = 'translateX(-50%) translateY(0)';
+  });
+
   /**
-   * Resets the auto-hide timer (hides pill after 2.5s of idle time during playback).
+   * Resets the auto-hide timer (hides controls after 2.8s of idle time during playback).
    */
   function resetAutoHide() {
     container.classList.remove('wa-controls-hidden');
@@ -223,44 +464,70 @@ export function createControlsPill({
       clearTimeout(hideTimeout);
       hideTimeout = null;
     }
-    if (isPlaying) {
+    if (isPlaying && !isCollapsed) {
       hideTimeout = setTimeout(() => {
         container.classList.add('wa-controls-hidden');
-      }, 2500);
+      }, 2800);
     }
   }
 
-  container.addEventListener('mouseenter', () => {
+  pill.addEventListener('mouseenter', () => {
     container.classList.remove('wa-controls-hidden');
     if (hideTimeout) clearTimeout(hideTimeout);
   });
 
-  container.addEventListener('mouseleave', () => {
+  pill.addEventListener('mouseleave', () => {
     if (isPlaying) resetAutoHide();
   });
+
+  function collapse() {
+    isCollapsed = true;
+    pill.style.display = 'none';
+    fab.style.display = 'flex';
+    container.classList.add('is-collapsed');
+  }
+
+  function expand() {
+    isCollapsed = false;
+    fab.style.display = 'none';
+    pill.style.display = 'flex';
+    container.classList.remove('is-collapsed');
+    resetAutoHide();
+  }
+
+  /**
+   * @param {number} rating
+   */
+  function updateSpeedUI(rating) {
+    const text = rating > 0 ? `${rating}×` : `${rating}×`;
+    speedBtn.textContent = text;
+    fabSpeedBadge.textContent = text;
+  }
 
   return {
     element: container,
     setPlaying: (playing) => {
       isPlaying = playing;
-      playPauseBtn.replaceChildren(playing ? pauseSvg : playSvg);
+      playPauseBtn.replaceChildren(playing ? pauseIcon : playIcon);
       resetAutoHide();
     },
-    setSpeed: (speed) => {
-      currentSpeed = speed;
-      speedBtn.textContent = `${speed}×`;
-      resetAutoHide();
-    },
-    setGapMode: (mode) => {
-      currentGapMode = mode;
-      gapModeBtn.textContent =
-        mode === 'smart' ? '⚡ Smart' : mode === 'realtime' ? '⏱️ Real' : '⏳ Fixed';
+    setSpeed: (_speed, rating) => {
+      if (typeof rating === 'number') {
+        currentSpeedRating = rating;
+      }
+      updateSpeedUI(currentSpeedRating);
       resetAutoHide();
     },
     setMuted: (muted) => {
       isMuted = muted;
       updateMuteButton(muteBtn, muted);
       resetAutoHide();
+    },
+    collapse,
+    expand,
+    toggleCollapse: () => {
+      if (isCollapsed) expand();
+      else collapse();
     },
     resetAutoHide,
     toggleVisibility: () => {
@@ -275,53 +542,9 @@ export function createControlsPill({
  */
 function updateMuteButton(btn, isMuted) {
   btn.textContent = '';
-  if (isMuted) {
-    btn.appendChild(
-      svgEl(
-        'svg',
-        { viewBox: '0 0 24 24', width: '18', height: '18' },
-        svgEl('path', { d: 'M 11 5 L 6 9 L 2 9 L 2 15 L 6 15 L 11 19 Z', fill: 'currentColor' }),
-        svgEl('line', {
-          x1: '23',
-          y1: '9',
-          x2: '17',
-          y2: '15',
-          stroke: 'currentColor',
-          'stroke-width': '2',
-          'stroke-linecap': 'round',
-        }),
-        svgEl('line', {
-          x1: '17',
-          y1: '9',
-          x2: '23',
-          y2: '15',
-          stroke: 'currentColor',
-          'stroke-width': '2',
-          'stroke-linecap': 'round',
-        }),
-      ),
-    );
-  } else {
-    btn.appendChild(
-      svgEl(
-        'svg',
-        { viewBox: '0 0 24 24', width: '18', height: '18' },
-        svgEl('path', { d: 'M 11 5 L 6 9 L 2 9 L 2 15 L 6 15 L 11 19 Z', fill: 'currentColor' }),
-        svgEl('path', {
-          d: 'M 15.5 8.5 A 5 5 0 0 1 15.5 15.5',
-          fill: 'none',
-          stroke: 'currentColor',
-          'stroke-width': '2',
-          'stroke-linecap': 'round',
-        }),
-        svgEl('path', {
-          d: 'M 19 5 A 9 9 0 0 1 19 19',
-          fill: 'none',
-          stroke: 'currentColor',
-          'stroke-width': '2',
-          'stroke-linecap': 'round',
-        }),
-      ),
-    );
-  }
+  btn.appendChild(
+    isMuted
+      ? createIcon('volume-off', { width: 16, height: 16 })
+      : createIcon('volume', { width: 16, height: 16 }),
+  );
 }

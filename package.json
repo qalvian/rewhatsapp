@@ -11,7 +11,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write \"**/*.{js,json,css,html,md}\"",
     "format:check": "prettier --check \"**/*.{js,json,css,html,md}\"",
-    "serve": "node server.js"
+    "serve": "node scripts/dev-server.js",
+    "dev": "node scripts/dev-server.js"
   },
   "keywords": [
     "whatsapp",
@@ -21,12 +22,24 @@
     "vanilla-js",
     "pwa"
   ],
-  "author": "rewhatsapp contributors",
-  "license": "MIT",
+  "author": "qalvian",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "devDependencies": {
     "@types/node": "^26.6.5",
+    "@vitejs/plugin-react": "^6.1.2",
+    "autoprefixer": "^10.6.1",
     "eslint": "^9.20.0",
+    "postcss": "^8.5.31",
     "prettier": "^3.5.0",
-    "typescript": "^5.7.3"
+    "puppeteer-core": "^25.15.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.7.3",
+    "vite": "^8.3.5"
+  },
+  "dependencies": {
+    "framer-motion": "^14.6.0",
+    "lucide-react": "^1.61.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   }
 }

@@ -1,7 +1,7 @@
 // @ts-check
 /// <reference lib="webworker" />
 
-const CACHE_NAME = 'rewhatsapp-v1.0.0';
+const CACHE_NAME = 'rewhatsapp-v2.0.0';
 
 const PRECACHE_ASSETS = [
   './',
@@ -47,17 +47,21 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // Strictly client-side cache-first strategy for local requests
   // @ts-ignore
   const request = event.request;
   if (request.method !== 'GET') return;
 
+  // On localhost / local dev, always bypass cache to prevent stale builds
+  const url = new URL(request.url);
+  if (url.hostname === 'localhost' || url.hostname === '127.0.0.1') {
+    return;
+  }
+
+  // Network-first strategy for production PWA
   // @ts-ignore
   event.respondWith(
-    caches.match(request).then((cached) => {
-      if (cached) return cached;
-      return fetch(request).then((networkResponse) => {
-        // Cache newly fetched valid responses
+    fetch(request)
+      .then((networkResponse) => {
         if (
           networkResponse &&
           networkResponse.status === 200 &&
@@ -67,7 +71,7 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(request, responseClone));
         }
         return networkResponse;
-      });
-    }),
+      })
+      .catch(() => caches.match(request)),
   );
 });

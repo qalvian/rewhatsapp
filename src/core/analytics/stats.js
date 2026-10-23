@@ -5,6 +5,10 @@
  * @property {string} displayName
  * @property {number} messageCount
  * @property {number} wordCount
+ * @property {number} charCount
+ * @property {number} messageRatio
+ * @property {number} wordRatio
+ * @property {number} charRatio
  * @property {number} conversationsStarted
  * @property {number} conversationsEnded
  * @property {number} medianResponseTimeMinutes
@@ -15,6 +19,7 @@
  * @typedef {Object} ChatInsights
  * @property {number} totalMessages
  * @property {number} totalWords
+ * @property {number} totalChars
  * @property {number} totalDaysSpanned
  * @property {number} longestStreakDays
  * @property {{ durationMs: number; fromDate: number; toDate: number; fromSender: string; toSender: string }} longestSilence
@@ -53,6 +58,7 @@ export function computeChatStats(messages, participants) {
     return {
       totalMessages: 0,
       totalWords: 0,
+      totalChars: 0,
       totalDaysSpanned: 0,
       longestStreakDays: 0,
       longestSilence: { durationMs: 0, fromDate: 0, toDate: 0, fromSender: '', toSender: '' },
@@ -75,7 +81,7 @@ export function computeChatStats(messages, participants) {
   const heatmap = Array.from({ length: 7 }, () => new Array(24).fill(0));
   /** @type {Record<string, number>} */
   const calendarVolume = {};
-  /** @type {Map<string, { wordCount: number; messageCount: number; responseTimesMs: number[]; started: number; ended: number; emojiCounts: Map<string, number> }>} */
+  /** @type {Map<string, { wordCount: number; charCount: number; messageCount: number; responseTimesMs: number[]; started: number; ended: number; emojiCounts: Map<string, number> }>} */
   const pBuckets = new Map();
   /** @type {Map<string, number>} */
   const overallEmojiCounts = new Map();
@@ -83,6 +89,7 @@ export function computeChatStats(messages, participants) {
   for (const p of participants) {
     pBuckets.set(p.raw, {
       wordCount: 0,
+      charCount: 0,
       messageCount: 0,
       responseTimesMs: [],
       started: 0,
@@ -92,6 +99,7 @@ export function computeChatStats(messages, participants) {
   }
 
   let totalWords = 0;
+  let totalChars = 0;
   let maxSilenceMs = 0;
   let silenceFromDate = messages[0].timestamp;
   let silenceToDate = messages[0].timestamp;
@@ -114,7 +122,9 @@ export function computeChatStats(messages, participants) {
     const dateKey = `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(date.getUTCDate()).padStart(2, '0')}`;
     calendarVolume[dateKey] = (calendarVolume[dateKey] || 0) + 1;
 
-    // Word count
+    // Word and character count
+    const chars = (msg.text || '').length;
+    totalChars += chars;
     const words = msg.text
       .trim()
       .split(/\s+/)
@@ -131,6 +141,7 @@ export function computeChatStats(messages, participants) {
     if (bucket) {
       bucket.messageCount++;
       bucket.wordCount += words;
+      bucket.charCount += chars;
       for (const em of emojis) {
         bucket.emojiCounts.set(em, (bucket.emojiCounts.get(em) || 0) + 1);
       }
@@ -201,6 +212,7 @@ export function computeChatStats(messages, participants) {
   const participantStats = participants.map((p) => {
     const b = pBuckets.get(p.raw) || {
       wordCount: 0,
+      charCount: 0,
       messageCount: 0,
       responseTimesMs: [],
       started: 0,
@@ -219,6 +231,10 @@ export function computeChatStats(messages, participants) {
       displayName: p.displayName,
       messageCount: b.messageCount,
       wordCount: b.wordCount,
+      charCount: b.charCount,
+      messageRatio: totalMessages > 0 ? b.messageCount / totalMessages : 0,
+      wordRatio: totalWords > 0 ? b.wordCount / totalWords : 0,
+      charRatio: totalChars > 0 ? b.charCount / totalChars : 0,
       conversationsStarted: b.started,
       conversationsEnded: b.ended,
       medianResponseTimeMinutes: Math.round((medianMs / 60000) * 10) / 10,
@@ -253,6 +269,7 @@ export function computeChatStats(messages, participants) {
   return {
     totalMessages,
     totalWords,
+    totalChars,
     totalDaysSpanned,
     longestStreakDays,
     longestSilence: {

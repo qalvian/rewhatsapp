@@ -1,0 +1,942 @@
+[
+  {
+    "viewport": {
+      "name": "360x740",
+      "width": 360,
+      "height": 740
+    },
+    "totalHeight": 5210,
+    "ratio": "7.04",
+    "horizontalOverflow": false,
+    "scrollWidth": 360,
+    "sections": [
+      {
+        "name": "Header",
+        "height": 56,
+        "top": 0,
+        "found": true
+      },
+      {
+        "name": "Hero",
+        "height": 882,
+        "top": 56,
+        "found": true
+      },
+      {
+        "name": "Why",
+        "height": 532,
+        "top": 938,
+        "found": true
+      },
+      {
+        "name": "How It Works",
+        "height": 533,
+        "top": 1470,
+        "found": true
+      },
+      {
+        "name": "How To Use",
+        "height": 862,
+        "top": 2003,
+        "found": true
+      },
+      {
+        "name": "Features",
+        "height": 436,
+        "top": 2865,
+        "found": true
+      },
+      {
+        "name": "Privacy",
+        "height": 711,
+        "top": 3300,
+        "found": true
+      },
+      {
+        "name": "FAQ",
+        "height": 645,
+        "top": 4012,
+        "found": true
+      },
+      {
+        "name": "CTA Band",
+        "height": 237,
+        "top": 4657,
+        "found": true
+      },
+      {
+        "name": "Footer",
+        "height": 252,
+        "top": 4894,
+        "found": true
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Watch sample memoryWatch ",
+        "height": 46,
+        "width": 175,
+        "tag": "button",
+        "className": "wa-btn-primary wa-hero-cta-primary wa-sample-memory-btn"
+      },
+      {
+        "text": "Upload your chatUpload ch",
+        "height": 46,
+        "width": 141,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-hero-cta-secondary"
+      },
+      {
+        "text": "iPhone (iOS)",
+        "height": 38,
+        "width": 101,
+        "tag": "button",
+        "className": "wa-export-tab-btn active"
+      },
+      {
+        "text": "Android",
+        "height": 38,
+        "width": 76,
+        "tag": "button",
+        "className": "wa-export-tab-btn"
+      },
+      {
+        "text": "Test soft sound",
+        "height": 38,
+        "width": 130,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-sound-demo-btn"
+      },
+      {
+        "text": "Clear stored preferences",
+        "height": 40,
+        "width": 173,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-clear-prefs-btn"
+      },
+      {
+        "text": "Privacy in 1 minute",
+        "height": 40,
+        "width": 140,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-open-privacy-dialog-btn"
+      },
+      {
+        "text": "Watch sample",
+        "height": 44,
+        "width": 159,
+        "tag": "button",
+        "className": "wa-btn-primary"
+      },
+      {
+        "text": "Upload chat",
+        "height": 44,
+        "width": 148,
+        "tag": "button",
+        "className": "wa-btn-secondary"
+      },
+      {
+        "text": "Watch sample memory",
+        "height": 44,
+        "width": 328,
+        "tag": "button",
+        "className": "wa-btn-primary wa-mobile-btn"
+      }
+    ],
+    "cards": [
+      {
+        "className": "wa-guide-main-card",
+        "height": 308,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 201,
+        "width": 269,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 201,
+        "width": 269,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 201,
+        "width": 269,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 201,
+        "width": 269,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 70,
+        "width": 328,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 70,
+        "width": 328,
+        "hasNestedCard": false
+      }
+    ],
+    "nestedCardsCount": 0,
+    "stickyBarInfo": {
+      "found": true,
+      "height": 60,
+      "visible": true
+    },
+    "minFontSize": 11.5,
+    "minFontEl": "<span class=\"wa-badge-text\">: \"PRIVACY-FIRST\"",
+    "heroOverlaps": [],
+    "firstScreenCheck": true
+  },
+  {
+    "viewport": {
+      "name": "390x844",
+      "width": 390,
+      "height": 844
+    },
+    "totalHeight": 4978,
+    "ratio": "5.90",
+    "horizontalOverflow": false,
+    "scrollWidth": 390,
+    "sections": [
+      {
+        "name": "Header",
+        "height": 56,
+        "top": 0,
+        "found": true
+      },
+      {
+        "name": "Hero",
+        "height": 862,
+        "top": 56,
+        "found": true
+      },
+      {
+        "name": "Why",
+        "height": 532,
+        "top": 918,
+        "found": true
+      },
+      {
+        "name": "How It Works",
+        "height": 492,
+        "top": 1450,
+        "found": true
+      },
+      {
+        "name": "How To Use",
+        "height": 803,
+        "top": 1943,
+        "found": true
+      },
+      {
+        "name": "Features",
+        "height": 436,
+        "top": 2745,
+        "found": true
+      },
+      {
+        "name": "Privacy",
+        "height": 689,
+        "top": 3181,
+        "found": true
+      },
+      {
+        "name": "FAQ",
+        "height": 624,
+        "top": 3870,
+        "found": true
+      },
+      {
+        "name": "CTA Band",
+        "height": 237,
+        "top": 4494,
+        "found": true
+      },
+      {
+        "name": "Footer",
+        "height": 183,
+        "top": 4731,
+        "found": true
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Watch sample memoryWatch ",
+        "height": 46,
+        "width": 191,
+        "tag": "button",
+        "className": "wa-btn-primary wa-hero-cta-primary wa-sample-memory-btn"
+      },
+      {
+        "text": "Upload your chatUpload ch",
+        "height": 46,
+        "width": 155,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-hero-cta-secondary"
+      },
+      {
+        "text": "iPhone (iOS)",
+        "height": 38,
+        "width": 101,
+        "tag": "button",
+        "className": "wa-export-tab-btn active"
+      },
+      {
+        "text": "Android",
+        "height": 38,
+        "width": 76,
+        "tag": "button",
+        "className": "wa-export-tab-btn"
+      },
+      {
+        "text": "Test soft sound",
+        "height": 38,
+        "width": 130,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-sound-demo-btn"
+      },
+      {
+        "text": "Clear stored preferences",
+        "height": 40,
+        "width": 173,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-clear-prefs-btn"
+      },
+      {
+        "text": "Privacy in 1 minute",
+        "height": 40,
+        "width": 140,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-open-privacy-dialog-btn"
+      },
+      {
+        "text": "Watch sample",
+        "height": 44,
+        "width": 159,
+        "tag": "button",
+        "className": "wa-btn-primary"
+      },
+      {
+        "text": "Upload chat",
+        "height": 44,
+        "width": 148,
+        "tag": "button",
+        "className": "wa-btn-secondary"
+      },
+      {
+        "text": "Watch sample memory",
+        "height": 44,
+        "width": 358,
+        "tag": "button",
+        "className": "wa-btn-primary wa-mobile-btn"
+      }
+    ],
+    "cards": [
+      {
+        "className": "wa-guide-main-card",
+        "height": 288,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 201,
+        "width": 294,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 201,
+        "width": 294,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 201,
+        "width": 294,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 201,
+        "width": 294,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 358,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 70,
+        "width": 358,
+        "hasNestedCard": false
+      }
+    ],
+    "nestedCardsCount": 0,
+    "stickyBarInfo": {
+      "found": true,
+      "height": 60,
+      "visible": true
+    },
+    "minFontSize": 11.5,
+    "minFontEl": "<span class=\"wa-badge-text\">: \"PRIVACY-FIRST\"",
+    "heroOverlaps": [],
+    "firstScreenCheck": true
+  },
+  {
+    "viewport": {
+      "name": "768x1024",
+      "width": 768,
+      "height": 1024
+    },
+    "totalHeight": 4709,
+    "ratio": "4.60",
+    "horizontalOverflow": false,
+    "scrollWidth": 768,
+    "sections": [
+      {
+        "name": "Header",
+        "height": 56,
+        "top": 0,
+        "found": true
+      },
+      {
+        "name": "Hero",
+        "height": 899,
+        "top": 56,
+        "found": true
+      },
+      {
+        "name": "Why",
+        "height": 433,
+        "top": 955,
+        "found": true
+      },
+      {
+        "name": "How It Works",
+        "height": 354,
+        "top": 1387,
+        "found": true
+      },
+      {
+        "name": "How To Use",
+        "height": 738,
+        "top": 1742,
+        "found": true
+      },
+      {
+        "name": "Features",
+        "height": 662,
+        "top": 2480,
+        "found": true
+      },
+      {
+        "name": "Privacy",
+        "height": 593,
+        "top": 3141,
+        "found": true
+      },
+      {
+        "name": "FAQ",
+        "height": 612,
+        "top": 3735,
+        "found": true
+      },
+      {
+        "name": "CTA Band",
+        "height": 215,
+        "top": 4347,
+        "found": true
+      },
+      {
+        "name": "Footer",
+        "height": 148,
+        "top": 4562,
+        "found": true
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Watch sample",
+        "height": 40,
+        "width": 137,
+        "tag": "button",
+        "className": "wa-btn-primary wa-header-sample-btn"
+      },
+      {
+        "text": "Watch sample memoryWatch ",
+        "height": 46,
+        "width": 294,
+        "tag": "button",
+        "className": "wa-btn-primary wa-hero-cta-primary wa-sample-memory-btn"
+      },
+      {
+        "text": "Upload your chatUpload ch",
+        "height": 46,
+        "width": 234,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-hero-cta-secondary"
+      },
+      {
+        "text": "iPhone (iOS)",
+        "height": 38,
+        "width": 101,
+        "tag": "button",
+        "className": "wa-export-tab-btn active"
+      },
+      {
+        "text": "Android",
+        "height": 38,
+        "width": 76,
+        "tag": "button",
+        "className": "wa-export-tab-btn"
+      },
+      {
+        "text": "Test soft sound",
+        "height": 38,
+        "width": 130,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-sound-demo-btn"
+      },
+      {
+        "text": "Clear stored preferences",
+        "height": 40,
+        "width": 173,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-clear-prefs-btn"
+      },
+      {
+        "text": "Privacy in 1 minute",
+        "height": 40,
+        "width": 140,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-open-privacy-dialog-btn"
+      },
+      {
+        "text": "Watch sample",
+        "height": 44,
+        "width": 159,
+        "tag": "button",
+        "className": "wa-btn-primary"
+      },
+      {
+        "text": "Upload chat",
+        "height": 44,
+        "width": 148,
+        "tag": "button",
+        "className": "wa-btn-secondary"
+      }
+    ],
+    "cards": [
+      {
+        "className": "wa-guide-main-card",
+        "height": 223,
+        "width": 720,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 209,
+        "width": 352,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 209,
+        "width": 352,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 209,
+        "width": 352,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 209,
+        "width": 352,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 720,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 720,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 720,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 720,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 720,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 720,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 720,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 720,
+        "hasNestedCard": false
+      }
+    ],
+    "nestedCardsCount": 0,
+    "stickyBarInfo": {
+      "found": true,
+      "height": 0,
+      "visible": false
+    },
+    "minFontSize": 11.5,
+    "minFontEl": "<span class=\"wa-badge-text\">: \"PRIVACY-FIRST\"",
+    "heroOverlaps": [],
+    "firstScreenCheck": true
+  },
+  {
+    "viewport": {
+      "name": "1440x900",
+      "width": 1440,
+      "height": 900
+    },
+    "totalHeight": 4750,
+    "ratio": "5.28",
+    "horizontalOverflow": false,
+    "scrollWidth": 1440,
+    "sections": [
+      {
+        "name": "Header",
+        "height": 56,
+        "top": 0,
+        "found": true
+      },
+      {
+        "name": "Hero",
+        "height": 780,
+        "top": 56,
+        "found": true
+      },
+      {
+        "name": "Why",
+        "height": 509,
+        "top": 836,
+        "found": true
+      },
+      {
+        "name": "How It Works",
+        "height": 389,
+        "top": 1345,
+        "found": true
+      },
+      {
+        "name": "How To Use",
+        "height": 606,
+        "top": 1733,
+        "found": true
+      },
+      {
+        "name": "Features",
+        "height": 717,
+        "top": 2339,
+        "found": true
+      },
+      {
+        "name": "Privacy",
+        "height": 648,
+        "top": 3056,
+        "found": true
+      },
+      {
+        "name": "FAQ",
+        "height": 667,
+        "top": 3704,
+        "found": true
+      },
+      {
+        "name": "CTA Band",
+        "height": 231,
+        "top": 4371,
+        "found": true
+      },
+      {
+        "name": "Footer",
+        "height": 148,
+        "top": 4602,
+        "found": true
+      }
+    ],
+    "buttons": [
+      {
+        "text": "Watch sample",
+        "height": 40,
+        "width": 137,
+        "tag": "button",
+        "className": "wa-btn-primary wa-header-sample-btn"
+      },
+      {
+        "text": "Watch sample memoryWatch ",
+        "height": 48,
+        "width": 221,
+        "tag": "button",
+        "className": "wa-btn-primary wa-hero-cta-primary wa-sample-memory-btn"
+      },
+      {
+        "text": "Upload your chatUpload ch",
+        "height": 48,
+        "width": 179,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-hero-cta-secondary"
+      },
+      {
+        "text": "iPhone (iOS)",
+        "height": 38,
+        "width": 101,
+        "tag": "button",
+        "className": "wa-export-tab-btn active"
+      },
+      {
+        "text": "Android",
+        "height": 38,
+        "width": 76,
+        "tag": "button",
+        "className": "wa-export-tab-btn"
+      },
+      {
+        "text": "Test soft sound",
+        "height": 38,
+        "width": 130,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-sound-demo-btn"
+      },
+      {
+        "text": "Clear stored preferences",
+        "height": 40,
+        "width": 173,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-clear-prefs-btn"
+      },
+      {
+        "text": "Privacy in 1 minute",
+        "height": 40,
+        "width": 140,
+        "tag": "button",
+        "className": "wa-btn-secondary wa-open-privacy-dialog-btn"
+      },
+      {
+        "text": "Watch sample",
+        "height": 44,
+        "width": 159,
+        "tag": "button",
+        "className": "wa-btn-primary"
+      },
+      {
+        "text": "Upload chat",
+        "height": 44,
+        "width": 148,
+        "tag": "button",
+        "className": "wa-btn-secondary"
+      }
+    ],
+    "cards": [
+      {
+        "className": "wa-guide-main-card",
+        "height": 274,
+        "width": 524,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 209,
+        "width": 528,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 209,
+        "width": 528,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 209,
+        "width": 528,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-feature-card",
+        "height": 209,
+        "width": 528,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 1072,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 1072,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 1072,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 1072,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 1072,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 1072,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 1072,
+        "hasNestedCard": false
+      },
+      {
+        "className": "wa-faq-item",
+        "height": 49,
+        "width": 1072,
+        "hasNestedCard": false
+      }
+    ],
+    "nestedCardsCount": 0,
+    "stickyBarInfo": {
+      "found": true,
+      "height": 0,
+      "visible": false
+    },
+    "minFontSize": 11.5,
+    "minFontEl": "<span class=\"wa-badge-text\">: \"PRIVACY-FIRST\"",
+    "heroOverlaps": [],
+    "firstScreenCheck": true
+  }
+]

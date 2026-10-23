@@ -1,9 +1,19 @@
 // @ts-check
 
-import { el, svgEl } from '../../util/dom.js';
+import { el } from '../../util/dom.js';
+import { createIcon } from '../icons.js';
+
+const COLOR_LOWER = '#059669'; // Deep Emerald Green (Participant with fewer stats)
+const COLOR_HIGHER = '#DC2626'; // Muted Crimson / Red (Participant with higher stats)
 
 /**
- * Creates the Insights Dashboard (bottom sheet on mobile, side panel on desktop).
+ * Creates the Insights & Analytics Dashboard.
+ * Includes:
+ * - Who Replied More graph (Emerald Green for lower stats, Crimson for higher stats)
+ * - Incoming vs. Outgoing Ratios (messages, words, characters)
+ * - Comprehensive metrics grid
+ * - 7x24 Activity heatmap
+ * - Emoji leaderboard
  *
  * @param {Object} params
  * @param {import('../../core/analytics/stats.js').ChatInsights} params.stats
@@ -26,33 +36,22 @@ export function createInsightsDashboard({ stats, onClose }) {
   const header = el(
     'div',
     { className: 'wa-insights-header' },
-    el('h2', {
-      id: 'insights-dialog-title',
-      className: 'wa-insights-title',
-      text: 'Conversation Insights',
-    }),
+    el('div', { className: 'wa-insights-title-wrap' },
+      el('span', { className: 'wa-insights-badge', text: 'Chat Intelligence' }),
+      el('h2', {
+        id: 'insights-dialog-title',
+        className: 'wa-insights-title',
+        text: 'Conversation Analytics',
+      }),
+    ),
     el(
       'button',
       {
         className: 'wa-insights-close-btn',
         type: 'button',
-        aria: { label: 'Close insights panel' },
+        aria: { label: 'Close analytics panel' },
       },
-      svgEl(
-        'svg',
-        {
-          viewBox: '0 0 24 24',
-          width: '20',
-          height: '20',
-          fill: 'none',
-          stroke: 'currentColor',
-          'stroke-width': '2',
-          'stroke-linecap': 'round',
-          'stroke-linejoin': 'round',
-        },
-        svgEl('line', { x1: '18', y1: '6', x2: '6', y2: '18' }),
-        svgEl('line', { x1: '6', y1: '6', x2: '18', y2: '18' }),
-      ),
+      createIcon('close', { width: 20, height: 20 }),
     ),
   );
 
@@ -63,13 +62,158 @@ export function createInsightsDashboard({ stats, onClose }) {
 
   const content = el('div', { className: 'wa-insights-content' });
 
-  // 1. Overview Metric Cards Grid
+  // =========================================================================
+  // 1. "Who Replied More" Graph & Incoming vs. Outgoing Ratios
+  // =========================================================================
+  const pStats = stats.participantStats;
+  if (pStats.length >= 2) {
+    const p1 = pStats[0];
+    const p2 = pStats[1];
+
+    // Determine colors: lower stat = Emerald (#059669), higher stat = Crimson (#DC2626)
+    const isP1LowerMsg = p1.messageCount < p2.messageCount;
+    const isTieMsg = p1.messageCount === p2.messageCount;
+
+    const p1Color = isTieMsg ? COLOR_LOWER : isP1LowerMsg ? COLOR_LOWER : COLOR_HIGHER;
+    const p2Color = isTieMsg ? COLOR_LOWER : isP1LowerMsg ? COLOR_HIGHER : COLOR_LOWER;
+
+    const p1PctMsg = Math.round((p1.messageRatio || 0) * 100);
+    const p2PctMsg = Math.max(0, 100 - p1PctMsg);
+
+    // Who Replied More Section
+    const replyGraphSection = el('div', { className: 'wa-insights-section wa-analytics-card' });
+    replyGraphSection.appendChild(
+      el('div', { className: 'wa-analytics-card-header' },
+        el('h3', { className: 'wa-section-title', text: 'Who Replied More' }),
+        el('span', {
+          className: 'wa-analytics-pill',
+          text: isTieMsg ? 'Evenly Balanced' : `${isP1LowerMsg ? p2.displayName : p1.displayName} sent more`,
+        }),
+      ),
+    );
+
+    // Participant comparison bar
+    const barTrack = el('div', {
+      className: 'wa-ratio-bar-track',
+      role: 'meter',
+      aria: {
+        valuenow: String(p1PctMsg),
+        valuemin: '0',
+        valuemax: '100',
+        label: `Message ratio: ${p1.displayName} ${p1PctMsg}%, ${p2.displayName} ${p2PctMsg}%`,
+      },
+    });
+
+    const segmentP1 = el('div', {
+      className: 'wa-ratio-bar-segment',
+      style: `width: ${p1PctMsg}%; background-color: ${p1Color};`,
+      title: `${p1.displayName}: ${p1.messageCount.toLocaleString()} messages (${p1PctMsg}%)`,
+    });
+
+    const segmentP2 = el('div', {
+      className: 'wa-ratio-bar-segment',
+      style: `width: ${p2PctMsg}%; background-color: ${p2Color};`,
+      title: `${p2.displayName}: ${p2.messageCount.toLocaleString()} messages (${p2PctMsg}%)`,
+    });
+
+    barTrack.append(segmentP1, segmentP2);
+
+    // Legend items below bar
+    const legendRow = el('div', { className: 'wa-ratio-legend-row' });
+    const legendP1 = el(
+      'div',
+      { className: 'wa-ratio-legend-item' },
+      el('span', { className: 'wa-legend-dot', style: `background-color: ${p1Color};` }),
+      el('span', { className: 'wa-legend-name', text: p1.displayName }),
+      el('strong', { className: 'wa-legend-stat', text: `${p1.messageCount.toLocaleString()} msgs (${p1PctMsg}%)` }),
+      el('span', {
+        className: `wa-stat-tag ${isP1LowerMsg ? 'tag-lower' : 'tag-higher'}`,
+        text: isTieMsg ? 'Equal' : isP1LowerMsg ? 'Fewer messages' : 'More messages',
+      }),
+    );
+
+    const legendP2 = el(
+      'div',
+      { className: 'wa-ratio-legend-item' },
+      el('span', { className: 'wa-legend-dot', style: `background-color: ${p2Color};` }),
+      el('span', { className: 'wa-legend-name', text: p2.displayName }),
+      el('strong', { className: 'wa-legend-stat', text: `${p2.messageCount.toLocaleString()} msgs (${p2PctMsg}%)` }),
+      el('span', {
+        className: `wa-stat-tag ${!isP1LowerMsg && !isTieMsg ? 'tag-lower' : 'tag-higher'}`,
+        text: isTieMsg ? 'Equal' : !isP1LowerMsg ? 'Fewer messages' : 'More messages',
+      }),
+    );
+
+    legendRow.append(legendP1, legendP2);
+    replyGraphSection.append(barTrack, legendRow);
+    content.appendChild(replyGraphSection);
+
+    // Ratios Grid: Messages, Words, Characters
+    const ratiosGrid = el('div', { className: 'wa-ratios-grid' });
+
+    // 1. Message Ratio
+    ratiosGrid.appendChild(
+      createRatioCard({
+        title: 'Message Ratio',
+        p1Name: p1.displayName,
+        p2Name: p2.displayName,
+        p1Val: p1.messageCount,
+        p2Val: p2.messageCount,
+        p1Pct: p1PctMsg,
+        p2Pct: p2PctMsg,
+        unit: 'msgs',
+      }),
+    );
+
+    // 2. Word Ratio
+    const isP1LowerWords = p1.wordCount < p2.wordCount;
+    const p1PctWords = Math.round((p1.wordRatio || 0) * 100);
+    const p2PctWords = Math.max(0, 100 - p1PctWords);
+    ratiosGrid.appendChild(
+      createRatioCard({
+        title: 'Words Shared',
+        p1Name: p1.displayName,
+        p2Name: p2.displayName,
+        p1Val: p1.wordCount,
+        p2Val: p2.wordCount,
+        p1Pct: p1PctWords,
+        p2Pct: p2PctWords,
+        unit: 'words',
+        isP1Lower: isP1LowerWords,
+      }),
+    );
+
+    // 3. Character Ratio
+    const isP1LowerChars = (p1.charCount || 0) < (p2.charCount || 0);
+    const p1PctChars = Math.round((p1.charRatio || 0) * 100);
+    const p2PctChars = Math.max(0, 100 - p1PctChars);
+    ratiosGrid.appendChild(
+      createRatioCard({
+        title: 'Characters Typed',
+        p1Name: p1.displayName,
+        p2Name: p2.displayName,
+        p1Val: p1.charCount || 0,
+        p2Val: p2.charCount || 0,
+        p1Pct: p1PctChars,
+        p2Pct: p2PctChars,
+        unit: 'chars',
+        isP1Lower: isP1LowerChars,
+      }),
+    );
+
+    content.appendChild(ratiosGrid);
+  }
+
+  // =========================================================================
+  // 2. Overview Metric Cards Grid
+  // =========================================================================
   const overviewGrid = el('div', { className: 'wa-insights-metrics-grid' });
 
   const silenceDays = Math.round(stats.longestSilence.durationMs / (1000 * 3600 * 24));
   const metrics = [
     { label: 'Total Messages', value: stats.totalMessages.toLocaleString() },
     { label: 'Words Shared', value: stats.totalWords.toLocaleString() },
+    { label: 'Characters Typed', value: (stats.totalChars || 0).toLocaleString() },
     { label: 'Days Spanned', value: `${stats.totalDaysSpanned} days` },
     { label: 'Longest Streak', value: `${stats.longestStreakDays} days` },
     { label: 'Longest Silence', value: silenceDays > 0 ? `${silenceDays} days` : 'None' },
@@ -87,9 +231,11 @@ export function createInsightsDashboard({ stats, onClose }) {
   });
   content.appendChild(overviewGrid);
 
-  // 2. Response Times & Conversation Flow
+  // =========================================================================
+  // 3. Response Times & Conversation Flow
+  // =========================================================================
   const flowSection = el('div', { className: 'wa-insights-section' });
-  flowSection.appendChild(el('h3', { className: 'wa-section-title', text: 'Response Times' }));
+  flowSection.appendChild(el('h3', { className: 'wa-section-title', text: 'Median Response Times' }));
 
   const responseList = el('div', { className: 'wa-response-list' });
   stats.participantStats.forEach((p) => {
@@ -115,15 +261,17 @@ export function createInsightsDashboard({ stats, onClose }) {
   flowSection.appendChild(responseList);
   content.appendChild(flowSection);
 
-  // 3. 7x24 Hour × Weekday Heatmap
+  // =========================================================================
+  // 4. 7x24 Hour × Weekday Heatmap
+  // =========================================================================
   const heatmapSection = el('div', { className: 'wa-insights-section' });
   heatmapSection.appendChild(
-    el('h3', { className: 'wa-section-title', text: 'When You Talked (Heatmap)' }),
+    el('h3', { className: 'wa-section-title', text: 'When You Talked (Activity Heatmap)' }),
   );
   heatmapSection.appendChild(
     el('p', {
       className: 'wa-section-subtitle',
-      text: 'Hour of day (0–23) across days of the week',
+      text: 'Message frequency across hours of the day (0–23) and days of the week',
     }),
   );
 
@@ -149,7 +297,7 @@ export function createInsightsDashboard({ stats, onClose }) {
 
       const cell = el('div', {
         className: 'wa-heatmap-cell',
-        style: count > 0 ? `background: rgba(37, 211, 102, ${intensity.toFixed(2)})` : '',
+        style: count > 0 ? `background: rgba(5, 150, 105, ${intensity.toFixed(2)})` : '',
         title: `${dayName} ${String(hour).padStart(2, '0')}:00 · ${count} messages`,
         tabindex: '0',
         aria: {
@@ -165,7 +313,9 @@ export function createInsightsDashboard({ stats, onClose }) {
   heatmapSection.appendChild(heatmapContainer);
   content.appendChild(heatmapSection);
 
-  // 4. Emoji Leaderboard
+  // =========================================================================
+  // 5. Emoji Leaderboard
+  // =========================================================================
   if (stats.overallTopEmojis && stats.overallTopEmojis.length > 0) {
     const emojiSection = el('div', { className: 'wa-insights-section' });
     emojiSection.appendChild(el('h3', { className: 'wa-section-title', text: 'Top Emojis' }));
@@ -189,4 +339,62 @@ export function createInsightsDashboard({ stats, onClose }) {
   overlay.appendChild(panel);
 
   return overlay;
+}
+
+/**
+ * Helper to build a clean comparison card for incoming vs outgoing ratios.
+ *
+ * @param {Object} params
+ * @param {string} params.title
+ * @param {string} params.p1Name
+ * @param {string} params.p2Name
+ * @param {number} params.p1Val
+ * @param {number} params.p2Val
+ * @param {number} params.p1Pct
+ * @param {number} params.p2Pct
+ * @param {string} params.unit
+ * @param {boolean} [params.isP1Lower]
+ * @returns {HTMLElement}
+ */
+function createRatioCard({ title, p1Name, p2Name, p1Val, p2Val, p1Pct, p2Pct, unit, isP1Lower }) {
+  const p1Lower = isP1Lower !== undefined ? isP1Lower : p1Val < p2Val;
+  const isTie = p1Val === p2Val;
+
+  const color1 = isTie ? COLOR_LOWER : p1Lower ? COLOR_LOWER : COLOR_HIGHER;
+  const color2 = isTie ? COLOR_LOWER : p1Lower ? COLOR_HIGHER : COLOR_LOWER;
+
+  return el(
+    'div',
+    { className: 'wa-ratio-card' },
+    el('div', { className: 'wa-ratio-card-head' },
+      el('span', { className: 'wa-ratio-card-title', text: title }),
+      el('span', { className: 'wa-ratio-card-split', text: `${p1Pct}% vs ${p2Pct}%` }),
+    ),
+    el(
+      'div',
+      { className: 'wa-mini-ratio-track' },
+      el('div', {
+        className: 'wa-mini-ratio-fill',
+        style: `width: ${p1Pct}%; background-color: ${color1};`,
+      }),
+      el('div', {
+        className: 'wa-mini-ratio-fill',
+        style: `width: ${p2Pct}%; background-color: ${color2};`,
+      }),
+    ),
+    el(
+      'div',
+      { className: 'wa-ratio-card-labels' },
+      el('span', {
+        className: 'wa-ratio-participant',
+        style: `color: ${color1}; font-weight: 600;`,
+        text: `${p1Name}: ${p1Val.toLocaleString()} ${unit}`,
+      }),
+      el('span', {
+        className: 'wa-ratio-participant',
+        style: `color: ${color2}; font-weight: 600;`,
+        text: `${p2Name}: ${p2Val.toLocaleString()} ${unit}`,
+      }),
+    ),
+  );
 }

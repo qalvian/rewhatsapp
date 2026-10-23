@@ -9,7 +9,8 @@ import { el, svgEl } from '../../util/dom.js';
  * @param {() => void} [params.onSend]
  * @returns {{
  *   element: HTMLElement;
- *   simulateTyping: (text: string, durationMs: number) => Promise<void>;
+ *   simulateTyping: (text: string, durationMs: number) => Promise<boolean>;
+ *   cancelTyping: () => void;
  *   clear: () => void;
  *   setText: (text: string) => void;
  * }}
@@ -137,39 +138,53 @@ export function createComposer({ onSend } = {}) {
     }
   }
 
+  let typingToken = 0;
+
   /**
    * Simulates typing text progressively over durationMs.
    * @param {string} text
    * @param {number} durationMs
-   * @returns {Promise<void>}
+   * @returns {Promise<boolean>} returns true if completed without cancellation
    */
   async function simulateTyping(text, durationMs) {
+    const currentToken = ++typingToken;
     if (!text || durationMs <= 50) {
       setText('');
-      return;
+      return true;
     }
 
     const chars = Array.from(text);
     const interval = Math.max(15, Math.floor(durationMs / Math.max(1, chars.length)));
 
     for (let i = 1; i <= chars.length; i++) {
+      if (typingToken !== currentToken) return false;
       const slice = chars.slice(0, i).join('');
       setText(slice);
       await new Promise((r) => setTimeout(r, interval));
     }
 
-    // Brief pause before popping into chat
+    if (typingToken !== currentToken) return false;
     await new Promise((r) => setTimeout(r, 60));
+    if (typingToken === currentToken) {
+      setText('');
+      return true;
+    }
+    return false;
+  }
+
+  function cancelTyping() {
+    typingToken++;
     setText('');
   }
 
   function clear() {
-    setText('');
+    cancelTyping();
   }
 
   return {
     element,
     simulateTyping,
+    cancelTyping,
     clear,
     setText,
   };

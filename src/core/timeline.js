@@ -58,6 +58,22 @@ export function isTimeSkip(gapMs) {
   return gapMs >= 3 * 3600 * 1000;
 }
 
+export const BASE_TYPING_DELAY_MS = 400;
+export const MS_PER_CHAR = 30;
+
+/**
+ * Computes dynamic typing delay based on exact character length:
+ * Base delay (400ms) + (Character Count * 30ms).
+ * E.g., a short "Hi" (2 chars) takes 460ms (~0.5s), a long paragraph (150 chars) takes 4900ms (~5.0s).
+ *
+ * @param {number} charCount
+ * @returns {number} Delay in milliseconds
+ */
+export function computeMessageDelay(charCount = 0) {
+  const safeChars = Math.max(0, charCount);
+  return BASE_TYPING_DELAY_MS + safeChars * MS_PER_CHAR;
+}
+
 /**
  * Timeline data structure holding message records and typed arrays
  * for O(log N) binary search seeks and cumulative playback timing.
@@ -81,11 +97,13 @@ export class Timeline {
   }
 
   /**
-   * Recomputes cumulative playback time array under a new gap policy or speed.
-   * @param {GapPolicyOptions} gapOptions
+   * Recomputes cumulative playback time array.
+   * @param {GapPolicyOptions} [gapOptions]
    */
   recomputeGapPolicy(gapOptions) {
-    this.gapOptions = { ...this.gapOptions, ...gapOptions };
+    if (gapOptions) {
+      this.gapOptions = { ...this.gapOptions, ...gapOptions };
+    }
     this._buildTypedArrays();
   }
 
@@ -101,11 +119,9 @@ export class Timeline {
       this.senderIndices[i] = msg.senderIndex >= 0 ? msg.senderIndex : 0;
 
       if (i > 0) {
-        const prevMsg = this.messages[i - 1];
-        const prevTs = prevMsg ? prevMsg.timestamp : msg.timestamp;
-        const physicalGap = Math.max(0, msg.timestamp - prevTs);
-        // Compute base delay at 1x speed so cumulative duration is speed-independent
-        const delay = computeGapDelay(physicalGap, { ...this.gapOptions, speed: 1 });
+        const charCount = (msg.text || '').length;
+        // Dynamic typing speed: delay based on exact message character length
+        const delay = computeMessageDelay(charCount);
         accumulatedTime += delay;
       }
 

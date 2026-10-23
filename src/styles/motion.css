@@ -1,82 +1,98 @@
 /* =====================================================================
-   MOTION & ANIMATION SYSTEM
+   rewhatsapp — Motion System (Brief v3)
+   Tokens: --ease-spring, --ease-out, durations 120/200/320/600ms
+   Only transform and opacity. Everything respects prefers-reduced-motion.
    ===================================================================== */
 
-@keyframes spinCounterClockwise {
+:root {
+  --ease-spring: cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  --ease-out-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-120: 120ms;
+  --duration-200: 200ms;
+  --duration-320: 320ms;
+  --duration-600: 600ms;
+}
+
+/* =====================================================================
+   Global Interactive Element States (Buttons, Chips, Action cards)
+   ===================================================================== */
+button,
+[role='button'] {
+  transition:
+    transform var(--duration-120) ease,
+    background-color var(--duration-120) ease,
+    border-color var(--duration-120) ease,
+    box-shadow var(--duration-120) ease,
+    opacity var(--duration-120) ease;
+}
+
+button:active:not(:disabled),
+[role='button']:active:not([aria-disabled='true']) {
+  transform: scale(0.97);
+}
+
+button:focus-visible,
+[role='button']:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+button:disabled,
+[role='button'][aria-disabled='true'] {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Primary Button Ripple / Shimmer */
+.wa-btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.wa-btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: transform var(--duration-600) ease;
+  pointer-events: none;
+}
+
+.wa-btn-primary:hover::after {
+  transform: translateX(200%);
+}
+
+/* =====================================================================
+   Keyframe Animations
+   ===================================================================== */
+@keyframes fadeIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
   }
   to {
-    transform: rotate(-360deg);
+    opacity: 1;
   }
 }
 
-@keyframes spinClockwise {
+@keyframes fadeOut {
   from {
-    transform: rotate(0deg);
+    opacity: 1;
   }
   to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes portalBreathe {
-  0%,
-  100% {
-    transform: scale(1);
-    box-shadow:
-      0 0 35px var(--tm-accent-amber-glow),
-      0 0 70px var(--tm-accent-rose-glow);
-  }
-  50% {
-    transform: scale(1.025);
-    box-shadow:
-      0 0 55px var(--tm-accent-amber-glow),
-      0 0 110px var(--tm-accent-rose-glow);
-  }
-}
-
-@keyframes portalRipple {
-  0% {
-    transform: scale(0.9);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1.6);
     opacity: 0;
   }
 }
 
-@keyframes ghostFloat {
-  0% {
-    transform: translateY(60px) translateX(0) scale(0.9);
-    opacity: 0;
-  }
-  15% {
-    opacity: 0.28;
-  }
-  85% {
-    opacity: 0.28;
-  }
-  100% {
-    transform: translateY(-80px) translateX(20px) scale(1.05);
-    opacity: 0;
-  }
-}
-
-@keyframes clockSweep {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
+/* Chat bubble entrance */
 @keyframes messagePopIn {
   0% {
     opacity: 0;
-    transform: translateY(12px) scale(0.97);
+    transform: translateY(15px) scale(0.95);
   }
   100% {
     opacity: 1;
@@ -84,10 +100,21 @@
   }
 }
 
+/* Metallic Dual-Tone Shimmer Animation */
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Time skip pill entrance */
 @keyframes timeSkipEntrance {
   0% {
     opacity: 0;
-    transform: scale(0.85);
+    transform: scale(0.92);
   }
   100% {
     opacity: 1;
@@ -95,34 +122,41 @@
   }
 }
 
-@keyframes pulseGlow {
-  0%,
-  100% {
-    opacity: 0.7;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes travelBloom {
-  0% {
+/* Setup step slide transitions */
+@keyframes stepSlideInRight {
+  from {
     opacity: 0;
-    transform: scale(0.9);
-    filter: blur(10px);
+    transform: translateX(16px);
   }
-  50% {
+  to {
     opacity: 1;
-    filter: blur(0px);
+    transform: translateX(0);
+  }
+}
+
+@keyframes stepSlideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Travel transition crossfade */
+@keyframes travelCrossfade {
+  0% {
+    opacity: 1;
   }
   100% {
-    opacity: 1;
-    transform: scale(1);
+    opacity: 0;
   }
 }
 
 /* =====================================================================
-   REDUCED MOTION OVERRIDES (Strict a11y compliance)
+   REDUCED MOTION OVERRIDES (Strict WCAG compliance)
    ===================================================================== */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -132,13 +166,30 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-
-  .time-dial-svg,
-  .portal-ring,
-  .ghost-bubble,
-  .clock-hand {
-    animation: none !important;
     transform: none !important;
   }
 }
+
+/* =====================================================================
+   Text Reveal (BlurText) Styles — Brief v5
+   ===================================================================== */
+.rt-word { display: inline-block; white-space: nowrap; }
+.rt-piece { display: inline-block; }
+.rt-live .rt-piece { will-change: transform, filter, opacity; } /* only while animating */
+.rt-hidden { opacity: 0; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* No flash of visible text: hide only after JS has flagged the page, release on
+   data-rt, and always self-release after 1.2s if JS is slow or fails. */
+html.js [data-reveal]:not([data-rt]) {
+  visibility: hidden;
+  animation: rt-failsafe 0s linear 1.2s forwards;
+}
+@keyframes rt-failsafe { to { visibility: visible; } }
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal]:not([data-rt]) { visibility: visible; animation: none; }
+}
+

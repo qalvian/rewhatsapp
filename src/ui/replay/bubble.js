@@ -1,6 +1,7 @@
 // @ts-check
 
 import { el, svgEl } from '../../util/dom.js';
+import { createIcon } from '../icons.js';
 import { linkifyText } from '../../util/linkify.js';
 import {
   formatMessageTime,
@@ -70,6 +71,9 @@ export function createDoubleTickSvg(isRead = false) {
 
 /**
  * Creates SVG bubble tail.
+ * Clean curved shape using currentColor so it strictly matches the bubble fill.
+ * Incoming: top-left. Outgoing: top-right.
+ *
  * @param {boolean} isOutgoing
  * @returns {SVGElement}
  */
@@ -81,9 +85,10 @@ export function createBubbleTail(isOutgoing) {
       width: '8',
       height: '13',
       className: `wa-tail ${isOutgoing ? 'wa-tail-out' : 'wa-tail-in'}`,
+      aria: { hidden: 'true' },
     },
     svgEl('path', {
-      d: isOutgoing ? 'M 0,0 C 3,0 8,2 8,10 L 8,0 Z' : 'M 8,0 C 5,0 0,2 0,10 L 0,0 Z',
+      d: isOutgoing ? 'M 0,0 L 8,0 C 5.5,2 2,6.5 0,13 Z' : 'M 8,0 L 0,0 C 2.5,2 6,6.5 8,13 Z',
       fill: 'currentColor',
     }),
   );
@@ -183,7 +188,7 @@ export function createSystemMessageElement(text) {
 }
 
 /**
- * Builds the interactive voice note waveform component.
+ * Builds the interactive voice note waveform component with animated playback sweep.
  * @param {string} seed
  * @param {number} [durationSec=42]
  * @returns {HTMLElement}
@@ -192,18 +197,24 @@ export function createVoiceNoteElement(seed, durationSec = 42) {
   const bars = generateWaveformData(seed, 32);
 
   const waveformContainer = el('div', { className: 'wa-voice-waveform' });
-  bars.forEach((height) => {
+  const barElements = bars.map((height) => {
     const bar = el('span', {
       className: 'wa-voice-bar',
-      style: { height: `${Math.round(height * 24)}px` },
+      style: { height: `${Math.round(height * 22)}px` },
     });
     waveformContainer.appendChild(bar);
+    return bar;
   });
+
+  let isPlaying = false;
+  /** @type {any} */
+  let playAnimTimer = null;
 
   const playBtn = el(
     'button',
     {
       className: 'wa-voice-play-btn',
+      type: 'button',
       aria: { label: 'Play voice message' },
     },
     svgEl(
@@ -213,9 +224,55 @@ export function createVoiceNoteElement(seed, durationSec = 42) {
     ),
   );
 
+  playBtn.addEventListener('click', () => {
+    isPlaying = !isPlaying;
+    playBtn.innerHTML = '';
+    if (isPlaying) {
+      playBtn.appendChild(
+        svgEl(
+          'svg',
+          { viewBox: '0 0 24 24', width: '18', height: '18' },
+          svgEl('rect', { x: '6', y: '5', width: '4', height: '14', fill: 'currentColor' }),
+          svgEl('rect', { x: '14', y: '5', width: '4', height: '14', fill: 'currentColor' }),
+        ),
+      );
+      let step = 0;
+      barElements.forEach((b) => b.classList.remove('played'));
+      playAnimTimer = setInterval(
+        () => {
+          if (step < barElements.length) {
+            barElements[step].classList.add('played');
+            step++;
+          } else {
+            clearInterval(playAnimTimer);
+            isPlaying = false;
+            playBtn.innerHTML = '';
+            playBtn.appendChild(
+              svgEl(
+                'svg',
+                { viewBox: '0 0 24 24', width: '18', height: '18' },
+                svgEl('polygon', { points: '7,5 19,12 7,19', fill: 'currentColor' }),
+              ),
+            );
+          }
+        },
+        (durationSec * 1000) / barElements.length / 5,
+      );
+    } else {
+      if (playAnimTimer) clearInterval(playAnimTimer);
+      playBtn.appendChild(
+        svgEl(
+          'svg',
+          { viewBox: '0 0 24 24', width: '18', height: '18' },
+          svgEl('polygon', { points: '7,5 19,12 7,19', fill: 'currentColor' }),
+        ),
+      );
+    }
+  });
+
   const micIcon = svgEl(
     'svg',
-    { viewBox: '0 0 24 24', width: '16', height: '16', className: 'wa-voice-mic' },
+    { viewBox: '0 0 24 24', width: '15', height: '15', className: 'wa-voice-mic' },
     svgEl('path', {
       d: 'M 12 2 A 3 3 0 0 0 9 5 L 9 11 A 3 3 0 0 0 15 11 L 15 5 A 3 3 0 0 0 12 2 Z M 19 10 A 1 1 0 0 0 17 10 C 17 12.8 14.8 15 12 15 C 9.2 15 7 12.8 7 10 A 1 1 0 0 0 5 10 C 5 13.5 7.7 16.4 11 16.9 L 11 19 L 9 19 A 1 1 0 0 0 9 21 L 15 21 A 1 1 0 0 0 15 19 L 13 19 L 13 16.9 C 16.3 16.4 19 13.5 19 10 Z',
       fill: '#53bdeb',
@@ -238,6 +295,47 @@ export function createVoiceNoteElement(seed, durationSec = 42) {
       ),
     ),
   );
+}
+
+/**
+ * Builds a polished media placeholder component:
+ * Soft gradient tile with SVG icon (photo/video/sticker) and clean caption badge.
+ * Replaces generic '<Media omitted>' text.
+ *
+ * @param {import('../../core/parser/index.js').ChatMessage} message
+ * @returns {HTMLElement}
+ */
+export function createMediaPlaceholder(message) {
+  const kind = message.mediaInfo?.kind || 'image';
+  const isVideo = kind === 'video';
+  const isSticker = kind === 'sticker';
+  const isAudio = kind === 'audio';
+
+  const label = isVideo ? 'Video' : isSticker ? 'Sticker' : isAudio ? 'Audio' : 'Photo';
+
+  const iconName = isVideo ? 'video' : isSticker ? 'sticker' : isAudio ? 'volume' : 'photo';
+
+  const tile = el(
+    'div',
+    { className: `wa-media-placeholder-tile wa-tile-${kind}` },
+    createIcon(iconName, { width: 32, height: 32, className: 'wa-media-placeholder-icon' }),
+    el('span', { className: 'wa-media-placeholder-badge', text: label }),
+  );
+
+  const container = el('div', { className: 'wa-media-placeholder-container' }, tile);
+
+  // If there's an actual caption (not just omitted message marker)
+  const isOmittedNotice = /<Media omitted>|fichier omis|omitted|adjunto omitido/i.test(
+    message.text,
+  );
+  if (message.text && !isOmittedNotice) {
+    const captionEl = el('div', { className: 'wa-media-placeholder-caption' });
+    const nodes = linkifyText(message.text);
+    for (const node of nodes) captionEl.appendChild(node);
+    container.appendChild(captionEl);
+  }
+
+  return container;
 }
 
 /**
@@ -284,7 +382,7 @@ export function createMessageBubble({
 
   const bubble = el('div', { className: bubbleClasses });
 
-  // Optional tail
+  // Optional tail in bubble's own color
   if (showTail && !isEmojiOnly) {
     bubble.appendChild(createBubbleTail(isOutgoing));
   }
@@ -322,25 +420,7 @@ export function createMessageBubble({
   } else if (message.type === 'voice') {
     content.appendChild(createVoiceNoteElement(message.text || String(message.id)));
   } else if (message.type === 'media') {
-    const kind = message.mediaInfo?.kind || 'image';
-    const filename = message.mediaInfo?.filename || 'Media file';
-    content.appendChild(
-      el(
-        'div',
-        { className: 'wa-media-card' },
-        el('div', {
-          className: `wa-media-thumb wa-thumb-${kind}`,
-          text:
-            kind === 'video' ? '🎬' : kind === 'audio' ? '🎵' : kind === 'document' ? '📄' : '📷',
-        }),
-        el(
-          'div',
-          { className: 'wa-media-details' },
-          el('div', { className: 'wa-media-filename', text: filename }),
-          el('div', { className: 'wa-media-sub', text: message.text }),
-        ),
-      ),
-    );
+    content.appendChild(createMediaPlaceholder(message));
   } else {
     // Text message with URL linkification
     const nodes = linkifyText(message.text);

@@ -26,8 +26,12 @@ export function el(tag, attrs = {}, ...children) {
       element.addEventListener(eventName, val);
     } else if (key === 'className' || key === 'class') {
       element.className = String(val);
-    } else if (key === 'style' && typeof val === 'object') {
-      Object.assign(element.style, val);
+    } else if (key === 'style') {
+      if (typeof val === 'object' && val !== null) {
+        Object.assign(element.style, val);
+      } else {
+        element.style.cssText = String(val);
+      }
     } else if (key === 'text') {
       element.textContent = String(val);
     } else if (key === 'dataset' && typeof val === 'object') {
@@ -67,7 +71,8 @@ export function svgEl(tag, attrs = {}, ...children) {
 
   for (const [key, val] of Object.entries(attrs)) {
     if (val === null || val === undefined || val === false) continue;
-    element.setAttribute(key, String(val));
+    const attrName = key === 'className' ? 'class' : key;
+    element.setAttribute(attrName, String(val));
   }
 
   for (const child of children) {

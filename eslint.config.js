@@ -55,8 +55,10 @@ export default [
         Float64Array: 'readonly',
         Uint32Array: 'readonly',
         Uint8Array: 'readonly',
-        ArrayBuffer: 'readonly',
         DataView: 'readonly',
+        matchMedia: 'readonly',
+        IntersectionObserver: 'readonly',
+        PerformanceObserver: 'readonly',
       },
     },
     rules: {
@@ -68,7 +70,7 @@ export default [
     },
   },
   {
-    files: ['test/**/*.js', 'server.js'],
+    files: ['test/**/*.js', 'server.js', 'scripts/**/*.js'],
     languageOptions: {
       globals: {
         describe: 'readonly',

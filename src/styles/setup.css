@@ -1,23 +1,28 @@
 /**
- * rewhatsapp - Setup Dialog Styles
- * Aesthetic: Frosted glass sheet, gradient persona chips, live theme cards.
+ * rewhatsapp - Setup Wizard Styles
+ * Brand: Bespoke, premium, trustworthy, nostalgia-inducing.
+ * Constraints: Strictly vanilla CSS.
  */
 
+/* =========================================================================
+   Modal Backdrop
+   ========================================================================= */
 .wa-setup-overlay {
   position: fixed;
   inset: 0;
-  z-index: 100;
-  background: rgba(4, 5, 12, 0.72);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
-  animation: fadeIn 0.25s ease-out;
+  padding: 1.25rem;
+  box-sizing: border-box;
+  animation: setupFadeIn 200ms ease-out forwards;
 }
 
-@keyframes fadeIn {
+@keyframes setupFadeIn {
   from {
     opacity: 0;
   }
@@ -26,399 +31,950 @@
   }
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes gold-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* =========================================================================
+   Modal Container Card
+   ========================================================================= */
 .wa-setup-card {
   width: 100%;
-  max-width: 520px;
-  border-radius: 20px;
-  background: linear-gradient(145deg, rgba(30, 20, 42, 0.95) 0%, rgba(18, 12, 26, 0.98) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.6),
-    0 0 40px rgba(160, 80, 180, 0.15);
+  max-width: 420px;
+  max-height: 90vh;
+  background: #ffffff;
+  color: #1f1f1f;
+  border-radius: 16px;
+  border: 1px solid #eae5d9;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  animation: scaleUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  box-sizing: border-box;
+  animation: setupScaleUp 250ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes scaleUp {
+@keyframes setupScaleUp {
   from {
-    transform: scale(0.92);
     opacity: 0;
+    transform: scale(0.95);
   }
   to {
-    transform: scale(1);
     opacity: 1;
+    transform: scale(1);
   }
 }
 
-/* Header */
+@media (max-width: 480px) {
+  .wa-setup-overlay {
+    padding: 0.75rem;
+  }
+  .wa-setup-card {
+    max-height: 94vh;
+    border-radius: 16px;
+  }
+}
+
+/* Mobile Drag Handle */
+.wa-setup-drag-handle {
+  display: none;
+  width: 36px;
+  height: 4px;
+  border-radius: 999px;
+  background-color: #eae5d9;
+  margin: 8px auto 4px auto;
+}
+
+/* =========================================================================
+   Modal Header & Close Button
+   ========================================================================= */
 .wa-setup-header {
+  flex-shrink: 0;
+  padding: 1.25rem 1.5rem 0.85rem 1.5rem;
+  border-bottom: 1px solid #eae5d9;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-sizing: border-box;
+  background: #ffffff;
+}
+
+.wa-setup-progress-bar {
+  width: 100%;
+  height: 4px;
+  background-color: #f4efeb;
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+.wa-setup-progress-fill {
+  height: 100%;
+  background-color: #e3532a;
+  border-radius: 999px;
+  transition: width 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wa-setup-title-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 24px 16px 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 0.75rem;
+}
+
+.wa-setup-title-container {
+  display: flex;
+  flex-direction: column;
 }
 
 .wa-setup-title {
-  font-family: ui-serif, Georgia, serif;
+  font-family:
+    'Plus Jakarta Sans',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
   font-size: 20px;
-  font-weight: 500;
-  color: #fff4ff;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #1f1f1f;
   margin: 0;
-}
-
-.wa-setup-step-dots {
-  display: flex;
-  gap: 6px;
-}
-
-.wa-step-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  transition: all 0.25s ease;
-}
-
-.wa-step-dot.active {
-  background: #25d366;
-  width: 20px;
-  border-radius: 4px;
-  box-shadow: 0 0 8px rgba(37, 211, 102, 0.6);
+  line-height: 1.25;
 }
 
 .wa-setup-close-btn {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  border-radius: 50%;
   background: transparent;
-  border: none;
-  color: #9d8aa8;
+  border: 1px solid transparent;
+  color: #6b6b6b;
   cursor: pointer;
-  padding: 4px;
-  border-radius: 8px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  padding: 0;
 }
 
 .wa-setup-close-btn:hover {
-  color: #ffffff;
-  background: rgba(255, 255, 255, 0.1);
+  color: #1f1f1f;
+  background-color: #f4efeb;
+  border-color: #eae5d9;
+  transform: scale(1.05);
 }
 
-/* Step Container */
-.wa-setup-step {
-  padding: 20px 24px;
+.wa-setup-close-btn:active {
+  transform: scale(0.95);
+}
+
+/* =========================================================================
+   Modal Scrollable Body
+   ========================================================================= */
+.wa-setup-body {
+  flex: 1;
   overflow-y: auto;
-  max-height: 60vh;
+  padding: 1.25rem 1.5rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
 }
 
-.wa-setup-instruction {
-  font-size: 13.5px;
+.wa-setup-step {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+
+.wa-slide-in-right {
+  animation: stepSlideInRight 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wa-slide-in-left {
+  animation: stepSlideInLeft 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes stepSlideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes stepSlideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.wa-setup-desc {
+  font-family:
+    'Plus Jakarta Sans',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  font-size: 14px;
   line-height: 1.5;
-  color: #c9b7d8;
-  margin: 0 0 16px 0;
+  color: #6b6b6b;
+  margin: 0;
 }
 
-.wa-setup-section-label {
-  display: block;
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  font-weight: 600;
-  color: #a491b6;
-  margin: 16px 0 8px 0;
+/* =========================================================================
+   Step 1: Who are you? Bespoke Persona Cards
+   ========================================================================= */
+.wa-persona-search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: #f4efeb;
+  border: 1px solid #eae5d9;
+  transition: border-color 0.15s ease;
 }
 
-/* Step 1: Persona Grid */
+.wa-persona-search-wrapper:focus-within {
+  border-color: #e3532a;
+  background-color: #ffffff;
+}
+
+.wa-search-icon {
+  color: #6b6b6b;
+  display: inline-flex;
+}
+
+.wa-persona-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  color: #1f1f1f;
+  background: transparent;
+}
+
+.wa-persona-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
 .wa-persona-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
 }
 
-.wa-persona-chip {
+/* Bespoke Clickable User Card */
+.wa-persona-card {
+  min-height: 64px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  border: 1.5px solid #eae5d9;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1.5px solid rgba(255, 255, 255, 0.08);
-  color: #ffffff;
   cursor: pointer;
   text-align: left;
-  transition: all 0.2s ease;
+  box-sizing: border-box;
+  width: 100%;
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
-.wa-persona-chip:hover {
-  background: rgba(255, 255, 255, 0.09);
-  border-color: rgba(255, 255, 255, 0.2);
+.wa-persona-card:hover {
+  border-color: #b38728;
+  background-color: #faf8f5;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(170, 119, 28, 0.08);
 }
 
-.wa-persona-chip.selected {
-  background: rgba(37, 211, 102, 0.12);
-  border-color: #25d366;
-  box-shadow: 0 0 12px rgba(37, 211, 102, 0.3);
+.wa-persona-card.selected {
+  border-color: #b38728;
+  background-color: rgba(170, 119, 28, 0.06);
+  box-shadow:
+    0 0 0 1px #b38728,
+    0 3px 12px rgba(170, 119, 28, 0.16);
 }
 
 .wa-persona-avatar {
-  width: 36px;
-  height: 36px;
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 600;
-  font-size: 14px;
   color: #ffffff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+
+.wa-persona-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .wa-persona-name {
-  font-size: 14px;
-  font-weight: 500;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1f1f1f;
+  line-height: 1.25;
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
-/* Step 2: Theme Cards */
-.wa-theme-card-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.wa-theme-card {
-  padding: 12px;
-  border-radius: 14px;
-  border: 1.5px solid rgba(255, 255, 255, 0.1);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: all 0.2s ease;
-}
-
-.wa-theme-card-light {
-  background: #efeae2;
-  color: #111b21;
-}
-
-.wa-theme-card-dark {
-  background: #0b141a;
-  color: #e9edef;
-}
-
-.wa-theme-card.selected {
-  border-color: #25d366;
-  box-shadow: 0 0 12px rgba(37, 211, 102, 0.4);
-}
-
-.wa-theme-preview-bubble {
-  padding: 6px 10px;
-  border-radius: 8px;
-  font-size: 11px;
-  max-width: 80%;
-}
-
-.wa-theme-card-light .wa-preview-incoming {
-  background: #ffffff;
-  color: #111b21;
-  align-self: flex-start;
-}
-
-.wa-theme-card-light .wa-preview-outgoing {
-  background: #d9fdd3;
-  color: #111b21;
-  align-self: flex-end;
-}
-
-.wa-theme-card-dark .wa-preview-incoming {
-  background: #202c33;
-  color: #e9edef;
-  align-self: flex-start;
-}
-
-.wa-theme-card-dark .wa-preview-outgoing {
-  background: #005c4b;
-  color: #e9edef;
-  align-self: flex-end;
-}
-
-.wa-theme-label {
+.wa-persona-count {
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 12px;
-  font-weight: 600;
-  margin-top: 4px;
-  text-align: center;
-}
-
-/* Chips Rows (Speed & Mode) */
-.wa-setup-chips-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.wa-setup-mode-chip,
-.wa-setup-speed-chip {
-  padding: 8px 14px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #ddcceb;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.wa-setup-mode-chip:hover,
-.wa-setup-speed-chip:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.wa-setup-mode-chip.selected,
-.wa-setup-speed-chip.selected {
-  background: rgba(37, 211, 102, 0.15);
-  border-color: #25d366;
-  color: #ffffff;
   font-weight: 500;
+  color: #6b6b6b;
 }
 
-/* Date Format Toggle */
-.wa-date-toggle-box {
-  margin-top: 12px;
-}
-
-.wa-date-toggle-btn {
-  width: 100%;
+/* Bespoke Custom Checkmark Indicator (no default radios) */
+.wa-persona-check {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: 6px;
+  border: 1.5px solid #d6cebe;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 10px 14px;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.wa-persona-check-icon {
+  width: 14px;
+  height: 14px;
+  stroke: #1a1a1a;
+  stroke-width: 2.5;
+  opacity: 0;
+  transform: scale(0.4);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.wa-persona-card:hover .wa-persona-check {
+  border-color: #b38728;
+}
+
+.wa-persona-card.selected .wa-persona-check {
+  border-color: #b38728;
+  background: linear-gradient(
+    135deg,
+    #aa771c 0%,
+    #fcf6ba 25%,
+    #b38728 50%,
+    #fbf5b7 75%,
+    #bf953f 100%
+  );
+  background-size: 200% 200%;
+  animation: shimmer 4s ease-in-out infinite alternate;
+  box-shadow: 0 2px 8px rgba(170, 119, 28, 0.35);
+}
+
+.wa-persona-card.selected .wa-persona-check-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* =========================================================================
+   Step 1: Custom Legal Consent Checkbox (Perfect Alignment)
+   ========================================================================= */
+.wa-setup-consent-box {
+  margin-top: 0.5rem;
+  padding: 10px 12px;
+  background-color: #f9f6f0;
+  border: 1px solid #eae5d9;
   border-radius: 10px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  box-sizing: border-box;
+}
+
+.wa-custom-checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  user-select: none;
+  width: 100%;
 }
 
-.wa-date-toggle-btn.active {
-  background: rgba(255, 180, 50, 0.12);
-  border-color: #f59e0b;
+.wa-custom-checkbox-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 }
 
-.wa-date-toggle-title {
-  font-size: 13px;
-  font-weight: 500;
-  color: #fce7f3;
-}
-
-.wa-date-preview-text {
-  font-size: 11px;
-  color: #9d8aa8;
-  margin-top: 4px;
-}
-
-/* Step 3: Summary */
-.wa-summary-pill {
+.wa-custom-checkbox-box {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  margin-top: 2px;
+  border: 1.5px solid #d6cebe;
+  border-radius: 5px;
+  background-color: #ffffff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 20px;
-  border-radius: 9999px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  margin-bottom: 24px;
-  font-size: 15px;
-  color: #ffffff;
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.wa-custom-checkbox-box::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 8px;
+  border: solid #ffffff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) scale(0);
+  opacity: 0;
+  top: 2px;
+  transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.wa-custom-checkbox-label:hover .wa-custom-checkbox-box {
+  border-color: #e3532a;
+}
+
+.wa-custom-checkbox-input:checked + .wa-custom-checkbox-box {
+  background-color: #e3532a;
+  border-color: #e3532a;
+}
+
+.wa-custom-checkbox-input:checked + .wa-custom-checkbox-box::after {
+  opacity: 1;
+  transform: rotate(45deg) scale(1);
+}
+
+.wa-consent-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: #4a4a4a;
+}
+
+.wa-legal-link {
+  color: #e3532a;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 600;
+  transition: opacity 0.15s ease;
+}
+
+.wa-legal-link:hover {
+  opacity: 0.8;
+}
+
+/* =========================================================================
+   Step 2: Make It Yours (Themes & Date Format)
+   ========================================================================= */
+.wa-setup-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.wa-section-heading {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6b6b6b;
+}
+
+.wa-theme-preview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+}
+
+.wa-theme-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+.wa-theme-preview-box {
+  width: 100%;
+  height: 84px;
+  border-radius: 10px;
+  border: 1.5px solid #eae5d9;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+  box-sizing: border-box;
+  transition: all 0.18s ease;
+}
+
+.wa-theme-card:hover .wa-theme-preview-box {
+  border-color: #e3532a;
+  transform: translateY(-1px);
+}
+
+.wa-theme-card.selected .wa-theme-preview-box {
+  border: 2px solid #e3532a;
+  box-shadow: 0 0 0 3px rgba(227, 83, 42, 0.12);
+}
+
+.wa-theme-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.wa-preview-light {
+  background-color: #efeae2;
+}
+
+.wa-preview-light .wa-preview-header {
+  height: 14px;
+  background-color: #008069;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+}
+
+.wa-preview-light .wa-preview-bubble-in {
+  align-self: flex-start;
+  background-color: #ffffff;
+  color: #111b21;
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.wa-preview-light .wa-preview-bubble-out {
+  align-self: flex-end;
+  background-color: #e1f5d4;
+  color: #111b21;
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.wa-preview-dark {
+  background-color: #0b141a;
+}
+
+.wa-preview-dark .wa-preview-header {
+  height: 14px;
+  background-color: #202c33;
+  border-radius: 4px;
+  color: #e9edef;
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0 6px;
+}
+
+.wa-preview-dark .wa-preview-bubble-in {
+  align-self: flex-start;
+  background-color: #202c33;
+  color: #e9edef;
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.wa-preview-dark .wa-preview-bubble-out {
+  align-self: flex-end;
+  background-color: #005c4b;
+  color: #e9edef;
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Segmented Control Component */
+.wa-segmented-control {
+  display: flex;
+  background-color: #f4efeb;
+  border: 1px solid #eae5d9;
+  border-radius: 10px;
+  padding: 3px;
+  gap: 3px;
   width: 100%;
   box-sizing: border-box;
 }
 
-.wa-summary-count {
-  font-weight: 700;
-  color: #25d366;
-  margin: 0 4px;
+.wa-segment-btn {
+  flex: 1;
+  min-height: 38px;
+  border-radius: 7px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #6b6b6b;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
 }
 
-.wa-summary-quote {
-  font-family: ui-serif, Georgia, serif;
-  font-size: 16px;
-  font-style: italic;
-  color: #dfceec;
-  line-height: 1.6;
+.wa-segment-btn:hover {
+  color: #1f1f1f;
+}
+
+.wa-segment-btn.selected {
+  background-color: #ffffff;
+  color: #1f1f1f;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.wa-segment-desc {
+  font-size: 12px;
+  color: #6b6b6b;
+  line-height: 1.4;
   margin: 0;
-  text-align: center;
 }
 
-/* Footer Navigation */
+.wa-date-format-card {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background-color: #f9f6f0;
+  border: 1px solid #eae5d9;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-sizing: border-box;
+}
+
+.wa-date-card-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #e3532a;
+}
+
+.wa-date-switch-btn {
+  min-height: 40px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  border: 1px solid #eae5d9;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 2px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.wa-date-switch-btn:hover {
+  border-color: #e3532a;
+}
+
+.wa-date-switch-btn.active {
+  border-color: #e3532a;
+  background-color: rgba(227, 83, 42, 0.04);
+}
+
+.wa-date-switch-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.wa-date-preview-range {
+  font-size: 11px;
+  color: #6b6b6b;
+}
+
+/* =========================================================================
+   Step 3: Ready Summary
+   ========================================================================= */
+.wa-setup-summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.wa-summary-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background-color: #f9f6f0;
+  border: 1px solid #eae5d9;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.wa-summary-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #e3532a;
+  flex-shrink: 0;
+  border: 1px solid #eae5d9;
+}
+
+.wa-summary-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.wa-summary-primary {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1f1f1f;
+}
+
+.wa-summary-secondary {
+  font-size: 12px;
+  color: #6b6b6b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wa-ready-note {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  color: #6b6b6b;
+  line-height: 1.5;
+  margin: 4px 0 0 0;
+}
+
+/* =========================================================================
+   Fixed Footer & Navigation Buttons
+   ========================================================================= */
 .wa-setup-footer {
+  flex-shrink: 0;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #eae5d9;
+  background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px 20px 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  gap: 12px;
+  box-sizing: border-box;
 }
 
-.wa-setup-nav-btn {
-  padding: 10px 22px;
-  border-radius: 10px;
+.wa-nav-btn {
+  min-height: 40px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-family:
+    'Plus Jakarta Sans',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  box-sizing: border-box;
 }
 
-.wa-btn-back {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #ddcceb;
+.wa-nav-btn:active {
+  transform: scale(0.98);
 }
 
-.wa-btn-back:hover {
-  background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
+.wa-nav-back {
+  background-color: #ffffff;
+  border: 1px solid #eae5d9;
+  color: #1f1f1f;
+  min-width: 80px;
 }
 
-.wa-btn-next {
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #ffffff;
+.wa-nav-back:hover {
+  background-color: #f4efeb;
+  border-color: #d6cebe;
 }
 
-.wa-btn-next:hover {
-  background: rgba(255, 255, 255, 0.25);
+/* Gold Next Button with Disabled State */
+.wa-nav-next {
+  background: linear-gradient(
+    135deg,
+    #aa771c 0%,
+    #fcf6ba 25%,
+    #b38728 50%,
+    #fbf5b7 75%,
+    #bf953f 100%
+  );
+  background-size: 200% 200%;
+  animation: shimmer 4s ease-in-out infinite alternate;
+  color: #1a1a1a;
+  font-weight: 700;
+  border: 1px solid rgba(170, 119, 28, 0.3);
+  min-width: 100px;
+  margin-left: auto;
+  box-shadow: 0 4px 14px rgba(170, 119, 28, 0.25);
 }
 
-.wa-btn-travel {
-  background: linear-gradient(135deg, #25d366 0%, #128c7e 100%) !important;
-  border: none !important;
-  color: #ffffff !important;
-  font-weight: 600 !important;
-  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-  transform: scale(1.02);
+.wa-nav-next:hover:not(:disabled):not(.disabled) {
+  filter: brightness(1.03);
+  box-shadow: 0 4px 15px rgba(170, 119, 28, 0.4);
+  transform: translateY(-1px);
 }
 
-.wa-btn-travel:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6);
+.wa-nav-next:disabled,
+.wa-nav-next.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    #aa771c 0%,
+    #fcf6ba 25%,
+    #b38728 50%,
+    #fbf5b7 75%,
+    #bf953f 100%
+  );
+  color: #1a1a1a;
+  box-shadow: none;
+  transform: none;
 }
 
-/* Mobile responsive bottom sheet adjustments */
-@media (max-width: 480px) {
-  .wa-setup-overlay {
-    align-items: flex-end;
-    padding: 0;
-  }
-  .wa-setup-card {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    max-height: 85vh;
+/* Step 3 Prominent Travel Back Button */
+.wa-nav-travel {
+  background: linear-gradient(
+    135deg,
+    #aa771c 0%,
+    #fcf6ba 25%,
+    #b38728 50%,
+    #fbf5b7 75%,
+    #bf953f 100%
+  );
+  background-size: 200% 200%;
+  animation: shimmer 4s ease-in-out infinite alternate;
+  color: #1a1a1a;
+  font-weight: 700;
+  border: 1px solid rgba(170, 119, 28, 0.3);
+  min-width: 130px;
+  box-shadow: 0 4px 14px rgba(170, 119, 28, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.wa-nav-travel::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: transform 600ms ease;
+  pointer-events: none;
+}
+
+.wa-nav-travel:hover::after {
+  transform: translateX(200%);
+}
+
+.wa-nav-travel:hover {
+  filter: brightness(1.03);
+  box-shadow: 0 4px 15px rgba(170, 119, 28, 0.4);
+}
+
+/* Keyboard Hints Row */
+.wa-setup-keyboard-hints {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 6px 1rem;
+  background-color: #f9f6f0;
+  border-top: 1px solid #eae5d9;
+  font-size: 11px;
+  color: #6b6b6b;
+}
+
+.wa-setup-keyboard-hints kbd {
+  background-color: #ffffff;
+  border: 1px solid #eae5d9;
+  border-radius: 3px;
+  padding: 1px 5px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  color: #1f1f1f;
+}
+
+@media (max-width: 640px) {
+  .wa-setup-keyboard-hints {
+    display: none;
   }
 }

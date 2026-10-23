@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'"
+    />
+    <meta name="description" content="About rewhatsapp — The story, motive, and intention." />
+    <meta name="theme-color" content="#FAF6F0" />
+    <title>About rewhatsapp — Our Story & Intention</title>
+
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <script src="./src/boot.js"></script>
+
+    <link rel="stylesheet" href="src/styles/tokens.css?v=2.0.0" />
+    <link rel="stylesheet" href="src/styles/base.css?v=2.0.0" />
+    <link rel="stylesheet" href="src/styles/motion.css?v=2.0.0" />
+    <link rel="stylesheet" href="src/styles/legal.css?v=2.0.0" />
+  </head>
+  <body class="wa-legal-page-shell">
+    <header class="wa-legal-header">
+      <a href="index.html" class="wa-legal-back-link">← Return to rewhatsapp</a>
+      <span class="wa-legal-badge">Our Story</span>
+    </header>
+
+    <div class="wa-legal-container">
+      <!-- Desktop Table of Contents -->
+      <nav class="wa-legal-toc-sidebar" aria-label="Table of contents">
+        <h3 class="wa-toc-title">Story Chapters</h3>
+        <ul class="wa-toc-list">
+          <li><a href="#why-built" class="wa-toc-link">1. Why it was built</a></li>
+          <li><a href="#who-for" class="wa-toc-link">2. Who it is for</a></li>
+          <li><a href="#what-never" class="wa-toc-link">3. What it will never do</a></li>
+          <li><a href="#craft" class="wa-toc-link">4. The craft & philosophy</a></li>
+          <li><a href="#respect" class="wa-toc-link">5. Using it respectfully</a></li>
+        </ul>
+      </nav>
+
+      <!-- Main Story Article -->
+      <article class="wa-legal-article">
+        <div class="wa-legal-meta-bar">
+          <span class="wa-legal-badge">Origin Note</span>
+          <span>By <strong>qalvian</strong></span>
+          <span>Open Source</span>
+        </div>
+
+        <h1 class="wa-legal-title" data-reveal="blur" data-reveal-trigger="load">
+          About rewhatsapp
+        </h1>
+
+        <!-- Plain-English Callout -->
+        <div class="wa-legal-summary-box">
+          <h2 class="wa-summary-box-heading">A time machine for the moments that mattered</h2>
+          <p class="wa-summary-box-text">
+            We built rewhatsapp to prove two things: that digital conversations deserve more than a
+            cold, flat scrollback—and that an exceptional modern web experience can be built with
+            uncompromising, 100% private client-side engineering.
+          </p>
+        </div>
+
+        <section id="why-built" class="wa-legal-section">
+          <h2>1. Why it was built</h2>
+          <p>
+            Some conversations are too good to stay buried in a chat list.
+          </p>
+          <p>
+            Friendships that survived cross-country moves, the giddy nervousness of a first crush,
+            late-night inside jokes that kept you laughing through college exams, and the long-distance
+            months where a simple "Good morning" message was the anchor of your day: they all live in
+            a scrolling wall of text that we almost never revisit.
+          </p>
+          <p>
+            Reading a raw export in a text editor or scrolling through months of messages is cold.
+            It loses the suspense of the three bouncing dots. It loses the hesitation before a confession.
+            It loses the late-night timing and the sudden burst of rapid-fire replies.
+          </p>
+          <p>
+            rewhatsapp was built to give those moments a second life: replaying the conversation
+            the exact way it happened, with the pauses, the cadence, and the gentle audio pops, so you
+            can truly <em>feel</em> it again instead of just reading it.
+          </p>
+        </section>
+
+        <section id="who-for" class="wa-legal-section">
+          <h2>2. Who it is for</h2>
+          <p>We designed this replayer with specific human connections in mind:</p>
+          <ul>
+            <li>
+              <strong>Couples & Partners:</strong> To rewind to the night it started, the early
+              hesitations, the first inside jokes, and the anniversaries that followed.
+            </li>
+            <li>
+              <strong>Lifelong Friends:</strong> To look back on college years, road trips, group banter,
+              and memories with friends you might not see every day anymore.
+            </li>
+            <li>
+              <strong>Families Across Distances:</strong> To preserve the everyday warmth of parents,
+              siblings, and grandparents whose words you cherish.
+            </li>
+            <li>
+              <strong>Anyone Remembering Someone Dear:</strong> To revisit conversations with people
+              who brought laughter and joy into your life.
+            </li>
+          </ul>
+        </section>
+
+        <section id="what-never" class="wa-legal-section">
+          <h2>3. What it will never do</h2>
+          <p>
+            We live in an era where software companies routinely harvest intimate user data for ad targeting,
+            training models, or venture capital metrics. We reject that model outright.
+          </p>
+          <ul>
+            <li><strong>It will never upload your chats.</strong> Everything stays inside your local browser memory.</li>
+            <li><strong>It will never show ads.</strong> No banners, no popups, no sponsored placements.</li>
+            <li><strong>It will never track you.</strong> No Google Analytics, no tracking pixels, no telemetry beacons.</li>
+            <li><strong>It will never require an account.</strong> No logins, no passwords, no email signups.</li>
+            <li><strong>It will never charge you.</strong> It is free, open source, and built under the PolyForm Noncommercial 1.0.0 license.</li>
+          </ul>
+        </section>
+
+        <section id="craft" class="wa-legal-section">
+          <h2>4. The craft & engineering philosophy</h2>
+          <p>
+            rewhatsapp was engineered with zero runtime dependencies. There is no React, no heavy framework,
+            no npm bundle bloat, and no remote asset loading.
+          </p>
+          <p>
+            The sound system generates audio procedurally on your device using the Web Audio API with a
+            synthesized convolution reverb and lowpass filter. The parsing engine runs in streaming Web Workers.
+            The animations use native Web Animations API and CSS transforms. The entire application loads
+            in milliseconds and operates flawlessly offline as an installable PWA.
+          </p>
+        </section>
+
+        <section id="respect" class="wa-legal-section">
+          <h2>5. A gentle note on using it respectfully</h2>
+          <p>
+            Conversations are shared intimate spaces. When you use rewhatsapp, remember that you are holding
+            not only your own words, but someone else’s thoughts, feelings, and vulnerability.
+          </p>
+          <p>
+            Please use this tool with grace, kindness, and respect. Only replay conversations you were a
+            part of, and honor the trust of the person who shared those smiles with you.
+          </p>
+        </section>
+      </article>
+    </div>
+
+    <footer class="wa-legal-footer">
+      <p>rewhatsapp · Built by qalvian · PolyForm Noncommercial 1.0.0 · Independent Open-Source Project</p>
+    </footer>
+
+    <script type="module">
+      import { initReveals } from './src/ui/motion/text-reveal.js';
+      initReveals();
+    </script>
+  </body>
+</html>

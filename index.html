@@ -1,44 +1,881 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'none'; worker-src 'self'; base-uri 'none'; form-action 'none'"
-    />
-    <meta
-      name="description"
-      content="Relive your WhatsApp memories live in a privacy-first, client-side replayer."
-    />
-    <meta name="theme-color" content="#090d16" id="meta-theme-color" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="rewhatsapp" />
 
-    <title>rewhatsapp - Private WhatsApp Chat Replayer</title>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; manifest-src 'self'; worker-src 'self'; base-uri 'none'; form-action 'none'" />
+  <meta name="description" content="Relive your WhatsApp memories live in a privacy-first, client-side replayer." />
+  <meta name="theme-color" content="#F9F6F0" id="meta-theme-color" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="rewhatsapp" />
 
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="apple-touch-icon" href="icon-192.svg" />
-    <link rel="manifest" href="manifest.webmanifest" />
+  <title>rewhatsapp — Private WhatsApp Chat Replayer</title>
 
-    <link rel="stylesheet" href="src/styles/tokens.css" />
-    <link rel="stylesheet" href="src/styles/base.css" />
-    <link rel="stylesheet" href="src/styles/motion.css" />
-    <link rel="stylesheet" href="src/styles/home.css" />
-    <link rel="stylesheet" href="src/styles/setup.css" />
-    <link rel="stylesheet" href="src/styles/replay.css" />
-    <link rel="stylesheet" href="src/styles/insights.css" />
-    <link rel="stylesheet" href="src/styles/palette.css" />
-  </head>
-  <body>
-    <!-- Live region for polite screen-reader announcements -->
-    <div id="a11y-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" href="icon-192.svg" />
+  <link rel="manifest" href="manifest.webmanifest" />
 
-    <!-- Main Application Shell -->
-    <main id="app" role="main"></main>
+  <script src="./src/boot.js"></script>
 
-    <!-- Entrypoint (Pure ES Module, No inline scripts) -->
-    <script type="module" src="src/main.js"></script>
-  </body>
+  <!-- Google Fonts: Plus Jakarta Sans (UI) and Lora (Editorial Serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="src/styles/tokens.css?v=3.3.0" />
+  <link rel="stylesheet" href="styles.css?v=3.3.0" />
+  <link rel="stylesheet" href="src/styles/setup.css?v=3.3.0" />
+  <link rel="stylesheet" href="src/styles/replay.css?v=3.3.0" />
+  <link rel="stylesheet" href="src/styles/insights.css?v=3.3.0" />
+  <link rel="stylesheet" href="src/styles/palette.css?v=3.3.0" />
+</head>
+
+<body>
+  <!-- Live region for screen-reader announcements -->
+  <div id="a11y-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Hidden native file input for WhatsApp chat files -->
+  <input type="file" id="file-input" class="sr-only" accept=".txt,.zip" aria-label="Select WhatsApp chat export file" />
+
+  <!-- Toast Notification for Micro-interactions -->
+  <div id="toast-notice" class="toast-notice" role="status" aria-live="polite">
+    Preferences cleared
+  </div>
+
+  <!-- Privacy in 1 Minute Modal Dialog -->
+  <div id="privacy-modal" class="custom-modal-backdrop" role="dialog" aria-modal="true"
+    aria-labelledby="privacy-modal-title" aria-hidden="true">
+    <div class="custom-modal-card">
+      <div class="modal-header">
+        <h2 id="privacy-modal-title" class="modal-title">Privacy in 60 Seconds</h2>
+        <button type="button" class="modal-close-btn" id="modal-close-btn" aria-label="Close dialog">
+          &times;
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 0.65rem">
+          <strong>Zero server transmission:</strong> Your chat export is read straight from disk
+          into your browser&rsquo;s JavaScript runtime via the local HTML5 File API.
+        </p>
+        <p style="margin-bottom: 0.65rem">
+          <strong>No tracking or analytics:</strong> No tracking beacons, analytics scripts, or
+          cookies exist. Our Content Security Policy strictly blocks all outbound network
+          requests.
+        </p>
+        <p>
+          <strong>Instant wipe:</strong> Refreshing or closing this tab instantly purges all
+          parsed messages, timestamps, and memory graphs from local memory forever.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating "Liquid Glass" Pill Navbar -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#" class="brand-logo" aria-label="rewhatsapp home">
+        rewhatsapp<span class="brand-dot">.</span>
+      </a>
+      <button type="button" class="header-cta" id="header-sample-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+        <span>Watch sample</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Application Shell -->
+  <main id="app" role="main">
+    <!-- Landing Page Content -->
+    <div id="landing-page">
+      <!-- 1. Hero Section -->
+      <section id="hero" class="section hero-section fade-in">
+        <div class="container">
+          <!-- Dynamic Resume Replay Prompt (from localStorage) -->
+          <div id="resume-banner-container"></div>
+
+          <!-- Pill-shaped Badge -->
+          <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            <span>BUILT FOR ABSOLUTE PRIVACY</span>
+          </div>
+
+          <!-- Headline & Subheadline -->
+          <h1 class="hero-headline">Let's rewind <span class="highlight">those smiles</span>.</h1>
+          <p class="hero-subheadline">
+            Relive your WhatsApp memories live in a private, gentle journal. No servers, no
+            tracking&mdash;just the genuine rhythm, pauses, and heartbeats of the chats that
+            <span class="highlight">shaped your life</span>.
+          </p>
+
+          <!-- Action Buttons Row -->
+          <div class="hero-buttons">
+            <button type="button" class="btn btn-primary" id="btn-hero-select">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+              </svg>
+              <span>Select chat file</span>
+            </button>
+            <button type="button" class="btn btn-secondary" id="btn-hero-sample">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              <span>Watch sample memory</span>
+            </button>
+          </div>
+
+          <!-- Brand Trust Badges Row (with Deep Emerald badges) -->
+          <div class="hero-trust-badges">
+            <span class="trust-badge trust-badge-secure">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              100% On-Device · Nothing uploaded
+            </span>
+            <span class="trust-badge">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <polyline points="9 12 11 14 15 10"></polyline>
+              </svg>
+              100% Offline Capable
+            </span>
+            <span class="trust-badge trust-badge-secure">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+              Built for absolute privacy
+            </span>
+          </div>
+
+          <!-- Phone Mockup (Pure CSS Art - Max Width 280px, Thin Bezels) -->
+          <div class="phone-stage">
+            <div class="phone-mockup" aria-label="Interactive preview of WhatsApp chat playback">
+              <!-- Subtle Glass Reflection Overlay -->
+              <div class="phone-glass-overlay" aria-hidden="true"></div>
+
+              <!-- Dynamic Island Notch -->
+              <div class="phone-notch" aria-hidden="true">
+                <div class="notch-sensor"></div>
+                <div class="notch-camera"></div>
+              </div>
+
+              <!-- iOS Status Bar -->
+              <div class="phone-status-bar" aria-hidden="true">
+                <span>9:41</span>
+                <div class="phone-status-icons">
+                  <svg width="13" height="9" viewBox="0 0 16 12" fill="currentColor">
+                    <rect x="0" y="8" width="3" height="4" rx="0.5"></rect>
+                    <rect x="4" y="6" width="3" height="6" rx="0.5"></rect>
+                    <rect x="8" y="3" width="3" height="9" rx="0.5"></rect>
+                    <rect x="12" y="0" width="3" height="12" rx="0.5"></rect>
+                  </svg>
+                  <svg width="13" height="10" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M12 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm7.07-7.07a10 10 0 0 0-14.14 0l1.41 1.41a8 8 0 0 1 11.32 0l1.41-1.41zM21.31 8.69a14 14 0 0 0-18.62 0l1.41 1.41a12 12 0 0 1 15.8 0l1.41-1.41z">
+                    </path>
+                  </svg>
+                  <svg width="17" height="9" viewBox="0 0 24 12" fill="currentColor">
+                    <rect x="1" y="1" width="19" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="2">
+                    </rect>
+                    <rect x="3" y="3" width="13" height="6" rx="1.5"></rect>
+                    <path d="M22 4v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- WhatsApp Header Bar (Maya Chen + Bouncing Typing Dots) -->
+              <div class="phone-wa-header">
+                <div class="wa-header-left">
+                  <span class="wa-back-arrow" aria-hidden="true">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2.5"
+                      stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                  </span>
+                  <div class="wa-avatar">MC</div>
+                  <div class="wa-header-info">
+                    <span class="wa-contact-name">Maya Chen</span>
+                    <span class="wa-contact-status">
+                      typing<span class="typing-dots"><span class="typing-dot"></span><span
+                          class="typing-dot"></span><span class="typing-dot"></span></span>
+                    </span>
+                  </div>
+                </div>
+                <div class="wa-header-actions" aria-hidden="true">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                  </svg>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                      d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                    </path>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Chat Body with WhatsApp Message Bubbles -->
+              <div class="phone-chat-body">
+                <div class="chat-date-chip">October 14, 2021</div>
+
+                <!-- Received Bubble 1 (White + Tail, from Maya Chen, NO checks) -->
+                <div class="chat-bubble chat-bubble-received">
+                  <div>Hey Leo! Found your sketchbook under desk 4 &#127912;</div>
+                  <div class="chat-bubble-meta">
+                    <span>10:14 AM</span>
+                  </div>
+                </div>
+
+                <!-- Sent Bubble 2 (Green + Tail, from Leo, with Double Blue Ticks) -->
+                <div class="chat-bubble chat-bubble-sent">
+                  <div>You saved my entire semester!! Coffee tomorrow? &#9749;</div>
+                  <div class="chat-bubble-meta">
+                    <span>10:15 AM</span>
+                    <span class="chat-ticks">&#10003;&#10003;</span>
+                  </div>
+                </div>
+
+                <!-- Received Bubble 3 (White + Tail, from Maya Chen, NO checks) -->
+                <div class="chat-bubble chat-bubble-received">
+                  <div>Tomorrow 10am at Blue Bottle works! &#127881;</div>
+                  <div class="chat-bubble-meta">
+                    <span>10:16 AM</span>
+                  </div>
+                </div>
+
+                <!-- Sent Bubble 4 (Green + Tail, from Leo, with Double Blue Ticks) -->
+                <div class="chat-bubble chat-bubble-sent">
+                  <div>Rewinding back to day one... &#9203;</div>
+                  <div class="chat-bubble-meta">
+                    <span>10:17 AM</span>
+                    <span class="chat-ticks">&#10003;&#10003;</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Phone WhatsApp Composer -->
+              <div class="phone-composer" aria-hidden="true">
+                <div class="composer-input-pill">
+                  <span>Message</span>
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                      d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48">
+                    </path>
+                  </svg>
+                </div>
+                <div class="composer-send-btn">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"></path>
+                    <path
+                      d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z">
+                    </path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. The Motive Section (Space Optimized) -->
+      <section id="motive" class="section fade-in">
+        <div class="container">
+          <div class="section-tag">The Motive</div>
+          <h2 class="section-title">
+            Past chats deserve more than a <span class="highlight">cold scrollback</span>.
+          </h2>
+
+          <!-- Block 1: The Quote (Lora Serif, 1.25rem, Paper Texture, Flourish) -->
+          <div class="motive-quote-block">
+            <blockquote class="motive-quote-text">
+              &ldquo;The conversations that shaped who we are shouldn't be trapped in cold,
+              forgotten archives. They happened in real moments&mdash;with nervous pauses,
+              late-night heartbeats, and smiles that deserve to be felt again.&rdquo;
+            </blockquote>
+            <cite class="motive-quote-author">
+              <span class="motive-author-info">&mdash; Creator of rewhatsapp</span>
+              <span class="quote-flourish" aria-hidden="true">
+                <svg width="24" height="12" viewBox="0 0 40 20" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round">
+                  <path d="M2 10 C 15 2, 25 18, 38 10"></path>
+                </svg>
+              </span>
+            </cite>
+          </div>
+
+          <!-- Block 2: How It Works Side-by-Side Cards (padding: 1rem) -->
+          <div class="how-it-works-grid">
+            <div class="horizontal-card fade-in stagger-1">
+              <div class="card-icon-badge card-icon-badge-secure">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="card-title">1.Your data is in safe hands.</h3>
+                <p class="card-desc">
+                  Your chat export is opened directly inside your browser. No uploads, no servers,
+                  and zero personal data ever leaves your device.
+                </p>
+              </div>
+            </div>
+
+            <div class="horizontal-card fade-in stagger-2">
+              <div class="card-icon-badge">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <div>
+                <h3 class="card-title">2. Rewind the beautiful moments.</h3>
+                <p class="card-desc">
+                  Messages flow with their original rhythm, emotional pauses, and authentic
+                  timestamps&mdash;bringing back the true feeling of every shared story.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Export Guide (Compact) -->
+      <section id="export-guide" class="section fade-in">
+        <div class="container">
+          <div class="section-tag">Export Guide</div>
+          <h2 class="section-title">How to export your chat in 30 seconds.</h2>
+          <p class="section-subtitle">
+            WhatsApp lets you export any individual or group conversation directly from your phone
+            into a standard text or zip archive.
+          </p>
+
+          <!-- Compact UI Toggle using Radio Buttons -->
+          <input type="radio" name="export-os" id="tab-ios" class="sr-only" checked />
+          <input type="radio" name="export-os" id="tab-android" class="sr-only" />
+
+          <div class="export-toggle-wrapper" role="tablist" aria-label="Platform selection">
+            <label for="tab-ios" class="tab-label" role="tab" tabindex="0">iPhone (iOS)</label>
+            <label for="tab-android" class="tab-label" role="tab" tabindex="0">Android</label>
+          </div>
+
+          <!-- Tab Panels -->
+          <div class="export-panels">
+            <!-- iOS Panel -->
+            <div id="panel-ios" class="export-panel" role="tabpanel" aria-labelledby="tab-ios">
+              <ol class="export-step-list">
+                <li class="export-step-item">
+                  <div class="export-step-body">
+                    <div class="export-step-header">Open chat in WhatsApp</div>
+                    <div class="export-step-text">
+                      Open WhatsApp on your iPhone and tap into the specific chat you wish to
+                      relive.
+                    </div>
+                  </div>
+                </li>
+                <li class="export-step-item">
+                  <div class="export-step-body">
+                    <div class="export-step-header">Tap contact or group name</div>
+                    <div class="export-step-text">
+                      Tap the header bar at the top of your screen to open the contact information
+                      view.
+                    </div>
+                  </div>
+                </li>
+                <li class="export-step-item">
+                  <div class="export-step-body">
+                    <div class="export-step-header">Select Export Chat</div>
+                    <div class="export-step-text">
+                      Scroll to the bottom of the contact info page and tap
+                      <strong>Export Chat</strong>.
+                    </div>
+                  </div>
+                </li>
+                <li class="export-step-item">
+                  <div class="export-step-body">
+                    <div class="export-step-header">Choose &ldquo;Without Media&rdquo;</div>
+                    <div class="export-step-text">
+                      Select <strong>Without Media</strong> for the quickest export, or attach
+                      media to include photos.
+                    </div>
+                  </div>
+                </li>
+                <li class="export-step-item">
+                  <div class="export-step-body">
+                    <div class="export-step-header">Save to Files or Share</div>
+                    <div class="export-step-text">
+                      Tap <strong>Save to Files</strong> or AirDrop the exported
+                      <code>_chat.txt</code> or <code>.zip</code> file to your computer.
+                    </div>
+                  </div>
+                </li>
+              </ol>
+            </div>
+
+            <!-- Android Panel -->
+            <div id="panel-android" class="export-panel" role="tabpanel" aria-labelledby="tab-android">
+              <ol class="export-step-list">
+                <li class="export-step-item">
+                  <div class="export-step-body">
+                    <div class="export-step-header">Open the conversation</div>
+                    <div class="export-step-text">
+                      Open WhatsApp on your Android device and tap into the desired conversation.
+                    </div>
+                  </div>
+                </li>
+                <li class="export-step-item">
+                  <div class="export-step-body">
+                    <div class="export-step-header">Tap the menu icon (&vellip;)</div>
+                    <div class="export-step-text">
+                      Tap the three vertical dots menu icon in the top right corner of the chat
+                      screen.
+                    </div>
+                  </div>
+                </li>
+                <li class="export-step-item">
+                  <div class="export-step-body">
+                    <div class="export-step-header">Tap More &rarr; Export chat</div>
+                    <div class="export-step-text">
+                      Select <strong>More</strong> from the dropdown options, then choose
+                      <strong>Export chat</strong>.
+                    </div>
+                  </div>
+                </li>
+                <li class="export-step-item">
+                  <div class="export-step-body">
+                    <div class="export-step-header">Select &ldquo;Without media&rdquo;</div>
+                    <div class="export-step-text">
+                      Choose <strong>Without media</strong> to create a lightweight, portable
+                      <code>.txt</code> file containing your complete chat history.
+                    </div>
+                  </div>
+                </li>
+                <li class="export-step-item">
+                  <div class="export-step-body">
+                    <div class="export-step-header">Save to Downloads</div>
+                    <div class="export-step-text">
+                      Save the file directly to your local storage or send it to yourself via
+                      Google Drive or email.
+                    </div>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </div>
+
+          <!-- Compact What to do next Card (padding: 1rem) -->
+          <div class="next-steps-card">
+            <h3 class="next-steps-title">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 2L11 13"></path>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+              What to do next
+            </h3>
+            <p class="next-steps-text">
+              Once your <code>.txt</code> or <code>.zip</code> file is saved on your device,
+              simply click <strong>Select chat file</strong> in the hero section above or drag and
+              drop it onto this page. Your chat will organize into an interactive timeline in
+              seconds with zero cloud uploads.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Features Section (Center-Stacked Scroll Deck) -->
+      <section id="features" class="section fade-in">
+        <div class="container">
+          <!-- Stationary Section Heading (Stationary at top, zero clipping) -->
+          <div class="features-header">
+            <div class="section-tag section-tag-secure">Built for absolute privacy</div>
+            <h2 class="section-title">
+              Designed for nostalgia, built for <span class="highlight">absolute privacy</span>.
+            </h2>
+            <p class="section-subtitle">
+              A gentle suite of playback tools created to give your most meaningful digital
+              memories the intimacy and respect they deserve.
+            </p>
+          </div>
+
+          <!-- Center-Stacked Scroll Deck -->
+          <div class="features-stack">
+            <!-- Feature Card 1: Dynamic Typing Speed with Progress Bar -->
+            <div class="feature-card">
+              <div>
+                <div class="feature-icon-badge">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polyline>
+                  </svg>
+                </div>
+                <h3 class="feature-title">Dynamic Typing Speed (Time = Length)</h3>
+                <p class="feature-desc">
+                  The delay before each message appears is calculated directly from its character
+                  length (Base delay + 30ms per character). Outgoing messages simulate typing right
+                  in your composer bar before sending.
+                </p>
+              </div>
+              <!-- Visual Progress Bar Widget -->
+              <div class="progress-widget-container">
+                <div class="progress-widget-header">
+                  <span>Typing delay by message length</span>
+                  <span class="progress-stat">Exact</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" id="compression-bar"></div>
+                </div>
+                <div class="progress-widget-sub">
+                  <span>&ldquo;Hi&rdquo; &rarr; 0.5s</span>
+                  <span>Paragraph &rarr; 4.9s</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Feature Card 2: Speed Multiplier (-4x to +4x) -->
+            <div class="feature-card">
+              <div>
+                <div class="feature-icon-badge">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polygon points="11 19 2 12 11 5 11 19"></polygon>
+                    <polygon points="22 19 13 12 22 5 22 19"></polygon>
+                  </svg>
+                </div>
+                <h3 class="feature-title">Speed Multiplier (&minus;4&times; to +4&times;)</h3>
+                <p class="feature-desc">
+                  Negative speeds (&minus;1&times; to &minus;4&times;) slow down typing for a gentle,
+                  dramatic reading pace. Positive speeds (+1&times; to +4&times;) accelerate playback
+                  without dropping a single letter.
+                </p>
+              </div>
+            </div>
+
+            <!-- Feature Card 3: Intimate Conversation Insights -->
+            <div class="feature-card">
+              <div>
+                <div class="feature-icon-badge">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="18" y1="20" x2="18" y2="10"></line>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                  </svg>
+                </div>
+                <h3 class="feature-title">Intimate Conversation Insights</h3>
+                <p class="feature-desc">
+                  Explore shared memory graphs, peak late-night chatting hours, heartfelt
+                  sentiment shifts, and celebrate your journey with a keepsake epilogue card.
+                </p>
+              </div>
+            </div>
+
+            <!-- Feature Card 4: Ephemeral Private Vault -->
+            <div class="feature-card">
+              <div>
+                <div class="feature-icon-badge feature-icon-badge-secure">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                </div>
+                <h3 class="feature-title">Ephemeral Private Vault</h3>
+                <p class="feature-desc">
+                  Zero cloud database. Nothing is saved or tracked across servers. The moment you
+                  close this tab, all chat data dissolves from local memory forever.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Privacy & Security Section (BRAND CORE: Vault Treatment) -->
+      <section id="privacy" class="section fade-in">
+        <div class="container">
+          <div class="privacy-section-wrapper">
+            <div class="section-tag section-tag-secure">Built for absolute privacy</div>
+            <h2 class="section-title">
+              Your intimate memories are <span class="highlight">yours alone</span>.
+            </h2>
+            <p class="section-subtitle">
+              We believe software handling personal messages must have verifiable, zero-trust
+              privacy built into every layer.
+            </p>
+
+            <!-- Steps with Bold Headings and Smaller Text -->
+            <div class="privacy-steps">
+              <div class="privacy-step-item">
+                <div class="privacy-step-number">1</div>
+                <div class="privacy-step-content">
+                  <strong>Zero Cloud Upload</strong>
+                  <p>
+                    Files are read directly into memory via the native HTML5 File API. No payload
+                    is ever sent across the wire.
+                  </p>
+                </div>
+              </div>
+              <div class="privacy-step-item">
+                <div class="privacy-step-number">2</div>
+                <div class="privacy-step-content">
+                  <strong>Ephemeral Session Lifecycle</strong>
+                  <p>
+                    No backend database exists. When your replay completes or your browser tab
+                    closes, all parsed memory is immediately garbage collected.
+                  </p>
+                </div>
+              </div>
+              <div class="privacy-step-item">
+                <div class="privacy-step-number">3</div>
+                <div class="privacy-step-content">
+                  <strong>Strict Content Security Policy</strong>
+                  <p>
+                    Our Content Security Policy restricts external connections, verifying that no
+                    third-party script can siphon or log your private text.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Compact Pill Tags (padding: 0.25rem 0.75rem; font-size: 0.8rem) -->
+            <div class="privacy-tags-row">
+              <button type="button" class="pill-tag" id="tag-clear-prefs">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                Clear stored preferences
+              </button>
+              <button type="button" class="pill-tag" id="tag-privacy-info">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                Privacy in 1 minute
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. FAQ Section (Tight Spacing) -->
+      <section id="faq" class="section fade-in">
+        <div class="container">
+          <div class="section-tag">FAQ</div>
+          <h2 class="section-title">Frequently asked questions.</h2>
+          <p class="section-subtitle">
+            Everything you need to know about exporting, replaying, and securing your WhatsApp
+            chats.
+          </p>
+
+          <!-- Semantic HTML Accordion with <details> and <summary> -->
+          <div class="faq-accordion">
+            <details class="faq-item">
+              <summary>
+                <span>Is my WhatsApp chat data uploaded to any server?</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </summary>
+              <div class="faq-body">
+                No. Absolutely nothing leaves your browser. All parsing, timeline sequencing, and
+                audio synthesis happen directly in your device&rsquo;s local runtime memory. You
+                can even disconnect your Wi-Fi or turn on Airplane Mode after loading the page and
+                replay your chats completely offline.
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                <span>Does rewhatsapp support photos, voice notes, and videos?</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </summary>
+              <div class="faq-body">
+                If you export your chat as a <code>.zip</code> file containing media, rewhatsapp
+                extracts and displays images alongside messages during replay. Without media,
+                lightweight <code>_chat.txt</code> exports focus on the raw conversational text,
+                timestamps, and emoji.
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                <span>Which WhatsApp export formats are supported?</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </summary>
+              <div class="faq-body">
+                rewhatsapp handles iOS bracketed formats <code>[dd/mm/yy, hh:mm:ss]</code>,
+                Android standard 12-hour and 24-hour formats
+                <code>dd/mm/yyyy, hh:mm - Name:</code>, European dot-separated dates, and
+                international AM/PM formats automatically.
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                <span>Can I replay group chats as well as one-on-one chats?</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </summary>
+              <div class="faq-body">
+                Yes! When you upload a group chat, rewhatsapp detects all participants, assigns
+                distinct color-coded sender tags, and allows you to pick your own persona during
+                setup so outgoing messages appear properly on your side.
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                <span>How does dynamic typing speed work?</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </summary>
+              <div class="faq-body">
+                The delay before each message appears is calculated directly by its character count
+                (Base delay + 30ms per character). Outgoing messages simulate real typing directly
+                in your composer bar, and playback speeds from &minus;4&times; (slow reading pace)
+                up to +4&times; can be adjusted at any moment.
+              </div>
+            </details>
+
+            <details class="faq-item">
+              <summary>
+                <span>Does this work offline?</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </summary>
+              <div class="faq-body">
+                Yes. rewhatsapp registers a progressive web app service worker so you can save the
+                app to your home screen or desktop and replay exported chats even when you have
+                zero internet connectivity.
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. Final CTA & Footer Section (Compact) -->
+      <section class="section final-cta-section fade-in">
+        <div class="container">
+          <div class="final-cta-card">
+            <h2 class="final-cta-headline">
+              Ready to step into the <span class="highlight">past</span>?
+            </h2>
+            <p class="final-cta-sub">
+              Select your chat export file or watch the gentle sample memory right now in your
+              browser.
+            </p>
+            <div class="final-cta-buttons">
+              <button type="button" class="btn btn-primary" id="btn-final-select">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <span>Select chat file</span>
+              </button>
+              <button type="button" class="btn btn-secondary" id="btn-final-sample">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                </svg>
+                <span>Watch sample memory</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Footer with Emphasized Open-Source, Usage Mandate & Author Credit -->
+          <footer class="site-footer">
+            <div class="footer-top-row">
+              <div class="footer-brand-wrap">
+                <a href="#" class="brand-logo footer-brand">rewhatsapp<span class="brand-dot">.</span></a>
+                <p class="footer-tagline">Your memories never leave your device.</p>
+              </div>
+              <ul class="footer-links">
+                <li><a href="about.html" class="footer-link">About</a></li>
+                <li><a href="privacy.html" class="footer-link">Privacy Policy</a></li>
+                <li><a href="terms.html" class="footer-link">Terms of Service</a></li>
+                <li><a href="#export-guide" class="footer-link">Export Guide</a></li>
+                <li><a href="#faq" class="footer-link">FAQ</a></li>
+              </ul>
+            </div>
+
+            <!-- Copyright, Usage Mandate & Author Attribution Card -->
+            <div class="footer-mandate-card">
+              <div class="footer-mandate-content">
+                <span class="footer-mandate-badge">Usage &amp; Copyright Notice</span>
+                <p class="footer-mandate-text">
+                  <strong>Free to use and embed. Do not copy, clone, or redistribute the source
+                    code.</strong>
+                </p>
+              </div>
+              <div class="footer-author-credit">
+                <span class="footer-credit-label">Created and copyrighted by</span>
+                <a href="https://github.com/qalvian" target="_blank" rel="noopener noreferrer"
+                  class="footer-author-link">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z">
+                    </path>
+                  </svg>
+                  <span>qalvian</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="footer-bottom-row">
+              <p>
+                <span class="footer-disclaimer-highlight">Independent open-source project. Not affiliated with
+                  Meta.</span>
+                rewhatsapp is an independent client-side nostalgia player. Not affiliated,
+                associated, authorized, endorsed by, or in any way officially connected with
+                WhatsApp LLC, Meta Platforms, Inc., or any of their subsidiaries.
+              </p>
+            </div>
+          </footer>
+        </div>
+      </section>
+    </div>
+
+    <!-- Mount point for Replay Shell when active -->
+    <div id="replay-mount" style="display: none"></div>
+  </main>
+
+  <!-- Main Entrypoint JavaScript -->
+  <script type="module" src="src/main.js?v=3.3.0"></script>
+</body>
+
 </html>

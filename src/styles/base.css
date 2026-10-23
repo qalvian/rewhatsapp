@@ -11,34 +11,38 @@ html,
 body {
   width: 100%;
   height: 100%;
-  height: 100dvh;
-  overflow: hidden;
-  background-color: var(--tm-bg-space);
-  color: var(--tm-text-primary);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  background-color: var(--color-bg);
+  color: var(--color-text);
   font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   -webkit-tap-highlight-color: transparent;
-  user-select: none;
+  transition:
+    background-color 200ms ease,
+    color 200ms ease;
 }
 
 #app {
   width: 100%;
-  height: 100%;
+  min-height: 100dvh;
   position: relative;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 
 /* Accessibility Focus Rings */
 :focus-visible {
-  outline: 2px solid var(--tm-accent-amber);
-  outline-offset: 3px;
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
-/* Screen Reader Only Utility */
+/* Visually Hidden Utility for Accessible Native Inputs */
+.visually-hidden,
 .sr-only {
   position: absolute !important;
   width: 1px !important;
@@ -51,10 +55,11 @@ body {
   border: 0 !important;
 }
 
-/* Base interactive elements */
+/* Base Interactive Elements */
 button {
   font-family: inherit;
   font-size: inherit;
+  font-weight: inherit;
   color: inherit;
   background: none;
   border: none;
@@ -66,26 +71,28 @@ button {
   transition:
     transform 120ms var(--ease-smooth),
     opacity 120ms var(--ease-smooth),
-    background-color 150ms var(--ease-smooth);
+    background-color 150ms var(--ease-smooth),
+    border-color 150ms var(--ease-smooth),
+    color 150ms var(--ease-smooth);
 }
 
 button:disabled {
   cursor: not-allowed;
-  opacity: 0.5;
+  opacity: 0.45;
 }
 
 button:active:not(:disabled) {
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 
 input,
 select,
 textarea {
   font-family: inherit;
-  font-size: 16px; /* Prevents auto-zoom on iOS Safari */
+  font-size: 16px; /* Prevents iOS Safari auto-zoom */
   color: inherit;
   background: transparent;
-  border: 1px solid var(--tm-border-glass);
+  border: 1px solid var(--color-border);
 }
 
 a {
@@ -98,7 +105,7 @@ svg {
   flex-shrink: 0;
 }
 
-/* Scrollbar customization */
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -109,10 +116,10 @@ svg {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.25);
+  background: var(--color-border);
   border-radius: var(--radius-full);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(148, 163, 184, 0.4);
+  background: var(--color-text-muted);
 }

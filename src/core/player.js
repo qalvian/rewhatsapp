@@ -18,6 +18,32 @@ import { isTimeSkip } from './timeline.js';
  * Playback controller driven by requestAnimationFrame virtual clock.
  * Zero setTimeout chains: speed changes, pause, and seeking are 100% drift-free.
  */
+/**
+ * Maps speed rating (-4 to +4) to actual playback rate multiplier.
+ * Negative speeds (-1x to -4x) slow down typing/playback:
+ * -4 -> 0.25 (4x slower)
+ * -3 -> 0.333 (3x slower)
+ * -2 -> 0.5 (2x slower, takes twice as long)
+ * -1 -> 0.75 (1.33x slower)
+ * +1 -> 1.0 (normal)
+ * +2 -> 2.0 (2x faster)
+ * +3 -> 3.0 (3x faster)
+ * +4 -> 4.0 (4x faster)
+ *
+ * @param {number} speedRating
+ * @returns {number}
+ */
+export function getSpeedFactor(speedRating) {
+  if (speedRating <= -4) return 0.25;
+  if (speedRating === -3) return 1 / 3;
+  if (speedRating === -2) return 0.5;
+  if (speedRating === -1) return 0.75;
+  if (speedRating === 0 || speedRating === 1) return 1.0;
+  if (speedRating === 2) return 2.0;
+  if (speedRating === 3) return 3.0;
+  return 4.0;
+}
+
 export class ChatPlayer {
   /**
    * @param {import('./timeline.js').Timeline} timeline
@@ -27,8 +53,9 @@ export class ChatPlayer {
     /** @type {PlayerState} */
     this.state = 'LOADED';
     this.virtualTime = 0;
+    this.speedRating = 1;
     this.speed = 1.0;
-    this.currentIndex = 0;
+    this.currentIndex = -1;
     this.lastFrameTime = 0;
     /** @type {number | null} */
     this.animationFrameId = null;
@@ -128,7 +155,7 @@ export class ChatPlayer {
 
     this.emit('timeupdate', this._getCurrentPayload());
 
-    if (newIndex !== oldIndex) {
+    if (newIndex !== oldIndex || timeMs === 0) {
       const msg = this.timeline.messages[newIndex];
       if (msg) {
         this.emit('message', {
@@ -184,13 +211,20 @@ export class ChatPlayer {
   }
 
   /**
-   * Updates playback speed factor (e.g. 0.5, 1, 2, 5, 10, 20).
+   * Updates playback speed by rating (-4 to +4) or factor.
+   * Negative ratings (-1x to -4x) slow down typing/playback.
    * @param {number} speed
    */
   setSpeed(speed) {
-    if (speed <= 0) return;
-    this.speed = speed;
-    this.emit('speedchange', { speed: this.speed });
+    if (speed === 0) return;
+    if (speed < 0 || (speed >= 1 && speed <= 4 && Number.isInteger(speed))) {
+      this.speedRating = speed;
+      this.speed = getSpeedFactor(speed);
+    } else {
+      this.speed = Math.max(0.1, speed);
+      this.speedRating = this.speed >= 1 ? Math.round(this.speed) : -Math.round(1 / this.speed);
+    }
+    this.emit('speedchange', { speed: this.speed, rating: this.speedRating });
   }
 
   /**

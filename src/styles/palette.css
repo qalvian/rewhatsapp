@@ -1,130 +1,110 @@
 /**
  * rewhatsapp - Command Palette Styles
- * Aesthetic: Spotlight search dialog with frosted glass, keyboard chips.
+ * Direction: Warm editorial, clean Spotlight-style dialog
  */
 
 .wa-palette-overlay {
   position: fixed;
   inset: 0;
-  z-index: 150;
-  background: rgba(4, 5, 12, 0.72);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  z-index: var(--z-palette, 60);
+  background: rgba(21, 17, 15, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: clamp(40px, 12vh, 120px) 16px 16px 16px;
+  padding: clamp(40px, 12vh, 120px) var(--space-4) var(--space-4) var(--space-4);
   animation: fadeIn 0.15s ease-out;
+  box-sizing: border-box;
 }
 
 .wa-palette-dialog {
   width: 100%;
-  max-width: 560px;
-  border-radius: 16px;
-  background: linear-gradient(160deg, #1d152a 0%, #100b18 100%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  box-shadow:
-    0 24px 60px rgba(0, 0, 0, 0.75),
-    0 0 40px rgba(180, 80, 200, 0.2);
+  max-width: 540px;
+  border-radius: var(--radius-xl);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-dialog);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes slideDown {
-  from {
-    transform: translateY(-16px) scale(0.96);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-  }
+  animation: messagePopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
 }
 
 .wa-palette-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .wa-palette-search-icon {
-  color: #9d8aa8;
+  color: var(--color-text-muted);
 }
 
 .wa-palette-input {
   flex: 1;
   background: transparent;
   border: none;
-  font-size: 16px;
-  color: #ffffff;
+  font-size: var(--text-16);
+  color: var(--color-text);
   outline: none;
 }
 
 .wa-palette-input::placeholder {
-  color: #79688a;
+  color: var(--color-text-muted);
 }
 
 .wa-palette-kbd {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 4px;
+  background-color: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
   padding: 2px 6px;
   font-size: 11px;
-  color: #c9b7d8;
+  color: var(--color-text-muted);
   font-family: inherit;
 }
 
 .wa-palette-results {
   max-height: 320px;
   overflow-y: auto;
-  padding: 8px;
+  padding: var(--space-2);
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .wa-palette-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 14px;
-  border-radius: 8px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
   background: transparent;
-  border: none;
-  color: #ddcceb;
-  font-size: 14px;
+  border: 1px solid transparent;
+  color: var(--color-text);
+  font-size: var(--text-14);
   cursor: pointer;
-  text-align: left;
-  transition: all 0.15s ease;
+  transition:
+    background-color 120ms ease,
+    color 120ms ease;
+  box-sizing: border-box;
 }
 
 .wa-palette-item:hover,
-.wa-palette-item.selected {
-  background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
-}
-
-.wa-palette-item.selected {
-  outline: 1px solid rgba(37, 211, 102, 0.4);
-}
-
-.wa-palette-item-shortcut {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  padding: 2px 6px;
-  font-size: 11px;
-  color: #9d8aa8;
-  font-family: inherit;
+.wa-palette-item.active {
+  background-color: var(--color-surface-2);
+  border-color: var(--color-border);
+  color: var(--color-accent);
 }
 
 .wa-palette-empty {
-  padding: 24px;
+  padding: var(--space-6);
   text-align: center;
-  font-size: 13px;
-  color: #79688a;
+  color: var(--color-text-muted);
+  font-size: var(--text-14);
 }
