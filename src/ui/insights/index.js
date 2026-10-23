@@ -36,7 +36,9 @@ export function createInsightsDashboard({ stats, onClose }) {
   const header = el(
     'div',
     { className: 'wa-insights-header' },
-    el('div', { className: 'wa-insights-title-wrap' },
+    el(
+      'div',
+      { className: 'wa-insights-title-wrap' },
       el('span', { className: 'wa-insights-badge', text: 'Chat Intelligence' }),
       el('h2', {
         id: 'insights-dialog-title',
@@ -83,11 +85,15 @@ export function createInsightsDashboard({ stats, onClose }) {
     // Who Replied More Section
     const replyGraphSection = el('div', { className: 'wa-insights-section wa-analytics-card' });
     replyGraphSection.appendChild(
-      el('div', { className: 'wa-analytics-card-header' },
+      el(
+        'div',
+        { className: 'wa-analytics-card-header' },
         el('h3', { className: 'wa-section-title', text: 'Who Replied More' }),
         el('span', {
           className: 'wa-analytics-pill',
-          text: isTieMsg ? 'Evenly Balanced' : `${isP1LowerMsg ? p2.displayName : p1.displayName} sent more`,
+          text: isTieMsg
+            ? 'Evenly Balanced'
+            : `${isP1LowerMsg ? p2.displayName : p1.displayName} sent more`,
         }),
       ),
     );
@@ -125,7 +131,10 @@ export function createInsightsDashboard({ stats, onClose }) {
       { className: 'wa-ratio-legend-item' },
       el('span', { className: 'wa-legend-dot', style: `background-color: ${p1Color};` }),
       el('span', { className: 'wa-legend-name', text: p1.displayName }),
-      el('strong', { className: 'wa-legend-stat', text: `${p1.messageCount.toLocaleString()} msgs (${p1PctMsg}%)` }),
+      el('strong', {
+        className: 'wa-legend-stat',
+        text: `${p1.messageCount.toLocaleString()} msgs (${p1PctMsg}%)`,
+      }),
       el('span', {
         className: `wa-stat-tag ${isP1LowerMsg ? 'tag-lower' : 'tag-higher'}`,
         text: isTieMsg ? 'Equal' : isP1LowerMsg ? 'Fewer messages' : 'More messages',
@@ -137,7 +146,10 @@ export function createInsightsDashboard({ stats, onClose }) {
       { className: 'wa-ratio-legend-item' },
       el('span', { className: 'wa-legend-dot', style: `background-color: ${p2Color};` }),
       el('span', { className: 'wa-legend-name', text: p2.displayName }),
-      el('strong', { className: 'wa-legend-stat', text: `${p2.messageCount.toLocaleString()} msgs (${p2PctMsg}%)` }),
+      el('strong', {
+        className: 'wa-legend-stat',
+        text: `${p2.messageCount.toLocaleString()} msgs (${p2PctMsg}%)`,
+      }),
       el('span', {
         className: `wa-stat-tag ${!isP1LowerMsg && !isTieMsg ? 'tag-lower' : 'tag-higher'}`,
         text: isTieMsg ? 'Equal' : !isP1LowerMsg ? 'Fewer messages' : 'More messages',
@@ -235,7 +247,9 @@ export function createInsightsDashboard({ stats, onClose }) {
   // 3. Response Times & Conversation Flow
   // =========================================================================
   const flowSection = el('div', { className: 'wa-insights-section' });
-  flowSection.appendChild(el('h3', { className: 'wa-section-title', text: 'Median Response Times' }));
+  flowSection.appendChild(
+    el('h3', { className: 'wa-section-title', text: 'Median Response Times' }),
+  );
 
   const responseList = el('div', { className: 'wa-response-list' });
   stats.participantStats.forEach((p) => {
@@ -366,7 +380,9 @@ function createRatioCard({ title, p1Name, p2Name, p1Val, p2Val, p1Pct, p2Pct, un
   return el(
     'div',
     { className: 'wa-ratio-card' },
-    el('div', { className: 'wa-ratio-card-head' },
+    el(
+      'div',
+      { className: 'wa-ratio-card-head' },
       el('span', { className: 'wa-ratio-card-title', text: title }),
       el('span', { className: 'wa-ratio-card-split', text: `${p1Pct}% vs ${p2Pct}%` }),
     ),

@@ -17,7 +17,10 @@ describe('Text Reveal pure helpers', () => {
       const ranks = buildRanks(count, 'random', 'Sample test sentence seed');
       assert.equal(ranks.length, count);
       const sorted = [...ranks].sort((a, b) => a - b);
-      assert.deepEqual(sorted, Array.from({ length: count }, (_, i) => i));
+      assert.deepEqual(
+        sorted,
+        Array.from({ length: count }, (_, i) => i),
+      );
     });
 
     it('is symmetric for center', () => {
@@ -72,8 +75,16 @@ describe('Text Reveal pure helpers', () => {
           }
 
           const signatures = frames.map((f) => extractTransformFunctions(String(f.transform)));
-          assert.deepEqual(signatures[0], signatures[1], 'Frame 0 and 1 must have same transform function list');
-          assert.deepEqual(signatures[1], signatures[2], 'Frame 1 and 2 must have same transform function list');
+          assert.deepEqual(
+            signatures[0],
+            signatures[1],
+            'Frame 0 and 1 must have same transform function list',
+          );
+          assert.deepEqual(
+            signatures[1],
+            signatures[2],
+            'Frame 1 and 2 must have same transform function list',
+          );
         });
       });
     });

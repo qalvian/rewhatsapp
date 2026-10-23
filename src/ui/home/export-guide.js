@@ -187,7 +187,9 @@ export function createExportGuide() {
           'div',
           { className: 'wa-step-detail' },
           el('strong', { text: 'Dynamic Speed: ' }),
-          el('span', { text: 'Playback delay is calculated from message length, with -4x to +4x speed controls.' }),
+          el('span', {
+            text: 'Playback delay is calculated from message length, with -4x to +4x speed controls.',
+          }),
         ),
       ),
       el(

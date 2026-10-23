@@ -178,7 +178,9 @@
   z-index: var(--z-header, 10);
   flex-shrink: 0;
   user-select: none;
-  transition: height 160ms cubic-bezier(0.16, 1, 0.3, 1), background-color 160ms ease;
+  transition:
+    height 160ms cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 160ms ease;
 }
 
 .wa-scrubber-container:hover,
@@ -400,7 +402,9 @@
 }
 
 @keyframes waTypingBounce {
-  0%, 80%, 100% {
+  0%,
+  80%,
+  100% {
     transform: scale(0.6);
     opacity: 0.35;
   }
@@ -783,7 +787,9 @@
   border-radius: var(--radius-full);
   background-color: var(--wa-controls-bg, #ffffff);
   color: var(--wa-controls-text, #111b21);
-  box-shadow: 0 4px 14px rgba(11, 20, 26, 0.16), 0 1px 3px rgba(11, 20, 26, 0.1);
+  box-shadow:
+    0 4px 14px rgba(11, 20, 26, 0.16),
+    0 1px 3px rgba(11, 20, 26, 0.1);
   border: 1px solid var(--wa-controls-border, rgba(11, 20, 26, 0.08));
   font-size: 12.5px;
   font-weight: 600;
@@ -1044,7 +1050,9 @@
   backdrop-filter: blur(24px) saturate(190%);
   -webkit-backdrop-filter: blur(24px) saturate(190%);
   border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.16), 0 4px 14px rgba(0, 0, 0, 0.08);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.16),
+    0 4px 14px rgba(0, 0, 0, 0.08);
   border-radius: 22px;
   padding: 12px 14px;
   display: flex;
@@ -1059,7 +1067,9 @@
 [data-theme='dark'] .wa-speed-popover {
   background: rgba(17, 27, 33, 0.82);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 4px 14px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.5),
+    0 4px 14px rgba(0, 0, 0, 0.2);
   color: #e9edef;
 }
 
@@ -1335,7 +1345,9 @@
   cursor: grab;
   touch-action: none;
   z-index: 9999;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
   font-family: var(--font-sans);
   user-select: none;
 }

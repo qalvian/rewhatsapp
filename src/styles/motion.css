@@ -173,13 +173,29 @@ button:disabled,
 /* =====================================================================
    Text Reveal (BlurText) Styles — Brief v5
    ===================================================================== */
-.rt-word { display: inline-block; white-space: nowrap; }
-.rt-piece { display: inline-block; }
-.rt-live .rt-piece { will-change: transform, filter, opacity; } /* only while animating */
-.rt-hidden { opacity: 0; }
+.rt-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+.rt-piece {
+  display: inline-block;
+}
+.rt-live .rt-piece {
+  will-change: transform, filter, opacity;
+} /* only while animating */
+.rt-hidden {
+  opacity: 0;
+}
 .sr-only {
-  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
-  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* No flash of visible text: hide only after JS has flagged the page, release on
@@ -188,8 +204,14 @@ html.js [data-reveal]:not([data-rt]) {
   visibility: hidden;
   animation: rt-failsafe 0s linear 1.2s forwards;
 }
-@keyframes rt-failsafe { to { visibility: visible; } }
-@media (prefers-reduced-motion: reduce) {
-  html.js [data-reveal]:not([data-rt]) { visibility: visible; animation: none; }
+@keyframes rt-failsafe {
+  to {
+    visibility: visible;
+  }
 }
-
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal]:not([data-rt]) {
+    visibility: visible;
+    animation: none;
+  }
+}

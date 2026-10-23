@@ -84,20 +84,24 @@ src/
 ```
 
 ### 2.1 `src/core/` (Pure Logic Layer)
+
 - **Zero DOM dependency**: Contains no references to `window`, `document`, or DOM elements. All modules are table-tested under Node.js (`node:test`).
 - **Memory efficiency**: Timestamps and cumulative playback offsets are stored in typed `Float64Array` buffers. Participant indices are stored in `Uint32Array` buffers. A 500,000-message export consumes minimal heap memory without main-thread freeze.
 - **Drift-Free Virtual Clock**: Time advances via `virtualTime += clampedDt * speed` inside `requestAnimationFrame`. Automatically clamps `dt` and pauses during `visibilitychange` so tab switches never trigger desync.
 
 ### 2.2 `src/ui/` (Presentation Layer)
+
 - **Safe DOM APIs**: All elements are constructed via `document.createElement`, `element.setAttribute`, and `element.textContent` with zero HTML injection vulnerabilities.
 - **Windowed Message Rendering**: Replay seeking calculates a window of ~60 messages around the seek target, recycling DOM nodes to sustain consistent 60fps scrolling on both mobile and low-powered hardware.
 - **CSS Tokens & Design System**: Separate visual worlds for the ethereal twilight Home screen (`home.css`) and faithful WhatsApp Web / mobile recreation (`replay.css`), controlled via CSS custom properties in `tokens.css`.
 
 ### 2.3 `src/audio/` (Zero-Asset Sound Synthesis)
+
 - **Web Audio API**: Procedurally synthesizes sending pop tones, incoming message chime harmonies, and tick sounds. Zero audio files (`.mp3`/`.wav`) are shipped.
 - **Stable Voice Waveforms**: Generates deterministic amplitude peaks seeded by hashing the message text and sender name (`djb2`), guaranteeing identical visual waveforms across replays.
 
 ### 2.4 `src/workers/` (Background Threads)
+
 - **`parse.worker.js`**: Streams and parses large `.txt` and `.zip` archives off the main thread, dispatching early metadata so the setup dialog displays instantly.
 - **`insights.worker.js`**: Calculates 7x24 weekday-hour heatmaps, response time medians, and emotion sparklines asynchronously.
 
@@ -152,6 +156,7 @@ Raw Input (Text / ArrayBuffer / ZIP)
 ## 4. In-Browser Zero-Dependency ZIP Reader (`src/core/zip.js`)
 
 Rather than relying on large third-party archives like JSZip, `rewhatsapp` implements a native, zero-dependency ZIP reader built on the browser's native Web Streams API (`DecompressionStream('deflate-raw')`):
+
 - Parses local file headers to extract filenames and compression flags.
 - Inflates compressed deflate-raw byte streams directly into memory buffers.
 - Extracts `_chat.txt` for parsing and converts embedded media into transient `URL.createObjectURL(blob)` handles.
@@ -173,6 +178,7 @@ Rather than relying on large third-party archives like JSZip, `rewhatsapp` imple
 ## 6. Procedural Sound Synthesis (`src/audio/synth.js`)
 
 Zero audio assets (`.mp3` or `.wav`) are shipped with the application:
+
 - **Outgoing Pop**: A rapid sine frequency glide ($440\text{ Hz} \to 880\text{ Hz}$) with exponential gain decay.
 - **Incoming Chime**: A dual-oscillator harmonic chord ($587.33\text{ Hz}$ D5 + $880\text{ Hz}$ A5) with gentle attack and sustain.
 - **Seeded Voice Waveforms**: Generates deterministic voice note bar heights by hashing message text and sender name (`djb2` hash), ensuring identical visual waveforms every replay.
@@ -182,6 +188,7 @@ Zero audio assets (`.mp3` or `.wav`) are shipped with the application:
 ## 7. Dual Visual Design System & Sticky Choreography
 
 ### 7.1 Visual Atmosphere
+
 - **The Time Machine Portal (`home.css` & `styles.css`)**:
   - Ethereal journal vault theme (`#f9f6f0` background).
   - Plus Jakarta Sans paired with Lora serif.
@@ -193,6 +200,7 @@ Zero audio assets (`.mp3` or `.wav`) are shipped with the application:
   - Procedural SVG wallpaper background with customizable tint.
 
 ### 7.2 Fluid Sticky Card-Deck Choreography
+
 - Feature cards stack center-stage beneath a stationary, pinned section title (`.features-header`).
 - As subsequent cards scroll into view, previous cards scale down (`scale(0.95)`) and gently dim (`opacity: 0.9`).
 - **Lockstep Exit Choreography**: When the final card (Card 4) finishes stacking and the user scrolls toward the next section, `.features-header` translates upward in direct synchrony with Card 4 via `translateY(-${pullUp}px)`. The 12px–16px gap is permanently locked, preventing cards from sliding behind the header, eliminating empty space, and handing off seamlessly to the Privacy section.
@@ -202,10 +210,13 @@ Zero audio assets (`.mp3` or `.wav`) are shipped with the application:
 ## 8. Zero-Backend Architecture & Local Server
 
 ### 8.1 No-Backend Security Paradigm
+
 `rewhatsapp` contains zero backend code for processing user communications. When a user loads the app, static files are cached. All chat parsing, media extraction, timeline calculation, and rendering occurs purely inside the client device's browser memory (RAM).
 
 ### 8.2 Native Node.js Static Server (`server.js`)
+
 For local deployment and testing, a lightweight zero-dependency HTTP server runs on native Node.js (`node:http`, `node:fs`, `node:path`):
+
 - **Path Traversal Sanitization**: Uses `path.normalize(reqPath).replace(/^(\.\.[/\\])+/, '')`.
 - **Strict Anti-Caching Headers**:
   ```http

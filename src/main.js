@@ -143,7 +143,15 @@ const homeView = createHomeView({
  * @param {number} [virtualTime=0]
  * @param {number} [currentIndex=0]
  */
-function saveCachedReplay(chat, config, chatTitle, isGroupChat, progress = 0, virtualTime = 0, currentIndex = 0) {
+function saveCachedReplay(
+  chat,
+  config,
+  chatTitle,
+  isGroupChat,
+  progress = 0,
+  virtualTime = 0,
+  currentIndex = 0,
+) {
   try {
     const payload = {
       chat,
@@ -796,7 +804,8 @@ function initLandingPageInteractions() {
       requestAnimationFrame(() => {
         rafPending = false;
         const cardStickyTop =
-          parseFloat(window.getComputedStyle(featureCards[0]).top) || (window.innerWidth < 640 ? 240 : 275);
+          parseFloat(window.getComputedStyle(featureCards[0]).top) ||
+          (window.innerWidth < 640 ? 240 : 275);
         const trigger = cardStickyTop + 8;
         const cards = featureCards;
         // 1. batch reads

@@ -32,8 +32,22 @@
   --color-accent-tint: var(--accent-tint);
 
   /* Metallic Dual-Tone Branding Gradients */
-  --gold-gradient: linear-gradient(135deg, #AA771C 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #BF953F 100%);
-  --silver-gradient: linear-gradient(135deg, #E0E0E0 0%, #FFFFFF 25%, #B0B0B0 50%, #F5F5F7 75%, #A9A9A9 100%);
+  --gold-gradient: linear-gradient(
+    135deg,
+    #aa771c 0%,
+    #fcf6ba 25%,
+    #b38728 50%,
+    #fbf5b7 75%,
+    #bf953f 100%
+  );
+  --silver-gradient: linear-gradient(
+    135deg,
+    #e0e0e0 0%,
+    #ffffff 25%,
+    #b0b0b0 50%,
+    #f5f5f7 75%,
+    #a9a9a9 100%
+  );
 
   /* Radius Scale: 8 / 12 / 16 / 20 / 24 */
   --radius-sm: 8px;
@@ -79,11 +93,11 @@
 
   /* Modern Precision Typography Stack */
   --font-sans:
-    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI', Roboto, Helvetica, Arial,
-    sans-serif;
+    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI',
+    Roboto, Helvetica, Arial, sans-serif;
   --font-display:
-    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', Roboto, system-ui,
-    sans-serif;
+    'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI',
+    Roboto, system-ui, sans-serif;
   --font-serif: 'Lora', Georgia, serif;
   --font-mono: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
 

@@ -5,13 +5,55 @@ import { createIcon } from '../icons.js';
 import { getVolume, setVolume } from '../../audio/synth.js';
 
 export const SPEED_RATINGS = [
-  { rating: 0.5, badge: '0.5×', title: 'Slow Motion', desc: 'Relaxed reading pace with longer pauses', label: '0.5× (Slow)' },
-  { rating: 0.75, badge: '0.75×', title: 'Gentle Pace', desc: 'Slightly slower than normal typing', label: '0.75× (Gentle)' },
-  { rating: 1, badge: '1×', title: 'Normal Speed', desc: 'Realistic natural human typing cadence', label: '1× (Normal Speed)' },
-  { rating: 1.5, badge: '1.5×', title: 'Brisk Pace', desc: 'Smooth, slightly accelerated playback', label: '1.5× (Brisk)' },
-  { rating: 2, badge: '2×', title: '2× Speed', desc: 'Accelerated typing playback', label: '2× (2x Faster)' },
-  { rating: 3, badge: '3×', title: '3× Speed', desc: 'Triple speed for reviewing long conversations', label: '3× (3x Faster)' },
-  { rating: 4, badge: '4×', title: '4× Speed', desc: 'Rapid catch-up skim', label: '4× (4x Faster)' },
+  {
+    rating: 0.5,
+    badge: '0.5×',
+    title: 'Slow Motion',
+    desc: 'Relaxed reading pace with longer pauses',
+    label: '0.5× (Slow)',
+  },
+  {
+    rating: 0.75,
+    badge: '0.75×',
+    title: 'Gentle Pace',
+    desc: 'Slightly slower than normal typing',
+    label: '0.75× (Gentle)',
+  },
+  {
+    rating: 1,
+    badge: '1×',
+    title: 'Normal Speed',
+    desc: 'Realistic natural human typing cadence',
+    label: '1× (Normal Speed)',
+  },
+  {
+    rating: 1.5,
+    badge: '1.5×',
+    title: 'Brisk Pace',
+    desc: 'Smooth, slightly accelerated playback',
+    label: '1.5× (Brisk)',
+  },
+  {
+    rating: 2,
+    badge: '2×',
+    title: '2× Speed',
+    desc: 'Accelerated typing playback',
+    label: '2× (2x Faster)',
+  },
+  {
+    rating: 3,
+    badge: '3×',
+    title: '3× Speed',
+    desc: 'Triple speed for reviewing long conversations',
+    label: '3× (3x Faster)',
+  },
+  {
+    rating: 4,
+    badge: '4×',
+    title: '4× Speed',
+    desc: 'Rapid catch-up skim',
+    label: '4× (4x Faster)',
+  },
 ];
 
 /**
@@ -202,7 +244,9 @@ export function createControlsPill({
             captionEl.textContent = `${item.badge} ${item.title}: ${item.desc}`;
           },
           onMouseLeave: () => {
-            const active = SPEED_RATINGS.find((r) => Math.abs(r.rating - currentSpeedRating) < 0.01);
+            const active = SPEED_RATINGS.find(
+              (r) => Math.abs(r.rating - currentSpeedRating) < 0.01,
+            );
             captionEl.textContent = active ? active.desc : '';
           },
         },
@@ -423,12 +467,7 @@ export function createControlsPill({
   });
 
   // Outer wrapper container
-  const container = el(
-    'div',
-    { className: 'wa-controls-wrapper' },
-    pill,
-    fab,
-  );
+  const container = el('div', { className: 'wa-controls-wrapper' }, pill, fab);
 
   // Close speed popover when clicking anywhere outside
   if (typeof document !== 'undefined') {

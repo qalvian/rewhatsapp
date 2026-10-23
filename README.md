@@ -10,7 +10,7 @@
 [![Privacy First](https://img.shields.io/badge/Privacy-100%25%20Client--Side-emerald.svg)](#privacy--security)
 
 **A private, client-side time machine for your WhatsApp conversations.**  
-*Replay past chats with the authentic pacing, pauses, and typing suspense of the moments they happened — 100% inside your browser. Nothing ever leaves your device.*
+_Replay past chats with the authentic pacing, pauses, and typing suspense of the moments they happened — 100% inside your browser. Nothing ever leaves your device._
 
 [Quick Start](#quick-start) • [Features](#key-features) • [Export Guide](#how-to-export-a-whatsapp-chat) • [Privacy Guarantee](#privacy--security) • [Technical Deep-Dive](#technical-deep-dive) • [License](#license)
 
@@ -41,6 +41,7 @@ WhatsApp export files (`.txt`) are cold, lifeless walls of text. They flatten mo
 ## Quick Start
 
 ### 1. Try It Live
+
 You can explore the experience instantly by opening the app and clicking **"Watch sample memory"** to load a bundled demo chat.
 
 ### 2. Run Locally
@@ -60,11 +61,13 @@ npm run dev
 ```
 
 Open your browser and navigate to:
+
 ```
 http://127.0.0.1:5173
 ```
 
 To run the automated test suite (94 unit tests):
+
 ```bash
 npm test
 ```
@@ -99,7 +102,9 @@ Your conversations contain your most intimate and vulnerable communications. `re
 - **Ephemeral Session Lifecycle**: All chat records dissolve from memory the moment you refresh or close the browser tab.
 
 ### The 30-Second Airplane Mode Test
+
 You can independently audit this guarantee anytime:
+
 1. Open `rewhatsapp` in your browser.
 2. Open Developer Tools (`F12` or `Ctrl + Shift + I` / `Cmd + Option + I`) and switch to the **Network** tab.
 3. Turn on **Airplane Mode** or disconnect your internet completely.
@@ -113,7 +118,7 @@ For complete architectural specifications, internal heuristics, and system docum
 
 - [Architecture & Layer Separation](docs/ARCHITECTURE.md): Comprehensive review of the pure logic core, typed array storage (`Float64Array`), rAF virtual clock, procedural audio synthesis, and sticky card-deck choreography.
 - [Parser Pipeline & Heuristics](docs/PARSING.md): Detailed breakdown of BOM sniffing, Unicode Bidi sanitization, candidate grammar scoring, constraint-solved date order detection, and sub-minute timestamp spreading.
-- [Privacy Policy & Legal Framework](docs/PRIVACY.md): Legal position under the *Digital Personal Data Protection Act, 2023 (DPDPA)* and the EU *GDPR*.
+- [Privacy Policy & Legal Framework](docs/PRIVACY.md): Legal position under the _Digital Personal Data Protection Act, 2023 (DPDPA)_ and the EU _GDPR_.
 - [Security Threat Model](SECURITY.md): Threat model, sandbox boundaries, and vulnerability reporting.
 
 ---
@@ -148,6 +153,7 @@ Please see [CONTRIBUTING.md](CONTRIBUTING.md) for more details.
 This project is licensed under the **PolyForm Noncommercial License 1.0.0**.
 
 ### What this means:
+
 - **Permitted**: You are free to use, share, study, experiment with, and modify the software for any personal, educational, research, or noncommercial purpose.
 - **Restricted**: Commercial use, selling, or redistributing the software for commercial advantage or monetary compensation is strictly prohibited without prior written permission from the licensor.
 

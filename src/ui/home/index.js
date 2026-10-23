@@ -423,7 +423,11 @@ export function createHomeView({ onDemoSelected, onFileSelected, onOpenPrivacy }
       'div',
       { className: 'wa-feature-demo-area' },
       el('div', { className: 'wa-demo-time-label', text: 'Dynamic: Base + 30ms/char' }),
-      el('div', { className: 'wa-demo-time-bar-track' }, el('div', { className: 'wa-demo-time-bar-fill' })),
+      el(
+        'div',
+        { className: 'wa-demo-time-bar-track' },
+        el('div', { className: 'wa-demo-time-bar-fill' }),
+      ),
     ),
     el('h3', { className: 'wa-feature-title', text: 'Dynamic Typing Speed' }),
     el('p', {
@@ -529,13 +533,17 @@ export function createHomeView({ onDemoSelected, onFileSelected, onOpenPrivacy }
     el('span', { className: 'wa-carousel-dot' }),
   );
 
-  featuresCarousel.addEventListener('scroll', () => {
-    const scrollLeft = featuresCarousel.scrollLeft;
-    const cardWidth = featuresCarousel.clientWidth * 0.82;
-    const index = Math.round(scrollLeft / (cardWidth + 12));
-    const dots = carouselDots.querySelectorAll('.wa-carousel-dot');
-    dots.forEach((d, i) => d.classList.toggle('active', i === index));
-  }, { passive: true });
+  featuresCarousel.addEventListener(
+    'scroll',
+    () => {
+      const scrollLeft = featuresCarousel.scrollLeft;
+      const cardWidth = featuresCarousel.clientWidth * 0.82;
+      const index = Math.round(scrollLeft / (cardWidth + 12));
+      const dots = carouselDots.querySelectorAll('.wa-carousel-dot');
+      dots.forEach((d, i) => d.classList.toggle('active', i === index));
+    },
+    { passive: true },
+  );
 
   featuresSection.append(featuresHeader, featuresCarousel, carouselDots);
   container.appendChild(featuresSection);
@@ -614,9 +622,24 @@ export function createHomeView({ onDemoSelected, onFileSelected, onOpenPrivacy }
   const verifyList = el(
     'ol',
     { className: 'wa-privacy-verify-list' },
-    el('li', {}, el('strong', { text: '1. Open DevTools: ' }), 'Press F12 and click the Network tab.'),
-    el('li', {}, el('strong', { text: '2. Go offline: ' }), 'Turn off your Wi-Fi or enable Airplane mode.'),
-    el('li', {}, el('strong', { text: '3. Drop your chat: ' }), 'Notice everything replays seamlessly without a single web request.'),
+    el(
+      'li',
+      {},
+      el('strong', { text: '1. Open DevTools: ' }),
+      'Press F12 and click the Network tab.',
+    ),
+    el(
+      'li',
+      {},
+      el('strong', { text: '2. Go offline: ' }),
+      'Turn off your Wi-Fi or enable Airplane mode.',
+    ),
+    el(
+      'li',
+      {},
+      el('strong', { text: '3. Drop your chat: ' }),
+      'Notice everything replays seamlessly without a single web request.',
+    ),
   );
 
   // 3. Trust Actions Row
@@ -825,7 +848,11 @@ export function createHomeView({ onDemoSelected, onFileSelected, onOpenPrivacy }
         el('a', { className: 'wa-footer-link', href: 'privacy.html', text: 'Privacy Policy' }),
         el('a', { className: 'wa-footer-link', href: 'terms.html', text: 'Terms of Use' }),
         el('a', { className: 'wa-footer-link', href: 'about.html', text: 'About' }),
-        el('a', { className: 'wa-footer-link', href: 'privacy.html#grievance', text: 'Grievance Contact' }),
+        el('a', {
+          className: 'wa-footer-link',
+          href: 'privacy.html#grievance',
+          text: 'Grievance Contact',
+        }),
       ),
     ),
     el('p', {

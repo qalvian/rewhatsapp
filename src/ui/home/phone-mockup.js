@@ -42,13 +42,26 @@ export function createPhoneMockup() {
   const phone = el('div', { className: 'wa-phone-frame' });
 
   // Side buttons on phone frame
-  const btnVolUp = el('div', { className: 'wa-phone-btn wa-phone-btn-vol-up', aria: { hidden: 'true' } });
-  const btnVolDown = el('div', { className: 'wa-phone-btn wa-phone-btn-vol-down', aria: { hidden: 'true' } });
-  const btnPower = el('div', { className: 'wa-phone-btn wa-phone-btn-power', aria: { hidden: 'true' } });
+  const btnVolUp = el('div', {
+    className: 'wa-phone-btn wa-phone-btn-vol-up',
+    aria: { hidden: 'true' },
+  });
+  const btnVolDown = el('div', {
+    className: 'wa-phone-btn wa-phone-btn-vol-down',
+    aria: { hidden: 'true' },
+  });
+  const btnPower = el('div', {
+    className: 'wa-phone-btn wa-phone-btn-power',
+    aria: { hidden: 'true' },
+  });
   phone.append(btnVolUp, btnVolDown, btnPower);
 
   // Dynamic Island with realistic lens reflection
-  const island = el('div', { className: 'wa-phone-island' }, el('div', { className: 'wa-island-lens' }));
+  const island = el(
+    'div',
+    { className: 'wa-phone-island' },
+    el('div', { className: 'wa-island-lens' }),
+  );
 
   // Status Bar (Using SVG signal bars to avoid text < 12px)
   const signalSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -174,7 +187,15 @@ export function createPhoneMockup() {
   scrubberTrack.appendChild(scrubberFill);
   scrubberContainer.append(scrubberSparklineSvg, scrubberTrack);
 
-  phone.append(island, statusBar, miniHeader, tickerContainer, chatArea, miniComposer, scrubberContainer);
+  phone.append(
+    island,
+    statusBar,
+    miniHeader,
+    tickerContainer,
+    chatArea,
+    miniComposer,
+    scrubberContainer,
+  );
   phoneWrapper.append(phone);
 
   // Orbiting Floating Annotation Chips (Max 2 visible on mobile via CSS)
@@ -252,9 +273,17 @@ export function createPhoneMockup() {
     typingBubble.style.display = 'none';
 
     const p1 = createMockupBubble("Hey Maya. It's Leo. Found your sketchbook 🌧️", true, '9:05 PM');
-    const p2 = createMockupBubble('You saved my entire semester! 🙈 Coffee tomorrow?', false, '9:07 PM');
+    const p2 = createMockupBubble(
+      'You saved my entire semester! 🙈 Coffee tomorrow?',
+      false,
+      '9:07 PM',
+    );
     const p3 = createMockupBubble("8:30 at Cafe Nervosa. It's a date! ☕🤝", true, '9:08 PM');
-    const p4 = createMockupBubble('Bringing your favorite cinnamon croissants 🥐', false, '9:09 PM');
+    const p4 = createMockupBubble(
+      'Bringing your favorite cinnamon croissants 🥐',
+      false,
+      '9:09 PM',
+    );
 
     turnTicksBlue(p1);
     turnTicksBlue(p3);
@@ -355,7 +384,10 @@ export function createPhoneMockup() {
     if (isDestroyed) return;
 
     // Check reduced motion
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    ) {
       renderPosterFrame();
       return;
     }
@@ -421,7 +453,11 @@ export function createPhoneMockup() {
     if (isDestroyed) return;
 
     // Story Beat 4: Maya answers
-    const b4 = createMockupBubble('Bringing your favorite cinnamon croissants 🥐', false, '9:09 PM');
+    const b4 = createMockupBubble(
+      'Bringing your favorite cinnamon croissants 🥐',
+      false,
+      '9:09 PM',
+    );
     chatArea.insertBefore(b4, typingBubble);
     animateBubbleEntrance(b4);
     scrubberFill.style.width = '48%';

@@ -82,7 +82,6 @@ export function createIcon(name, attrs = {}) {
     case 'chevron-up':
       return svgEl('svg', baseAttrs, svgEl('polyline', { points: '18 15 12 9 6 15' }));
 
-
     case 'clock':
       return svgEl(
         'svg',
@@ -174,7 +173,6 @@ export function createIcon(name, attrs = {}) {
         svgEl('line', { x1: '12', y1: '20', x2: '12', y2: '4' }),
         svgEl('line', { x1: '6', y1: '20', x2: '6', y2: '14' }),
       );
-
 
     case 'rewind':
       return svgEl(

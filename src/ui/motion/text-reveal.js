@@ -123,7 +123,12 @@ export function buildKeyframes(effect, direction, blur, dist) {
     default:
       return [
         { filter: blurOf(blur), opacity: 0, transform: move(sign * dist) },
-        { filter: blurOf(blur / 2), opacity: 0.5, transform: move((-sign * dist) / 10), offset: 0.5 },
+        {
+          filter: blurOf(blur / 2),
+          opacity: 0.5,
+          transform: move((-sign * dist) / 10),
+          offset: 0.5,
+        },
         { filter: blurOf(0), opacity: 1, transform: move(0) },
       ];
   }
