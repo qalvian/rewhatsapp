@@ -1,10 +1,762 @@
-/* Replay Screen Styles - Placeholder for Phase 1 */
+/* =====================================================================
+   WHATSAPP FAITHFUL REPLAY INTERFACE STYLES
+   ===================================================================== */
+
 .view-replay {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   background-color: var(--wa-app-bg);
   color: var(--wa-text-primary);
+  font-family: var(--font-sans);
+}
+
+/* Immersive Fullscreen Fallback for iOS Safari */
+.view-replay.wa-immersive-mode {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100dvh !important;
+  z-index: 99999 !important;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* =====================================================================
+   WALLPAPER BACKGROUND
+   ===================================================================== */
+.wa-wallpaper-layer {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-base);
+  pointer-events: none;
   overflow: hidden;
+}
+
+.wa-wallpaper-svg {
+  width: 100%;
+  height: 100%;
+  color: var(--wa-wallpaper-tint);
+}
+
+/* =====================================================================
+   HEADER BAR
+   ===================================================================== */
+.wa-replay-header {
+  height: 60px;
+  background-color: var(--wa-header-bg);
+  color: var(--wa-header-text);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  padding-top: env(safe-area-inset-top, 0px);
+  z-index: var(--z-header);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.14);
+  flex-shrink: 0;
+}
+
+.wa-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.wa-header-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  color: var(--wa-header-icon);
+  padding: 8px;
+  flex-shrink: 0;
+}
+
+.wa-header-btn:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
+.wa-header-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.wa-header-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.wa-header-name {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--wa-header-text);
+}
+
+.wa-header-status {
+  font-size: 12px;
+  color: var(--wa-header-subtext);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 150ms ease;
+}
+
+.wa-status-typing {
+  color: #25d366 !important;
+  font-weight: 600;
+}
+
+.wa-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* =====================================================================
+   PROGRESS & EMOTION SPARKLINE SCRUBBER
+   ===================================================================== */
+.wa-scrubber-container {
+  position: relative;
+  height: 4px;
+  background-color: rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  z-index: var(--z-header);
+  flex-shrink: 0;
+  transition: height 160ms var(--ease-spring);
+}
+
+.wa-scrubber-container.wa-scrubber-active,
+.wa-scrubber-container:hover {
+  height: 14px;
+}
+
+.wa-scrubber-sparkline {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.wa-sparkline-bar {
+  flex: 1;
+  min-width: 2px;
+  margin: 0 0.5px;
+  border-radius: 1px 1px 0 0;
+  transition: background-color 150ms ease;
+}
+
+.wa-scrubber-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--tm-accent-emerald);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.wa-scrubber-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+
+.wa-scrubber-container.wa-scrubber-active .wa-scrubber-thumb,
+.wa-scrubber-container:hover .wa-scrubber-thumb {
+  opacity: 1;
+}
+
+.wa-scrubber-tooltip {
+  position: absolute;
+  top: -34px;
+  transform: translateX(-50%);
+  background-color: rgba(17, 24, 39, 0.92);
+  color: #f9fafb;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+  pointer-events: none;
+  box-shadow: var(--shadow-md);
+  z-index: 100;
+}
+
+/* =====================================================================
+   CHAT VIEWPORT & MESSAGE STREAM
+   ===================================================================== */
+.wa-chat-view-wrapper {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  z-index: var(--z-base);
+}
+
+.wa-chat-scroll-container {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.wa-chat-message-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 860px;
+  margin: 0 auto;
+  gap: 2.5px;
+}
+
+/* Message Rows */
+.wa-message-row {
+  display: flex;
+  width: 100%;
+}
+
+.wa-row-in {
+  justify-content: flex-start;
+}
+
+.wa-row-out {
+  justify-content: flex-end;
+}
+
+.wa-run-start {
+  margin-top: 7px;
+}
+
+/* Message Bubbles */
+.wa-bubble {
+  position: relative;
+  padding: 6px 9px 6px 9px;
+  border-radius: 7.5px;
+  font-size: 14.2px;
+  line-height: 19px;
+  max-width: 78%;
+  word-break: break-word;
+  animation: messagePopIn 140ms var(--ease-spring);
+}
+
+@media (min-width: 768px) {
+  .wa-bubble {
+    max-width: 66%;
+  }
+}
+
+.wa-bubble-in {
+  background-color: var(--wa-bubble-in);
+  color: var(--wa-text-primary);
+  box-shadow: var(--wa-bubble-in-shadow);
+}
+
+.wa-bubble-in.wa-has-tail {
+  border-top-left-radius: 0;
+}
+
+.wa-bubble-out {
+  background-color: var(--wa-bubble-out);
+  color: var(--wa-text-primary);
+  box-shadow: var(--wa-bubble-out-shadow);
+}
+
+.wa-bubble-out.wa-has-tail {
+  border-top-right-radius: 0;
+}
+
+/* Bubble SVG Tails */
+.wa-tail {
+  position: absolute;
+  top: 0;
+  width: 8px;
+  height: 13px;
+  pointer-events: none;
+}
+
+.wa-tail-in {
+  left: -8px;
+  color: var(--wa-bubble-in);
+}
+
+.wa-tail-out {
+  right: -8px;
+  color: var(--wa-bubble-out);
+}
+
+/* Sender Name in Group Chats */
+.wa-sender-header {
+  font-size: 12.8px;
+  font-weight: 600;
+  line-height: 16px;
+  margin-bottom: 2px;
+}
+
+/* Content & Links */
+.wa-bubble-content {
+  display: inline;
+}
+
+.wa-link {
+  color: var(--wa-text-link);
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.wa-link:hover {
+  text-decoration-thickness: 2px;
+}
+
+/* Large Emoji-Only Messages */
+.wa-emoji-only {
+  background: none !important;
+  box-shadow: none !important;
+  padding: 2px !important;
+}
+
+.wa-emoji-only .wa-bubble-footer {
+  display: none !important;
+}
+
+.wa-emoji-1 .wa-bubble-content {
+  font-size: 50px;
+  line-height: 60px;
+}
+
+.wa-emoji-2 .wa-bubble-content {
+  font-size: 38px;
+  line-height: 48px;
+}
+
+.wa-emoji-3 .wa-bubble-content {
+  font-size: 30px;
+  line-height: 38px;
+}
+
+/* Deleted message italic */
+.wa-deleted-text {
+  font-style: italic;
+  color: var(--wa-text-secondary);
+}
+
+/* Footer & Ticks */
+.wa-bubble-footer {
+  float: right;
+  margin-left: 7px;
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  color: var(--wa-text-time);
+  user-select: none;
+  line-height: 1;
+}
+
+.wa-bubble-time {
+  font-size: 11px;
+}
+
+.wa-tick-grey {
+  color: var(--wa-tick-grey);
+}
+
+.wa-tick-blue {
+  color: var(--wa-tick-blue);
+}
+
+/* Date Chip */
+.wa-date-chip-container {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.wa-date-chip {
+  background-color: var(--wa-date-chip-bg);
+  color: var(--wa-date-chip-text);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 7.5px;
+  box-shadow: var(--wa-date-chip-shadow);
+  user-select: none;
+  letter-spacing: 0.2px;
+}
+
+/* System Message & Encryption Notice */
+.wa-system-container {
+  display: flex;
+  justify-content: center;
+  margin: 6px 0;
+}
+
+.wa-system-pill {
+  background-color: var(--wa-system-pill-bg);
+  color: var(--wa-system-pill-text);
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
+  padding: 6px 14px;
+  border-radius: 8px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+  max-width: 85%;
+  user-select: none;
+}
+
+.wa-encryption-pill {
+  max-width: 90%;
+  font-size: 12.5px;
+}
+
+/* Time-Skip Chip */
+.wa-time-skip-container {
+  display: flex;
+  justify-content: center;
+  margin: 12px 0;
+  animation: timeSkipEntrance 200ms var(--ease-spring);
+}
+
+.wa-time-skip-chip {
+  background-color: var(--wa-skip-chip-bg);
+  color: var(--wa-skip-chip-text);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--shadow-sm);
+  user-select: none;
+}
+
+.wa-time-skip-clock {
+  animation: spinClockwise 4s linear infinite;
+}
+
+/* Voice Note Player */
+.wa-voice-player {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 220px;
+  padding: 4px 0;
+}
+
+.wa-voice-play-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-full);
+  background-color: var(--wa-composer-send-bg);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.wa-voice-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.wa-voice-waveform {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 24px;
+}
+
+.wa-voice-bar {
+  flex: 1;
+  background-color: #8696a0;
+  border-radius: 1px;
+}
+
+.wa-voice-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--wa-text-time);
+}
+
+/* Media Card Placeholder */
+.wa-media-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  min-width: 180px;
+}
+
+.wa-media-thumb {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.wa-media-details {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.wa-media-filename {
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wa-media-sub {
+  font-size: 11.5px;
+  color: var(--wa-text-secondary);
+}
+
+/* Call Pill */
+.wa-call-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  color: var(--wa-text-primary);
+}
+
+/* Floating "Jump to now" Button */
+.wa-jump-btn {
+  position: absolute;
+  bottom: 16px;
+  right: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  background-color: var(--wa-controls-bg);
+  color: var(--wa-controls-text);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--wa-controls-border);
+  font-size: 12.5px;
+  font-weight: 500;
+  z-index: var(--z-controls);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.wa-jump-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(10px);
+}
+
+/* =====================================================================
+   COMPOSER BAR
+   ===================================================================== */
+.wa-composer-bar {
+  background-color: var(--wa-composer-bg);
+  padding: 6px 10px;
+  padding-bottom: env(safe-area-inset-bottom, 6px);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: var(--z-header);
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .wa-composer-bar {
+    padding: 10px 24px;
+  }
+}
+
+.wa-composer-pill {
+  flex: 1;
+  height: 44px;
+  background-color: var(--wa-composer-input-bg);
+  border-radius: 24px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  gap: 6px;
+  border: 1px solid var(--wa-composer-input-border);
+}
+
+.wa-composer-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  color: var(--wa-composer-icon);
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+.wa-composer-btn:hover {
+  color: var(--wa-text-primary);
+}
+
+.wa-composer-input {
+  flex: 1;
+  font-size: 15px;
+  line-height: 20px;
+  color: var(--wa-composer-text);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  user-select: text;
+}
+
+.wa-composer-placeholder {
+  color: #8696a0;
+}
+
+.wa-composer-action-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  background-color: var(--wa-composer-send-bg);
+  color: var(--wa-composer-send-icon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: transform 120ms var(--ease-spring);
+}
+
+.wa-composer-action-btn:hover {
+  transform: scale(1.04);
+}
+
+/* =====================================================================
+   FLOATING FROSTED-GLASS CONTROLS PILL
+   ===================================================================== */
+.wa-controls-pill {
+  position: absolute;
+  bottom: 74px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 30px;
+  background-color: var(--wa-controls-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--wa-controls-border);
+  box-shadow: var(--shadow-lg);
+  color: var(--wa-controls-text);
+  z-index: var(--z-controls);
+  transition:
+    opacity 220ms ease,
+    transform 220ms var(--ease-spring);
+  user-select: none;
+}
+
+.wa-controls-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-50%) translateY(14px);
+}
+
+.wa-ctrl-btn {
+  height: 38px;
+  min-width: 38px;
+  padding: 0 8px;
+  border-radius: 19px;
+  color: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color 150ms ease,
+    transform 120ms ease;
+}
+
+.wa-ctrl-btn:hover {
+  background-color: var(--wa-controls-hover);
+}
+
+.wa-ctrl-btn:active {
+  transform: scale(0.94);
+}
+
+.wa-ctrl-playpause {
+  background-color: var(--tm-accent-emerald);
+  color: #ffffff !important;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  margin: 0 2px;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.wa-ctrl-playpause:hover {
+  background-color: #059669;
+}
+
+.wa-ctrl-speed {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+}
+
+.wa-ctrl-gapmode {
+  font-size: 12px;
+  padding: 0 10px;
+}
+
+.wa-ctrl-divider {
+  width: 1px;
+  height: 20px;
+  background-color: var(--wa-controls-border);
+  margin: 0 2px;
 }
