@@ -1,0 +1,5 @@
+31/03/2024, 01:50 - Messages and calls are end-to-end encrypted.
+31/03/2024, 01:55 - Sarah: Before the daylight saving shift.
+31/03/2024, 02:05 - Jack: Right at the 2am boundary.
+31/03/2024, 03:10 - Sarah: Spring forward time jump.
+31/03/2024, 03:15 - Jack: Consistent floating UTC timestamps.

@@ -1,0 +1,6 @@
+01/02/2024, 09:00 - Messages and calls are end-to-end encrypted.
+01/02/2024, 09:01 - Dan: Meeting started.
+03/02/2024, 10:00 - Eve: Second status update.
+05/02/2024, 11:30 - Dan: Third milestone reached.
+08/02/2024, 14:00 - Eve: Preparing sprint demo.
+10/02/2024, 16:00 - Dan: All tasks signed off.

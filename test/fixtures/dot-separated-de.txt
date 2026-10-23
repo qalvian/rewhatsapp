@@ -1,0 +1,5 @@
+12.03.24, 08:45 - Nachrichten und Anrufe sind Ende-zu-Ende-verschlüsselt. Niemand außerhalb dieses Chats kann sie lesen oder anhören.
+12.03.24, 08:47 - Felix: Guten Morgen Hannah! Bist du schon im Büro?
+12.03.24, 08:49 - Hannah: Fast da, die S-Bahn hatte Verspätung.
+12.03.24, 08:50 - Felix: Kein Stress, das Meeting startet erst um 09:30.
+12.03.24, 08:52 - Hannah: Danke dir! Bis gleich.
